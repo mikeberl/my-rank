@@ -1,0 +1,92 @@
+<!-- ============================================================== -->
+<!-- Fixed height Card Grid-->
+<!-- ============================================================== -->
+<div fxLayout="row">
+    <div fxFlex>
+        <mat-card>
+            <mat-card-content>
+              <mat-card-title>Players of Summer Season Ranking</mat-card-title>
+<!--                 <mat-card-subtitle><code>&lt;mat-grid-list&gt;</code> is a two-dimensional list view that arranges cells into grid-based layout. See Material Design spec. <code><a href="https://material.io/guidelines/components/grid-lists.html">Official Doc here</a></code></mat-card-subtitle>
+ -->                
+                <input id="nts">
+                <button mat-icon-button (click)="search()">
+                  <mat-icon>search</mat-icon>
+                </button>
+                <mat-selection-list #players>
+                  <mat-list-item *ngFor="let player of leaguePlayers">
+                      <div mat-line (click)="manageSelectedPlayer(player)">
+                          {{player}}
+                      </div>
+                      <mat-divider></mat-divider>
+
+                  </mat-list-item>
+
+                </mat-selection-list>
+                <!-- <mat-grid-list cols="4" rowHeight="100px">
+                  <mat-grid-tile
+                      *ngFor="let tile of tiles"
+                      [colspan]="tile.cols"
+                      [rowspan]="tile.rows"
+                      [style.background]="tile.color">
+                    {{tile.text}}
+                  </mat-grid-tile>
+                </mat-grid-list>   -->
+            </mat-card-content>        
+        </mat-card>
+    </div>
+</div>    
+<!-- ============================================================== -->
+<!-- Basic Card Grid-->
+<!-- ============================================================== -->
+<mat-card>
+    <mat-card-content>
+      <mat-grid-list cols="2" rowHeight="30px">
+        <mat-grid-tile class="winners">
+          <h2> Winners </h2>
+        </mat-grid-tile>
+        <mat-grid-tile class="losers">
+          <h2> Losers </h2>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <form  #result="ngForm" (ngSubmit)="onSubmit(result)">
+        <mat-grid-list cols="2" rowHeight="200px">  <!-- rowHeight="2:1" -->
+          <mat-grid-tile >
+            <div>
+              <mat-selection-list #losers="ngModel" name="losers" ngModel>
+                <mat-list-item *ngFor="let player of selectedPlayers_1" ngDefaultControl id="{{player}}">
+                  {{player}}
+                  <button mat-icon-button type="button" (click)="changeToSecondTeam(player)" color="primary">
+                    <mat-icon>swap_horiz</mat-icon>
+                  </button>
+                  <button mat-icon-button type="button" (click)="removePlayer(player, 1)" color="warn">
+                    <mat-icon>delete</mat-icon>
+                  </button>  
+                </mat-list-item>            
+              </mat-selection-list>
+            </div>
+          </mat-grid-tile>
+  
+          <mat-grid-tile>
+            <div>
+              <mat-selection-list #winners="ngModel" name="winners" ngModel>
+                <mat-list-item *ngFor="let player of selectedPlayers_2" ngDefaultControl id="{{player}}">
+                  {{player}}
+                  <button mat-icon-button type="button" (click)="changeToFirstTeam(player)" color="primary">
+                    <mat-icon>swap_horiz</mat-icon>
+                  </button>
+                  <button mat-icon-button type="button" (click)="removePlayer(player, 2)" color="warn">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </mat-list-item>
+              </mat-selection-list>
+          </div>
+          </mat-grid-tile>
+        </mat-grid-list>          
+          <div>
+            <label> Insert points :</label>
+            <input name="points" #points="ngModel" ngModel required>
+            <button mat-button class="btn-primary" type="submit" color="primary">Submit</button>
+          </div>
+      </form>
+    </mat-card-content>        
+</mat-card>

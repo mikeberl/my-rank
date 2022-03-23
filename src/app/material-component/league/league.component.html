@@ -1,0 +1,125 @@
+<mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Ranking">
+        <div class="p-20">
+            <mat-card>
+                <mat-card-content>
+                    <mat-card-title> ROUNDNET BOLZANO </mat-card-title>
+                    <mat-grid-list cols="8" rowHeight="50px">
+                        <mat-grid-tile [colspan]="1"> 
+                            <div class="list-header">
+                                Rank
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="6"> 
+                            <div class="list-header">
+                                Player
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="1"> 
+                            <div class="list-header">
+                                Points
+                            </div>
+                        </mat-grid-tile>
+                        <div *ngFor="let player of playerList">
+                            <mat-grid-tile [colspan]="1"> {{playerList.indexOf(player) + 1}} </mat-grid-tile>
+                            <mat-grid-tile [colspan]="6">
+                                <div class="user-img">
+                                    <img [src]="player.picture_url" alt="Image of {{player.name}}">                             
+                                </div>
+                                <h4> {{ player.fullname }} </h4>
+                            </mat-grid-tile>
+                            <mat-grid-tile [colspan]="1">{{ player.points }}</mat-grid-tile>
+                        </div>
+                        <!-- <mat-grid-tile
+                            *ngFor="let tile of tiles"
+                            [colspan]="tile.cols"
+                            [rowspan]="tile.rows"
+                            [style.background]="tile.color">
+                          {{tile.text}}
+                        </mat-grid-tile> -->
+                      </mat-grid-list>
+
+
+
+
+                    <!-- <mat-list>
+                        <mat-list-item>
+                            <h4 mat-column> Rank </h4>
+                            <h4> Player </h4>
+                            <h4> Points </h4>
+                        </mat-list-item>
+                        <mat-list-item *ngFor="let message of messages">
+                            <img mat-list-avatar [src]="message.image" alt="Image of {{message.from}}">    
+                            <h3 matLine>{{message.from}}</h3>
+                            <p matLine class="text-muted">{{message.content}}</p>     
+                        </mat-list-item>
+                    </mat-list> -->
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+    <mat-tab label="Matches">
+        <div class="p-20">
+            <div *ngFor="let date of dates">
+                <mat-card>
+                    <mat-card-content>
+                    <mat-card-title>{{ date }}</mat-card-title>
+<!--                     <mat-card-subtitle>Expansion panel</mat-card-subtitle>
+ -->                    
+                        <mat-accordion class="example-headers-align">
+                            <mat-expansion-panel hideToggle="true">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title> Game registered </mat-panel-title>
+                                    <mat-panel-description> with
+                                        
+                                    </mat-panel-description>
+                                    <mat-panel-description> points
+                                        <button mat-icon-button (click)="openDialog()">
+                                            <mat-icon>report</mat-icon>
+                                        </button>   
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                            </mat-expansion-panel>
+                            <mat-expansion-panel hideToggle="true">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title> Game registered </mat-panel-title>
+                                    <mat-panel-description> with
+                                        
+                                    </mat-panel-description>
+                                    <mat-panel-description> points
+                                        <button mat-icon-button (click)="openDialog()">
+                                            <mat-icon>report</mat-icon>
+                                        </button>   
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                            </mat-expansion-panel>
+                            <mat-expansion-panel hideToggle="true">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title> Game registered </mat-panel-title>
+                                    <mat-panel-description> with
+                                        
+                                    </mat-panel-description>
+                                    <mat-panel-description> points
+                                        <button mat-icon-button (click)="openDialog()">
+                                            <mat-icon>report</mat-icon>
+                                        </button>                                      
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </mat-card-content>
+                </mat-card>
+                
+            </div>
+            <button mat-button class="load-more-btn" color="accent" (click)="loadMore()"> Load more games </button>
+            
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+          
+        
+
+
+
+        

@@ -1,0 +1,19 @@
+.profile_pic {
+    height: 200px;
+    width: 200px;
+    display: block;
+    border-radius: 50%;
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.edit_btn {
+    top: 10px;
+    right: 10px;
+    position: absolute;
+}
+
+mat-card-content {
+    text-align: center;
+}

@@ -1,0 +1,63 @@
+<mat-card>
+    <mat-card-content>
+        <mat-card-title>Create a new League</mat-card-title>
+        <mat-card-subtitle>Fill this form to ask us to create you a league. We will contact you back!</mat-card-subtitle>
+        <mat-vertical-stepper [linear]="isLinear">
+            <mat-step [stepControl]="firstFormGroup">
+                <form [formGroup]="firstFormGroup">
+                    <ng-template matStepLabel>Fill out your name</ng-template>
+                    <mat-form-field>
+                        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-raised-button color="warn" matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup">
+                <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Fill out your league name</ng-template>
+                    <mat-form-field>
+                        <input matInput placeholder="League name" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                        <button mat-raised-button color="warn" matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="thirdFormGroup">
+                <form [formGroup]="thirdFormGroup">
+                    <ng-template matStepLabel>Where do your league take place</ng-template>
+                    <mat-form-field>
+                        <input matInput placeholder="Location" formControlName="thirdCtrl" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                        <button mat-raised-button color="warn" matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="fourthFormGroup">
+                <form [formGroup]="fourthFormGroup">
+                    <ng-template matStepLabel>How many places do you need</ng-template>
+                    <mat-form-field>
+                        <input matInput placeholder="Places" formControlName="fourthCtrl" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                        <button mat-raised-button color="warn" matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
+                Thanks for the information. We will contact you back!
+                <div>
+                    <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+    </mat-card-content>
+</mat-card>    

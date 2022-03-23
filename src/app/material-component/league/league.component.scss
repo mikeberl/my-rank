@@ -1,0 +1,28 @@
+.example-headers-align , .mat-expansion-panel-header-title
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-img {
+  width: 35px;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  img {
+    width: 100%;
+    border-radius: 50%;
+  }
+}
+
+mat-grid-tile {
+  border-bottom: solid 1px grey;  
+}
+
+.list-header {
+  color: red;
+}

@@ -1,0 +1,52 @@
+<div class="p-20 bg-info position-relative">
+    <h4 class="card-title text-white m-0">My Leagues</h4>
+    <h6 class="card-subtitle text-white m-0 op-5">List of all the leagues you have joined</h6>
+</div>
+<div class="message-box contact-box p-20">
+    <div class="message-widget contact-widget">
+        <!-- Message -->
+        <mat-list>
+            <a routerLink="/league/{{league.id}}" *ngFor='let league of leagueData'>
+                <mat-list-item >
+                
+                    <div class="user-img" mat-list-avatar>
+                        <img [src]='league.picture_url' alt="user" class="img-circle">
+                        
+                    </div>
+                    
+                    <div class="mail-content">
+                        <h5 mat-line>{{league.name}} </h5>
+                        <span mat-line class="mail-desc">{{league.city}}</span>
+                    </div>
+        
+                    <div>
+                        <span mat-line>Rank</span>
+                        <h4 mat-line>34</h4>
+                    </div>      
+            </mat-list-item>
+
+            </a>
+            
+        </mat-list>
+        <!-- <a routerLink="/league" *ngFor='let contact of contactsData'>
+            <div class="user-img">
+                <img [src]='contact.image' alt="user" class="img-circle">
+                
+            </div>
+            
+            <div class="mail-content">
+                <h5>{{contact.name}} </h5>
+                <span class="mail-desc">{{contact.email}}</span>
+            </div>
+
+            <div mat-line>
+                <span >Rank</span>
+                <h4>34</h4>
+            </div>
+        </a> -->
+        <button mat-raised-button color="primary" routerLink="/all-leagues">
+            <mat-icon>add</mat-icon>
+            Search another league
+        </button>
+    </div>
+</div>
