@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {MatGridListModule} from '@angular/material/grid-list';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RankedPlayer, RankedPlayers } from 'src/app/models/ranked-player.model';
+import { Users } from 'src/app/models/user.model';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./create-match.component.scss']
 })
 export class CreateMatchComponent {
-  tiles = [
+/*   tiles = [
     {
       text: 'One',
       cols: 3,
@@ -35,77 +37,85 @@ export class CreateMatchComponent {
       rows: 1,
       color: '#DDBDF1'
     }
-  ];
+  ]; */
 
-  leaguePlayers: string[] = ['Marco', 'Roberto', 'Giulio', 'Maria', 'Giorgia'];
-  backup_leaguePlayers: string[] = ['Marco', 'Roberto', 'Giulio', 'Maria', 'Giorgia'];
-  selectedPlayers_1: string[];
-  selectedPlayers_2: string[];
+  arr_player: RankedPlayer[] = [];
+  arr_player_copy: RankedPlayer[] = [];
+  arr_winners : RankedPlayer[] = [];
+  arr_losers: RankedPlayer[] = [];
 
   title = "Create Match";
 
+  league_id : string = "";
+
   constructor(/* private navbarService : NavbarServiceService, */
-              private router: Router) {
-    this.selectedPlayers_1 = [];
-    this.selectedPlayers_2 = [];
+              private router: Router,
+              private route: ActivatedRoute,
+              private userService : Users,
+              private playerService : RankedPlayers) {
   }
 
   ngOnInit(): void {
     /* this.navbarService.selectNavbarBack();
     this.navbarService.navbarBackTitle(this.title); */
+    this.route.params.subscribe(params => {
+      console.log(params['id']) //log the value of id
+      this.league_id = params['id'];
+      this.arr_player = this.playerService.getRankedPlayersByLeague(this.league_id);
+      console.log(this.arr_player);
+    });
   }
 
-  manageSelectedPlayer(player : string) {
-    console.log("Managing selected players");
-    if (this.selectedPlayers_1.indexOf(player) === -1 && this.selectedPlayers_2.indexOf(player)) {
-      console.log(player + "will be added");
-      this.selectedPlayers_1.push(player);
-    }
-    /* else {
-      console.log(player + "will be removed");
-      this.selectedPlayers_1.splice(this.selectedPlayers_1.indexOf(player), 1);
-    } */
+  // Add to winning team
+  addToWinners(player : RankedPlayer) {
+    var tmp_player = this.arr_player.splice(this.arr_player.indexOf(player), 1)[0];
+    this.arr_winners.push(tmp_player);
   }
 
-  removePlayer(player : string, list : number) {
+  // Add to losing team
+  addToLosers(player : RankedPlayer) {
+    var tmp_player = this.arr_player.splice(this.arr_player.indexOf(player), 1)[0];
+    this.arr_losers.push(tmp_player);
+  }
+
+  // Add to search list
+  restorePlayer(player : RankedPlayer, list : number) {
+    var tmp_player : RankedPlayer;
     if (list === 1) {
-      this.selectedPlayers_1.splice(this.selectedPlayers_1.indexOf(player), 1);
+      tmp_player = this.arr_winners.splice(this.arr_winners.indexOf(player), 1)[0];
+      this.arr_player.push(tmp_player);
     }
     else {
-      this.selectedPlayers_2.splice(this.selectedPlayers_1.indexOf(player), 1);
+      tmp_player = this.arr_losers.splice(this.arr_losers.indexOf(player), 1)[0];
+      this.arr_player.push(tmp_player);
     }
+    // should not happend
+    console.log(player);
+    console.log(tmp_player);
+    console.log(this.arr_losers);
+    console.log(this.arr_winners);
+    
   }
 
-  changeToSecondTeam(player : string) {
-    this.selectedPlayers_1.splice(this.selectedPlayers_1.indexOf(player), 1);
-    this.selectedPlayers_2.push(player);
+  // swap team
+  changeToLoser(player : RankedPlayer) {
+    this.arr_winners.splice(this.arr_winners.indexOf(player), 1);
+    this.arr_losers.push(player);
   }
 
-  changeToFirstTeam(player : string) {
-    this.selectedPlayers_2.splice(this.selectedPlayers_1.indexOf(player), 1);
-    this.selectedPlayers_1.push(player);
+  // swap team
+  changeToWinner(player : RankedPlayer) {
+    this.arr_losers.splice(this.arr_winners.indexOf(player), 1);
+    this.arr_winners.push(player);
   }
 
   onSubmit(form : NgForm) {
-    console.log(form);
-    var winners = 0;
-    for (let selected of form.value.winners) {
-      if (this.selectedPlayers_1.indexOf(selected) === -1) {
-        console.log("Should never happen");
-      }
-      else {
-        winners++;
-      }
-    }
-    var losers = this.selectedPlayers_1.length - winners;
-    console.log("There are " + winners + " winners");
-    console.log("There are " + losers + " losers");
-    console.log("Points are : " + form.value.points);
+    
     // this.router.navigate(['/']);
-    if ((winners === 0) || (this.selectedPlayers_1.length == 0) || (losers == 0)) {
+    if (this.arr_winners.length === 0 || this.arr_losers.length === 0) {
       this.alertError();
     }
-    else if (winners === losers) {
+    else if (this.arr_losers.length === this.arr_winners.length) {
       this.alertConfirmationEqual();
     }
     else {
@@ -160,23 +170,23 @@ export class CreateMatchComponent {
   }
 
   search() {
-    console.log((document.getElementById('nts') as HTMLInputElement).value);
+    /* console.log((document.getElementById('nts') as HTMLInputElement).value);
     var player = (document.getElementById('nts') as HTMLInputElement).value as string;
-    this.leaguePlayers = [];
-    for (let str of this.backup_leaguePlayers)
+    this.arr_player = [];
+    for (let str of this.arr_player_copy)
     {
       var low_str = str.toLowerCase();
       if (low_str.search(player) == -1 ) { 
         console.log(str + " should not appear "); 
       } else { 
         console.log(str + " saved." ); 
-        this.leaguePlayers.push(str);
+        this.arr_player.push(str);
      } 
     }
-    if (this.leaguePlayers.length < 1) {
-      this.leaguePlayers = this.backup_leaguePlayers;
+    if (this.arr_player.length < 1) {
+      this.arr_player = this.arr_player_copy;
     }
-    (document.getElementById('nts') as HTMLInputElement).value = "";
+    (document.getElementById('nts') as HTMLInputElement).value = ""; */
   }
 
 }

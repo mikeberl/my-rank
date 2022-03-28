@@ -24,4 +24,13 @@ export class LeagueItems {
   getLeagueitem(): League[] {
     return LEAGUEITEMS;
   }
+
+  getLeagueById(id: string) : League {
+    for (let league of LEAGUEITEMS) {
+      if (league.id === id) {
+        return league;
+      }
+    }
+    return {id : 'l1', name: 'Roundnet BZ', city: 'Bolzano', max_players : 10, admin_id : 'p1', picture_url: '/assets/images/users/1.jpg', is_open: true};
+  }
 }

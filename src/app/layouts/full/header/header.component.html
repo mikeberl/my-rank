@@ -5,7 +5,7 @@
 <!-- <a href="https://wrappixel.com/templates/materialpro-angular-dashboard/" class=" m-r-20 hidden-sm-up" mat-raised-button color="warn">Upgrade To Pro</a>
  -->
 
-<button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <img src="assets/images/users/1.jpg" alt="user" class="profile-pic"> </button>
+<!-- <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <img src="assets/images/users/1.jpg" alt="user" class="profile-pic"> </button>
 <mat-menu #profile="matMenu" class="mymegamenu">
     <button mat-menu-item>
         <mat-icon>settings</mat-icon> Settings </button>
@@ -15,5 +15,29 @@
         <mat-icon>notifications_off</mat-icon> Disable notifications </button>
     <button mat-menu-item>
         <mat-icon>exit_to_app</mat-icon> Sign Out </button>
-</mat-menu>
+</mat-menu> -->
+
+<div *ngIf="arr_league.length === 1">
+    <button mat-raised-button color="accent"  [matMenuTriggerFor]="leamenu" routerLink="{{arr_league[0].id}}">
+        <mat-icon>add</mat-icon>
+        <label>New Match</label>
+    </button>
+</div>
+
+<div *ngIf="arr_league.length != 1">
+    <button mat-raised-button color="accent"  [matMenuTriggerFor]="leamenu">
+        <mat-icon>add</mat-icon>
+        <label>New Match</label>
+    </button>
+    <mat-menu #leamenu="matMenu" class="mymegamenu">
+        <div *ngFor="let league of arr_league">
+            <button mat-menu-item routerLink="{{league.id}}">
+                <mat-icon>settings</mat-icon> 
+                {{league.name}} 
+            </button>
+        </div>
+    </mat-menu>    
+</div>
+
+
 

@@ -19,7 +19,7 @@ export class LeagueComponent implements OnInit {
     league_id :string = "";
 
   constructor(public dialog: MatDialog,
-              public rankedPlayers: RankedPlayers,
+              public playerService: RankedPlayers,
               private route: ActivatedRoute) {
   }
 
@@ -27,7 +27,7 @@ export class LeagueComponent implements OnInit {
     this.route.params.subscribe(params => {
       console.log(params['id']) //log the value of id
       this.league_id = params['id'];
-      this.playerList = this.rankedPlayers.getRankedPlayersByLeague(this.league_id);
+      this.playerList = this.playerService.getRankedPlayersByLeague(this.league_id);
     });
     
   }

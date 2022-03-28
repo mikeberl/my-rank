@@ -13,9 +13,17 @@
                   <mat-icon>search</mat-icon>
                 </button>
                 <mat-selection-list #players>
-                  <mat-list-item *ngFor="let player of leaguePlayers">
-                      <div mat-line (click)="manageSelectedPlayer(player)">
-                          {{player}}
+                  <mat-list-item *ngFor="let player of arr_player">
+                      <div mat-line>
+                          {{player.fullname}}
+                      </div>
+                      <div>
+                        <button mat-icon-button class="btn_winners" (click)="addToWinners(player)">
+                          <mat-icon>thumb_up</mat-icon>
+                        </button>
+                        <button mat-icon-button class="btn_losers" (click)="addToLosers(player)">
+                          <mat-icon>thumb_down</mat-icon>
+                        </button>
                       </div>
                       <mat-divider></mat-divider>
 
@@ -40,6 +48,9 @@
 <!-- ============================================================== -->
 <mat-card>
     <mat-card-content>
+      <input [matDatepicker]="basicDatepicker">
+      <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
+      <mat-datepicker #basicDatepicker></mat-datepicker>
       <mat-grid-list cols="2" rowHeight="30px">
         <mat-grid-tile class="winners">
           <h2> Winners </h2>
@@ -53,12 +64,12 @@
           <mat-grid-tile >
             <div>
               <mat-selection-list #losers="ngModel" name="losers" ngModel>
-                <mat-list-item *ngFor="let player of selectedPlayers_1" ngDefaultControl id="{{player}}">
-                  {{player}}
-                  <button mat-icon-button type="button" (click)="changeToSecondTeam(player)" color="primary">
+                <mat-list-item *ngFor="let player of arr_winners" ngDefaultControl id="{{player.id}}">
+                  {{player.fullname}}
+                  <button mat-icon-button type="button" (click)="changeToLoser(player)" color="primary">
                     <mat-icon>swap_horiz</mat-icon>
                   </button>
-                  <button mat-icon-button type="button" (click)="removePlayer(player, 1)" color="warn">
+                  <button mat-icon-button type="button" (click)="restorePlayer(player, 1)" color="warn">
                     <mat-icon>delete</mat-icon>
                   </button>  
                 </mat-list-item>            
@@ -69,12 +80,12 @@
           <mat-grid-tile>
             <div>
               <mat-selection-list #winners="ngModel" name="winners" ngModel>
-                <mat-list-item *ngFor="let player of selectedPlayers_2" ngDefaultControl id="{{player}}">
-                  {{player}}
-                  <button mat-icon-button type="button" (click)="changeToFirstTeam(player)" color="primary">
+                <mat-list-item *ngFor="let player of arr_losers" ngDefaultControl id="{{player.id}}">
+                  {{player.fullname}}
+                  <button mat-icon-button type="button" (click)="changeToWinner(player)" color="primary">
                     <mat-icon>swap_horiz</mat-icon>
                   </button>
-                  <button mat-icon-button type="button" (click)="removePlayer(player, 2)" color="warn">
+                  <button mat-icon-button type="button" (click)="restorePlayer(player, 2)" color="warn">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </mat-list-item>
