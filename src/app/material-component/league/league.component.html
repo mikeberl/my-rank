@@ -59,28 +59,40 @@
         </div>
     </mat-tab>
     <mat-tab label="Matches">
-        <div class="p-20">
-            <div *ngFor="let date of dates">
+        <div class="p-20" *ngIf="matches_available">
+            <div *ngFor="let day of match_days">
                 <mat-card>
                     <mat-card-content>
-                    <mat-card-title>{{ date }}</mat-card-title>
+                    <mat-card-title>{{ day.date }}</mat-card-title>
 <!--                     <mat-card-subtitle>Expansion panel</mat-card-subtitle>
  -->                    
                         <mat-accordion class="example-headers-align">
-                            <mat-expansion-panel hideToggle="true">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title> Game registered </mat-panel-title>
-                                    <mat-panel-description> with
-                                        
-                                    </mat-panel-description>
-                                    <mat-panel-description> points
-                                        <button mat-icon-button (click)="openDialog()">
-                                            <mat-icon>report</mat-icon>
-                                        </button>   
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                            </mat-expansion-panel>
-                            <mat-expansion-panel hideToggle="true">
+                            <div *ngFor="let match of day.matches">
+                                <mat-expansion-panel hideToggle="true">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title> {{match.player_id}} </mat-panel-title>
+                                        <mat-panel-description> 
+                                            <div *ngFor="let winner of match.winners">
+                                                <p> {{ winner }} </p>
+
+                                            </div>
+                                            <div *ngFor="let loser of match.losers">
+                                                <p> {{ loser }} </p>
+
+                                            </div>
+                                            
+                                        </mat-panel-description>
+                                        <mat-panel-description> points
+                                            <button mat-icon-button (click)="openDialog()">
+                                                <mat-icon>report</mat-icon>
+                                            </button>   
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                </mat-expansion-panel>
+
+                            </div>
+                            
+                            <!-- <mat-expansion-panel hideToggle="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title> Game registered </mat-panel-title>
                                     <mat-panel-description> with
@@ -105,7 +117,7 @@
                                         </button>                                      
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
-                            </mat-expansion-panel>
+                            </mat-expansion-panel> -->
                         </mat-accordion>
                     </mat-card-content>
                 </mat-card>
@@ -113,6 +125,9 @@
             </div>
             <button mat-button class="load-more-btn" color="accent" (click)="loadMore()"> Load more games </button>
             
+        </div>
+        <div *ngIf="!matches_available">
+            <h1> There are no matches available</h1>
         </div>
     </mat-tab>
 </mat-tab-group>

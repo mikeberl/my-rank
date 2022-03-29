@@ -3,8 +3,10 @@ import { NgForm } from '@angular/forms';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RankedPlayer, RankedPlayers } from 'src/app/models/ranked-player.model';
-import { Users } from 'src/app/models/user.model';
+import { Match, MatchItems, MatchNoId } from 'src/app/models/match.model';
+import { User, Users } from 'src/app/models/user.model';
 import Swal from 'sweetalert2';
+import { MatchService } from 'src/app/services/match.service';
 
 @Component({
   selector: 'app-create-match',
@@ -47,12 +49,15 @@ export class CreateMatchComponent {
   title = "Create Match";
 
   league_id : string = "";
+  user : User;
 
   constructor(/* private navbarService : NavbarServiceService, */
               private router: Router,
               private route: ActivatedRoute,
               private userService : Users,
-              private playerService : RankedPlayers) {
+              private playerService : RankedPlayers,
+              private matchService : MatchService) {
+                this.user = userService.getUsers()[0];
   }
 
   ngOnInit(): void {
@@ -116,11 +121,28 @@ export class CreateMatchComponent {
       this.alertError();
     }
     else if (this.arr_losers.length === this.arr_winners.length) {
+      var new_match : MatchNoId = this.createMatch(form);
+      this.matchService.newMatch(this.league_id, new_match);
       this.alertConfirmationEqual();
+
     }
     else {
+      var new_match : MatchNoId = this.createMatch(form);
+      this.matchService.newMatch(this.league_id, new_match);
       this.alertConfirmationNotEqual();
     }
+  }
+
+  createMatch(form : NgForm) : MatchNoId {
+    var match : MatchNoId = {league_id : this.league_id, 
+                player_id: this.playerService.getPlayerByUserAndLeague(this.user.UID, this.league_id)?.id,
+              winners: this.arr_winners, losers: this.arr_losers, points: form.value.points, date : form.value.date, was_reported: false};
+
+    return match;
+  }
+
+  clearStorage() {
+    this.matchService.clearMatches();
   }
 
   alertError() {
@@ -144,7 +166,7 @@ export class CreateMatchComponent {
     }).then((result) => {
       if (result.value) {
         Swal.fire('Registered!', 'Your game has been registered successfully.', 'success');
-        this.router.navigate(['/']);
+        // this.router.navigate(['/']);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire('Cancelled', 'Your registration has been stopped', 'error');
       }

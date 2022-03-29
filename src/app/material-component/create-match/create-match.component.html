@@ -6,6 +6,7 @@
         <mat-card>
             <mat-card-content>
               <mat-card-title>Players of Summer Season Ranking</mat-card-title>
+              <button (click)="clearStorage()">CLEAR</button> 
 <!--                 <mat-card-subtitle><code>&lt;mat-grid-list&gt;</code> is a two-dimensional list view that arranges cells into grid-based layout. See Material Design spec. <code><a href="https://material.io/guidelines/components/grid-lists.html">Official Doc here</a></code></mat-card-subtitle>
  -->                
                 <input id="nts">
@@ -48,7 +49,9 @@
 <!-- ============================================================== -->
 <mat-card>
     <mat-card-content>
-      <input [matDatepicker]="basicDatepicker">
+      
+      <form  #result="ngForm" (ngSubmit)="onSubmit(result)">
+        <input [matDatepicker]="basicDatepicker" id="date" name="date" ngModel required>
       <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
       <mat-datepicker #basicDatepicker></mat-datepicker>
       <mat-grid-list cols="2" rowHeight="30px">
@@ -59,7 +62,6 @@
           <h2> Losers </h2>
         </mat-grid-tile>
       </mat-grid-list>
-      <form  #result="ngForm" (ngSubmit)="onSubmit(result)">
         <mat-grid-list cols="2" rowHeight="200px">  <!-- rowHeight="2:1" -->
           <mat-grid-tile >
             <div>
@@ -99,5 +101,6 @@
             <button mat-button class="btn-primary" type="submit" color="primary">Submit</button>
           </div>
       </form>
-    </mat-card-content>        
+    </mat-card-content>       
+    
 </mat-card>
