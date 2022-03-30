@@ -14,33 +14,7 @@ import { MatchService } from 'src/app/services/match.service';
   styleUrls: ['./create-match.component.scss']
 })
 export class CreateMatchComponent {
-/*   tiles = [
-    {
-      text: 'One',
-      cols: 3,
-      rows: 1,
-      color: 'lightblue'
-    },
-    {
-      text: 'Two',
-      cols: 1,
-      rows: 2,
-      color: 'lightgreen'
-    },
-    {
-      text: 'Three',
-      cols: 1,
-      rows: 1,
-      color: 'lightpink'
-    },
-    {
-      text: 'Four',
-      cols: 2,
-      rows: 1,
-      color: '#DDBDF1'
-    }
-  ]; */
-
+  
   arr_player: RankedPlayer[] = [];
   arr_player_copy: RankedPlayer[] = [];
   arr_winners : RankedPlayer[] = [];

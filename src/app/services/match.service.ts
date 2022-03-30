@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { createEmitAndSemanticDiagnosticsBuilderProgram } from 'typescript';
 import { LeagueItems } from '../models/league.model';
 import { Match, MatchNoId } from '../models/match.model';
 
@@ -24,21 +25,20 @@ export class MatchService {
    }
 
   newMatch(league : string, match_no_id : MatchNoId) {
-    var tmp_matches = localStorage.getItem(league);
+    var tmp_matches = localStorage.getItem('MATCH_'+ league);
     if (tmp_matches != null) {
       var matches : Match[] = JSON.parse(tmp_matches);
       console.log(matches);
       var match = this.getMatchId(match_no_id, matches);
       matches.push(match);
-          //this.leagues_matches.set(league, matches);
-      localStorage.setItem(league, JSON.stringify(matches));     
+      localStorage.setItem('MATCH_'+ league, JSON.stringify(matches));     
     } 
     else {
       var matches : Match[] = [];
       var match = this.getMatchId(match_no_id, matches);
       matches.push(match);
       //this.leagues_matches.set(league, matches);
-      localStorage.setItem(league, JSON.stringify(matches));
+      localStorage.setItem('MATCH_'+ league, JSON.stringify(matches));
     }
   }
 
@@ -50,7 +50,7 @@ export class MatchService {
   }
 
   getMatchesByLeague(league: string) {
-    var tmp_matches = localStorage.getItem(league);
+    var tmp_matches = localStorage.getItem('MATCH_'+ league);
     if (tmp_matches != null) {
       var matches : Match[] = JSON.parse(tmp_matches);
       return matches;
@@ -58,9 +58,25 @@ export class MatchService {
     return undefined;
   }
 
+  reportMatch(league: string, match : Match) {
+    var tmp_matches = localStorage.getItem('MATCH_'+ league);
+    if (tmp_matches != null) {
+      var matches : Match[] = JSON.parse(tmp_matches);
+      for (let match_ of matches) {
+        if (JSON.stringify(match_) === JSON.stringify(match)) {
+          match_.was_reported = true;
+        }
+      }
+      localStorage.setItem('MATCH_'+ league, JSON.stringify(matches));
+    }
+    else {
+      console.log("no league found");
+    }
+  }
+
   getMatchesByDays(league: string) {
     var match_days : MatchDay[] = [];
-    var tmp_matches = localStorage.getItem(league);
+    var tmp_matches = localStorage.getItem('MATCH_'+ league);
 
     if (tmp_matches != null) {
       var matches : Match[] = JSON.parse(tmp_matches);
@@ -84,8 +100,6 @@ export class MatchService {
           }
         }
       }
-      console.log("OOOO");
-      console.log(match_days);
       return match_days; 
     }
     else {

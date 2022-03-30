@@ -5,6 +5,8 @@ import { AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective } 
 import { LeagueItems } from '../models/league.model';
 import { RankedPlayers } from '../models/ranked-player.model';
 import { Users } from '../models/user.model';
+import { MatchService } from '../services/match.service';
+import { ReportService } from '../services/report.service';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { Users } from '../models/user.model';
     MenuItems,
     LeagueItems,
     RankedPlayers,
-    Users
+    Users,
+    MatchService,
+    ReportService
  ]
 })
 export class SharedModule { }

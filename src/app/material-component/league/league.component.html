@@ -70,54 +70,37 @@
                             <div *ngFor="let match of day.matches">
                                 <mat-expansion-panel hideToggle="true">
                                     <mat-expansion-panel-header>
-                                        <mat-panel-title> {{match.player_id}} </mat-panel-title>
+                                        <mat-panel-title>     
+                                            <mat-line>
+                                                {{match.player_id}}
+                                            </mat-line>
+                                            
+                                             
+                                        </mat-panel-title>
                                         <mat-panel-description> 
-                                            <div *ngFor="let winner of match.winners">
+                                            <div *ngFor="let winner of getPlayersName(match.winners)">
                                                 <p> {{ winner }} </p>
 
                                             </div>
-                                            <div *ngFor="let loser of match.losers">
+                                            <div *ngFor="let loser of getPlayersName(match.losers)">
                                                 <p> {{ loser }} </p>
 
                                             </div>
+                                        
                                             
                                         </mat-panel-description>
-                                        <mat-panel-description> points
-                                            <button mat-icon-button (click)="openDialog()">
+                                        <mat-panel-description> {{match.points}}
+                                            <button mat-icon-button (click)="openDialog(match)" *ngIf="(!match.was_reported)">
                                                 <mat-icon>report</mat-icon>
+                                            </button> 
+                                            <button mat-button clickable="false" *ngIf="(match.was_reported)">
+                                                Reported
                                             </button>   
                                         </mat-panel-description>
                                     </mat-expansion-panel-header>
                                 </mat-expansion-panel>
 
                             </div>
-                            
-                            <!-- <mat-expansion-panel hideToggle="true">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title> Game registered </mat-panel-title>
-                                    <mat-panel-description> with
-                                        
-                                    </mat-panel-description>
-                                    <mat-panel-description> points
-                                        <button mat-icon-button (click)="openDialog()">
-                                            <mat-icon>report</mat-icon>
-                                        </button>   
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                            </mat-expansion-panel>
-                            <mat-expansion-panel hideToggle="true">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title> Game registered </mat-panel-title>
-                                    <mat-panel-description> with
-                                        
-                                    </mat-panel-description>
-                                    <mat-panel-description> points
-                                        <button mat-icon-button (click)="openDialog()">
-                                            <mat-icon>report</mat-icon>
-                                        </button>                                      
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                            </mat-expansion-panel> -->
                         </mat-accordion>
                     </mat-card-content>
                 </mat-card>

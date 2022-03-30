@@ -42,28 +42,14 @@ export class LeagueComponent implements OnInit {
       else {
         this.matches_available = false;
       }
-      /* var dates = this.matchService.getMatchesByDays(this.league_id);
-      if (dates != null) {
-        for (let date of dates) {
-          var tmp = localStorage.getItem(date);
-          if (tmp != null) {
-            var matches = JSON.parse(tmp);
-            var one_day_history : MatchDay = {date: date, matches: matches}
-            this.match_days.push(one_day_history);
-          }
-        }
-      }
-      else {
-        this.matches_available = false;
-      } */
     });
-    
   }
 
-  openDialog(): void {
+  openDialog(match : Match): void {
+
     const dialogRef = this.dialog.open(DialogOverviewExampleDialogComponent, {
       width: '250px',
-      data: { id : this.league_id }
+      data: { reporter_id : 0, match : match } // TODO get player_id/user_id of reporter
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -72,6 +58,14 @@ export class LeagueComponent implements OnInit {
   }
 
   loadMore() {
+  }
+
+  getPlayersName(players : RankedPlayer[]) {
+    var players_string : string[] = [];
+    for (let player of players) {
+      players_string.push(player.fullname);
+    }
+    return players_string;
   }
 
 

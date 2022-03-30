@@ -21,6 +21,8 @@ import { LeagueComponent } from './league/league.component';
 import { AdminSectionComponent } from './admin-section/admin-section.component';
 import { CreateNewLeagueComponent } from './create-new-league/create-new-league.component';
 import { AllLeaguesComponent } from './all-leagues/all-leagues.component';
+import { ReportMessageViewComponent } from './admin-section/report-message-view/report-message-view.component';
+import { ReviewMatchComponent } from './admin-section/review-match/review-match.component';
 
 export const MaterialRoutes: Routes = [
   {
@@ -43,6 +45,14 @@ export const MaterialRoutes: Routes = [
   {
     path: 'all-leagues',
     component: AllLeaguesComponent
+  },
+  {
+    path: 'reports',
+    component: ReportMessageViewComponent
+  },
+  {
+    path: 'review-match',
+    component : ReviewMatchComponent
   },
   {
     path: 'button',

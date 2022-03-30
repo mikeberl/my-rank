@@ -1,26 +1,32 @@
 <h1 mat-dialog-title>Report this result</h1>
 <div mat-dialog-content>
-  <label class="example-margin">Select your report type</label>
-				<mat-radio-group [(ngModel)]="report_type" class="m-l-20">
-          <br>
-					<mat-radio-button class="example-margin" value="points" class="m-r-10">
-						Points are wrong
-					</mat-radio-button>
-					<mat-radio-button class="example-margin" value="players" class="m-r-10">
-						Players are wrong
-					</mat-radio-button>
-          <mat-radio-button class="example-margin" value="warn">
-						Double input
-					</mat-radio-button>
-					<mat-radio-button class="example-margin" value="other">
-						Others
-					</mat-radio-button>
-				</mat-radio-group>
-  <mat-form-field>
-    <input matInput tabindex="1" [(ngModel)]="report_message">
-  </mat-form-field>
+	<label class="example-margin">Select your report type</label>
+	<form  #report="ngForm" name="report" (ngSubmit)="onSubmit(report)">
+	  <mat-radio-group [(ngModel)]="report_type" name="report_type" class="m-l-20">
+		  <br>
+		  <mat-radio-button class="example-margin" value="WRONGPOINTS" class="m-r-10">
+			  Points are wrong
+		  </mat-radio-button>
+		  <mat-radio-button class="example-margin" value="WRONGPLAYERS" class="m-r-10">
+			  Players are wrong
+		  </mat-radio-button>
+		  <mat-radio-button class="example-margin" value="WRONGINPUT">
+			  Double input
+		  </mat-radio-button>
+		  <mat-radio-button class="example-margin" value="OTHERS">
+			  Others
+		  </mat-radio-button>
+	  </mat-radio-group>
+	  <mat-form-field>
+	  <input matInput tabindex="1" #message="ngModel" ngModel name="message">
+	  </mat-form-field>
+	  <div mat-dialog-actions>
+		<button mat-button [mat-dialog-close]="" tabindex="2" type="submit">Ok</button>
+		<button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+		</div>
+    </form>
 </div>
-<div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="" tabindex="2">Ok</button>
-  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
-</div>
+
+
+
+				
