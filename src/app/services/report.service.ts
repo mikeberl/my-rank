@@ -23,7 +23,7 @@ export class ReportService {
       }
       var report : ReportMessage = {
         id : id,
-        game_id : report_noid.game_id,
+        match_id : report_noid.match_id,
         league_id : report_noid.league_id,
         date : report_noid.date,
         report_type : report_noid.report_type,
@@ -38,7 +38,7 @@ export class ReportService {
         var reports : ReportMessage[] = [];
         var report : ReportMessage = {
           id : 0,
-          game_id : report_noid.game_id,
+          match_id : report_noid.match_id,
           league_id : report_noid.league_id,
           date : report_noid.date,
           report_type : report_noid.report_type,
@@ -52,6 +52,20 @@ export class ReportService {
 
       }
     
+  }
+
+  resolveReport(league : string, match : number) {
+    var tmp_matches = localStorage.getItem('REPORT_'+ league);
+
+    if (tmp_matches != null) {
+      var reports : ReportMessage[] = JSON.parse(tmp_matches);
+      for (let report of reports) {
+        if (report.match_id.toString() === match.toString()) {
+          reports.splice(reports.indexOf(report), 1);
+          localStorage.setItem('REPORT_' + league, JSON.stringify(reports));
+        }
+      }
+    }
   }
 
   getReportsByLeague(league : string) : ReportMessage[] | undefined {

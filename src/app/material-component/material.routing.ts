@@ -51,7 +51,7 @@ export const MaterialRoutes: Routes = [
     component: ReportMessageViewComponent
   },
   {
-    path: 'review-match',
+    path: ':league/review-match/:match',
     component : ReviewMatchComponent
   },
   {

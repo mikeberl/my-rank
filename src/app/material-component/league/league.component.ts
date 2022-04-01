@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Match } from 'src/app/models/match.model';
 import { RankedPlayer, RankedPlayers } from 'src/app/models/ranked-player.model';
 import { MatchDay, MatchService } from 'src/app/services/match.service';
+import { PlayerService } from 'src/app/services/player.service';
 import { DialogOverviewExampleDialogComponent } from '../dialog/dialog.component';
 
 @Component({
@@ -25,7 +26,7 @@ export class LeagueComponent implements OnInit {
     match_days : MatchDay[] = [];
 
   constructor(public dialog: MatDialog,
-              public playerService: RankedPlayers,
+              public playerService: PlayerService,
               private route: ActivatedRoute,
               private matchService: MatchService) {
   }

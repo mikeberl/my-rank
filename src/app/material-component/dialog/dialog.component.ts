@@ -41,7 +41,7 @@ export class DialogOverviewExampleDialogComponent {
   onSubmit(form : NgForm) {
     
     var new_report : ReportMessageNoId = {
-      game_id : this.data.match.game_id,
+      match_id : this.data.match.id,
       league_id : this.data.match.league_id,
       reporter_id : this.data.reporter_id,
       message : form.value.message,

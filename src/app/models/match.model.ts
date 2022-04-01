@@ -9,6 +9,7 @@ export interface Match {
     winners: RankedPlayer[]; // id of winners
     losers: RankedPlayer[];
     points: number;
+    // winned loosed points
     date: string; //TODO
     was_reported: boolean;
 }

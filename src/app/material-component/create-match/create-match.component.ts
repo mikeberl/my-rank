@@ -7,6 +7,7 @@ import { Match, MatchItems, MatchNoId } from 'src/app/models/match.model';
 import { User, Users } from 'src/app/models/user.model';
 import Swal from 'sweetalert2';
 import { MatchService } from 'src/app/services/match.service';
+import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
   selector: 'app-create-match',
@@ -29,7 +30,7 @@ export class CreateMatchComponent {
               private router: Router,
               private route: ActivatedRoute,
               private userService : Users,
-              private playerService : RankedPlayers,
+              private playerService : PlayerService,
               private matchService : MatchService) {
                 this.user = userService.getUsers()[0];
   }

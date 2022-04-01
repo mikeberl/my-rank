@@ -1,6 +1,6 @@
 export interface ReportMessage {
     id : number;
-    game_id : number;
+    match_id : number;
     league_id: string;
     reporter_id : string;
     message : string;
@@ -9,7 +9,7 @@ export interface ReportMessage {
 }
 
 export interface ReportMessageNoId {
-    game_id : number;
+    match_id : number;
     league_id: string;
     reporter_id : string;
     message : string;

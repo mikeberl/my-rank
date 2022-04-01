@@ -7,6 +7,7 @@ import { RankedPlayers } from '../models/ranked-player.model';
 import { Users } from '../models/user.model';
 import { MatchService } from '../services/match.service';
 import { ReportService } from '../services/report.service';
+import { PlayerService } from '../services/player.service';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ReportService } from '../services/report.service';
     RankedPlayers,
     Users,
     MatchService,
-    ReportService
+    ReportService,
+    PlayerService
  ]
 })
 export class SharedModule { }

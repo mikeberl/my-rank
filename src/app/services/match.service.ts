@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { createEmitAndSemanticDiagnosticsBuilderProgram } from 'typescript';
 import { LeagueItems } from '../models/league.model';
 import { Match, MatchNoId } from '../models/match.model';
+import { PlayerService } from './player.service';
 
 
 export interface MatchDay {
@@ -16,7 +17,8 @@ export class MatchService {
 
   // matches : Match[] = [];
 
-  constructor(private leagueService : LeagueItems) {
+  constructor(private leagueService : LeagueItems,
+              private playerService : PlayerService) {
     var leagues = leagueService.getLeagueitem();
     /* for (let league of leagues) {
       localStorage.setItem('all_matches',JSON.stringify(this.leagues_matches));
@@ -31,7 +33,9 @@ export class MatchService {
       console.log(matches);
       var match = this.getMatchId(match_no_id, matches);
       matches.push(match);
-      localStorage.setItem('MATCH_'+ league, JSON.stringify(matches));     
+      localStorage.setItem('MATCH_'+ league, JSON.stringify(matches));  
+      this.playerService.addMatch(match);
+   
     } 
     else {
       var matches : Match[] = [];
@@ -39,7 +43,9 @@ export class MatchService {
       matches.push(match);
       //this.leagues_matches.set(league, matches);
       localStorage.setItem('MATCH_'+ league, JSON.stringify(matches));
+      this.playerService.addMatch(match);
     }
+
   }
 
   getMatchId(no_id : MatchNoId, matches : Match[]) {
@@ -70,7 +76,44 @@ export class MatchService {
       localStorage.setItem('MATCH_'+ league, JSON.stringify(matches));
     }
     else {
-      console.log("no league found");
+      console.log("ERROR: no league found");
+    }
+  }
+
+  getMatch(league: string, match: number) : Match | undefined {
+    console.log("searched match is: "+ match);
+    var tmp_matches = localStorage.getItem('MATCH_'+ league);
+    if (tmp_matches != null) {
+      var matches : Match[] = JSON.parse(tmp_matches);
+      for (let match_ of matches) {
+        console.log("match_ id is: "+ match_.id);
+        if(match_.id.toString() === match.toString()) {
+          console.log("match is returned");
+          return match_;
+        }
+      }
+
+    }
+    else {
+      console.log("ERROR: no league found");
+      return undefined;
+    }
+  }
+
+  modifyMatchPoints(match : Match) {
+    var tmp_matches = localStorage.getItem('MATCH_'+ match.league_id);
+    if (tmp_matches != null) {
+      var matches : Match[] = JSON.parse(tmp_matches);
+      for (let match_ of matches) {
+        if(match_.id === match.id) {
+          matches[matches.indexOf(match_)].points = match.points;
+          matches[matches.indexOf(match_)].was_reported = false;
+          localStorage.setItem('MATCH_'+ match.league_id, JSON.stringify(matches));
+        }
+      }
+    }
+    else {
+      console.log("ERROR: no league found");
     }
   }
 
