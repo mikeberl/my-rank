@@ -71,7 +71,6 @@ export class ReportService {
   getReportsByLeague(league : string) : ReportMessage[] | undefined {
     var reports = localStorage.getItem('REPORT_' + league);
     if (reports != null) {
-      console.log("here");
       var tmp : ReportMessage[] = JSON.parse(reports);
       return tmp;
     }

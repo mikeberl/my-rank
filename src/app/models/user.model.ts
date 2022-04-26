@@ -10,12 +10,16 @@ export interface User {
 }
 
 const USER = [
-    {UID: 0o1, fullname: "Michele Berlanda", username: "Smikeball", profile_pic: "", is_admin: true, joined_leagues: ['l1', 'l2']}
+    {UID: 1, fullname: "Michele Berlanda", username: "Smikeball", profile_pic: "", is_admin: true, joined_leagues: ['l1', 'l2']}
 ]
 
 @Injectable()
 export class Users {
   getUsers(): User[] {
     return USER;
+  }
+
+  getMain() : User {
+    return USER[0]; 
   }
 }

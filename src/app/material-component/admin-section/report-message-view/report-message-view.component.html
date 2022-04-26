@@ -1,0 +1,39 @@
+
+    
+
+    <div class="p-20">
+        <div *ngFor="let report of reports">
+            <mat-card>
+                <mat-card-content>
+                <mat-card-title>{{ report.date }}</mat-card-title>
+<!--                     <mat-card-subtitle>Expansion panel</mat-card-subtitle>
+-->                    
+                    <mat-accordion class="example-headers-align">
+                    
+                            <mat-expansion-panel hideToggle="true">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>     
+                                        <mat-line>
+                                            {{report.reporter_id}}
+                                        </mat-line>
+                                        <mat-line>
+                                            {{report.match_id}}
+                                        </mat-line>
+                                        
+                                         
+                                    </mat-panel-title>
+                                    <mat-panel-description> 
+                                        {{report.message}}                                          
+                                    </mat-panel-description>
+                                    <button mat-button color="primary" routerLink="/l1/review-match/{{report.match_id}}">
+                                        Manage Match
+                                    </button> 
+                                </mat-expansion-panel-header>
+                            </mat-expansion-panel>
+                    </mat-accordion>
+                </mat-card-content>
+            </mat-card>
+            
+        </div>
+            
+    </div>

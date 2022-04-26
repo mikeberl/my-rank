@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { createEmitAndSemanticDiagnosticsBuilderProgram } from 'typescript';
 import { LeagueItems } from '../models/league.model';
 import { Match, MatchNoId } from '../models/match.model';
 import { PlayerService } from './player.service';
+import { StorageService } from './storage.service';
 
 
 export interface MatchDay {
@@ -18,22 +18,20 @@ export class MatchService {
   // matches : Match[] = [];
 
   constructor(private leagueService : LeagueItems,
-              private playerService : PlayerService) {
+              private playerService : PlayerService,
+              private storage : StorageService) {
     var leagues = leagueService.getLeagueitem();
-    /* for (let league of leagues) {
-      localStorage.setItem('all_matches',JSON.stringify(this.leagues_matches));
-    } */
     
    }
 
   newMatch(league : string, match_no_id : MatchNoId) {
-    var tmp_matches = localStorage.getItem('MATCH_'+ league);
+    var tmp_matches = this.storage.getMatchesByLeague(league);
     if (tmp_matches != null) {
       var matches : Match[] = JSON.parse(tmp_matches);
       console.log(matches);
       var match = this.getMatchId(match_no_id, matches);
       matches.push(match);
-      localStorage.setItem('MATCH_'+ league, JSON.stringify(matches));  
+      this.storage.saveMatch(league, matches);  
       this.playerService.addMatch(match);
    
     } 
@@ -42,7 +40,7 @@ export class MatchService {
       var match = this.getMatchId(match_no_id, matches);
       matches.push(match);
       //this.leagues_matches.set(league, matches);
-      localStorage.setItem('MATCH_'+ league, JSON.stringify(matches));
+      this.storage.saveMatch(league, matches); 
       this.playerService.addMatch(match);
     }
 
@@ -56,7 +54,7 @@ export class MatchService {
   }
 
   getMatchesByLeague(league: string) {
-    var tmp_matches = localStorage.getItem('MATCH_'+ league);
+    var tmp_matches = this.storage.getMatchesByLeague(league);
     if (tmp_matches != null) {
       var matches : Match[] = JSON.parse(tmp_matches);
       return matches;
@@ -65,7 +63,7 @@ export class MatchService {
   }
 
   reportMatch(league: string, match : Match) {
-    var tmp_matches = localStorage.getItem('MATCH_'+ league);
+    var tmp_matches = this.storage.getMatchesByLeague(league);
     if (tmp_matches != null) {
       var matches : Match[] = JSON.parse(tmp_matches);
       for (let match_ of matches) {
@@ -73,7 +71,7 @@ export class MatchService {
           match_.was_reported = true;
         }
       }
-      localStorage.setItem('MATCH_'+ league, JSON.stringify(matches));
+      this.storage.saveMatch(league, matches); 
     }
     else {
       console.log("ERROR: no league found");
@@ -82,7 +80,7 @@ export class MatchService {
 
   getMatch(league: string, match: number) : Match | undefined {
     console.log("searched match is: "+ match);
-    var tmp_matches = localStorage.getItem('MATCH_'+ league);
+    var tmp_matches = this.storage.getMatchesByLeague(league);
     if (tmp_matches != null) {
       var matches : Match[] = JSON.parse(tmp_matches);
       for (let match_ of matches) {
@@ -101,14 +99,14 @@ export class MatchService {
   }
 
   modifyMatchPoints(match : Match) {
-    var tmp_matches = localStorage.getItem('MATCH_'+ match.league_id);
+    var tmp_matches = this.storage.getMatchesByLeague(match.league_id);
     if (tmp_matches != null) {
       var matches : Match[] = JSON.parse(tmp_matches);
       for (let match_ of matches) {
         if(match_.id === match.id) {
           matches[matches.indexOf(match_)].points = match.points;
           matches[matches.indexOf(match_)].was_reported = false;
-          localStorage.setItem('MATCH_'+ match.league_id, JSON.stringify(matches));
+          this.storage.saveMatch(match.league_id, matches); 
         }
       }
     }
@@ -119,7 +117,7 @@ export class MatchService {
 
   getMatchesByDays(league: string) {
     var match_days : MatchDay[] = [];
-    var tmp_matches = localStorage.getItem('MATCH_'+ league);
+    var tmp_matches = this.storage.getMatchesByLeague(league);
 
     if (tmp_matches != null) {
       var matches : Match[] = JSON.parse(tmp_matches);
