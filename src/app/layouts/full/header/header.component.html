@@ -18,7 +18,7 @@
 </mat-menu> -->
 
 <div *ngIf="arr_league.length === 1">
-    <button mat-raised-button color="accent"  [matMenuTriggerFor]="leamenu" routerLink="{{arr_league[0].id}}">
+    <button mat-raised-button color="accent"  [matMenuTriggerFor]="leamenu" routerLink="create-match/{{arr_league[0].id}}">
         <mat-icon>add</mat-icon>
         <label>New Match</label>
     </button>
@@ -31,7 +31,7 @@
     </button>
     <mat-menu #leamenu="matMenu" class="mymegamenu">
         <div *ngFor="let league of arr_league">
-            <button mat-menu-item routerLink="{{league.id}}">
+            <button mat-menu-item routerLink="create-match/{{league.id}}">
                 <mat-icon>settings</mat-icon> 
                 {{league.name}} 
             </button>

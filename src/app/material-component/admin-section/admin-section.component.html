@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="not_admin">
     <mat-card-title> Manage your league</mat-card-title>
     <mat-card-content>
         <button mat-button type="button" class="block" color="primary">Create A Special Event</button>
@@ -13,4 +13,11 @@
         <br>
         <button mat-button type="button" class="block" color="primary">Support</button>
     </mat-card-content>
-</mat-card>>
+</mat-card>
+
+<mat-card *ngIf="!not_admin">
+    <mat-card-title> Manage your league</mat-card-title>
+    <mat-card-content>
+        <button mat-raised-button type="button" class="block" color="primary" routerLink="/new-league">Create A New League</button>
+    </mat-card-content>
+</mat-card>

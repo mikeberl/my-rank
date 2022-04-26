@@ -59,7 +59,7 @@ export const MaterialRoutes: Routes = [
     component: ButtonsComponent
   },
   {
-    path: ':id',
+    path: 'create-match/:id',
     component: CreateMatchComponent
   },
   {
