@@ -5,7 +5,7 @@
         <div class="message-box contact-box p-20">
             <div class="message-widget contact-widget">
                 <mat-list>
-                    <a  *ngFor='let league of leagueItems.getLeagueitem()'>
+                    <a  *ngFor='let league of storage.getLeagues()'>
                         <mat-list-item >
                         
                             <div class="user-img" mat-list-avatar routerLink="/league/{{league.id}}">

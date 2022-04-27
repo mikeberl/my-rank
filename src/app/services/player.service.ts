@@ -24,7 +24,7 @@ export class PlayerService {
           private storage : StorageService,
           private userService : Users) {
     //creating some players for testing
-    var main_user = userService.getMain();
+    var main_user = this.storage.getSelectedUser();
     for(let league of main_user.joined_leagues) {
       var check_for_testing = this.storage.getPlayersByLeague(league);
       if (check_for_testing === null) {
@@ -34,7 +34,7 @@ export class PlayerService {
   }
 
   createTestingData() {
-    var main_user = this.userService.getMain();
+    var main_user = this.storage.getSelectedUser();
     for(let league of main_user.joined_leagues) {
       var check_for_testing = this.storage.getPlayersByLeague(league);
       if (check_for_testing === undefined) {
@@ -141,4 +141,30 @@ getSortedPlayersByLeague(league : string) : RankedPlayer[] {
       return tmp;
   }
  */
+
+  newPlayer(league : string, user : number) {
+    var players_string = this.storage.getPlayersByLeague(league);
+    if (players_string === null) {
+      var player : RankedPlayer = {
+        id : 'p1',
+        UID : user,
+        fullname : this.storage.getSelectedUser().fullname,
+        points : 0,
+        picture_url : '/assets/images/users/1.jpg', 
+        matches: []};
+      return player;  
+    }
+    else {
+      var players : RankedPlayer[]= JSON.parse(players_string);
+      var player : RankedPlayer = {
+        id : 'p' + players.length.toString(),
+        UID : user,
+        fullname : this.storage.getSelectedUser().fullname,
+        points : 0,
+        picture_url : '/assets/images/users/1.jpg', 
+        matches: []};
+      players.push(player);
+      return player;    
+    }
+  }
 }

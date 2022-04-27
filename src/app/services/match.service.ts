@@ -17,10 +17,10 @@ export class MatchService {
 
   // matches : Match[] = [];
 
-  constructor(private leagueService : LeagueItems,
+  constructor(/* private leagueService : LeagueItems, */
               private playerService : PlayerService,
               private storage : StorageService) {
-    var leagues = leagueService.getLeagueitem();
+    /* var leagues = leagueService.getLeagueitem(); */
     
    }
 

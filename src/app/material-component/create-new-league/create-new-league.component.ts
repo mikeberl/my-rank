@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import { MatStepper } from '@angular/material/stepper';
+import { League, LeagueItems } from 'src/app/models/league.model';
+import { StorageService } from 'src/app/services/storage.service';
+import { Users } from 'src/app/models/user.model';
+
 
 @Component({
   selector: 'app-create-new-league',
@@ -11,98 +16,116 @@ import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 }]
 })
 export class CreateNewLeagueComponent implements OnInit {
-  isLinear = false;
-	firstFormGroup: FormGroup=Object.create(null);
-	secondFormGroup: FormGroup=Object.create(null);
-  thirdFormGroup: FormGroup=Object.create(null);
-  fourthFormGroup: FormGroup=Object.create(null);
+	imgFile: string = '';
+	isLinear = false;
+	
+	formGroup : FormGroup=Object.create(null);
 
-	isLinearvarient = false;
-  	varientfirstFormGroup: FormGroup=Object.create(null);
- 	varientsecondFormGroup: FormGroup=Object.create(null);
-
- 	isLinearposition = false;
-  	positionfirstFormGroup: FormGroup=Object.create(null);
- 	positionsecondFormGroup: FormGroup=Object.create(null);
-
-
- 	optionalfirstFormGroup: FormGroup=Object.create(null);
-	optionalsecondFormGroup: FormGroup=Object.create(null);
-	isOptional = false;
-
-	editablefirstFormGroup: FormGroup=Object.create(null);
-	editablesecondFormGroup: FormGroup=Object.create(null);
-	isEditable = false;
-
-	customizefirstFormGroup: FormGroup=Object.create(null);
-	customizesecondFormGroup: FormGroup=Object.create(null);
-
-	errorfirstFormGroup: FormGroup=Object.create(null);
-	errorsecondFormGroup: FormGroup=Object.create(null);
-
-	constructor(private _formBuilder: FormBuilder) {}
+	constructor(private _formBuilder: FormBuilder,
+				private storage: StorageService,
+				private userService: Users) {}
 
 	ngOnInit() {
-		this.firstFormGroup = this._formBuilder.group({
-			firstCtrl: ['', Validators.required]
-		});
-		this.secondFormGroup = this._formBuilder.group({
-			secondCtrl: ['', Validators.required]
-		});
-    this.thirdFormGroup = this._formBuilder.group({
-			thirdCtrl: ['', Validators.required]
-		});
-		this.fourthFormGroup = this._formBuilder.group({
-			fourthCtrl: ['', Validators.required]
-		});
-
-		// varient
-		this.varientfirstFormGroup = this._formBuilder.group({
-		      varientfirstCtrl: ['', Validators.required]
-		});
-		this.varientsecondFormGroup = this._formBuilder.group({
-		      varientsecondCtrl: ['', Validators.required]
-		});
-
-		// position
-		this.positionfirstFormGroup = this._formBuilder.group({
-		      positionfirstCtrl: ['', Validators.required]
-		});
-		this.positionsecondFormGroup = this._formBuilder.group({
-		      positionsecondCtrl: ['', Validators.required]
-		});
-
-		// optional
-		this.optionalfirstFormGroup = this._formBuilder.group({
-		      optionalfirstCtrl: ['', Validators.required]
-		});
-		this.optionalsecondFormGroup = this._formBuilder.group({
-		      optionalsecondCtrl: ['', Validators.required]
-		});
-
-		// editable
-		this.editablefirstFormGroup = this._formBuilder.group({
-		      editablefirstCtrl: ['', Validators.required]
-		});
-		this.editablesecondFormGroup = this._formBuilder.group({
-		      editablesecondCtrl: ['', Validators.required]
-		});
-
-		// customize
-		this.customizefirstFormGroup = this._formBuilder.group({
-		      customizefirstCtrl: ['', Validators.required]
-		});
-		this.customizesecondFormGroup = this._formBuilder.group({
-		      customizesecondCtrl: ['', Validators.required]
-		});
-
-		// error
-		this.errorfirstFormGroup = this._formBuilder.group({
-		      errorfirstCtrl: ['', Validators.required]
-		});
-		this.errorsecondFormGroup = this._formBuilder.group({
-		      errorsecondCtrl: ['', Validators.required]
-		});
+		this.formGroup = this._formBuilder.group({
+			firstFormGroup : this._formBuilder.group({
+				nameCtrl: new FormControl('', [Validators.required])
+			}),
+			secondFormGroup : this._formBuilder.group({
+				file: new FormControl('', [Validators.required]),
+				imgSrc: new FormControl('', [Validators.required])
+			}),
+			thirdFormGroup : this._formBuilder.group({
+				locationCtrl: ['', Validators.required],
+				maxPlayerCtrl: ['', null]
+			}),
+			fourthFormGroup : this._formBuilder.group({
+				endDateCtrl: ['', Validators.required]
+			})
+		})
 	}
 
+	get second(){
+		return (this.formGroup.controls['secondFormGroup']as FormGroup).controls;
+	  }
+	
+	get first() {
+		return (this.formGroup.controls['firstFormGroup']as FormGroup).controls;
+	}
+
+	  onImageChange(e : any) {
+		const reader = new FileReader();
+		
+		if(e.target.files && e.target.files.length) {
+		  const [file] = e.target.files;
+		  reader.readAsDataURL(file);
+		
+		  reader.onload = () => {
+			this.imgFile = reader.result as string;
+			(this.formGroup.controls['secondFormGroup']as FormGroup).patchValue({
+			  imgSrc: reader.result
+			});
+	   
+		  };
+		}
+	  }
+	
+	onClickSubmit(form : any) {
+		console.log(form);
+	}
+
+	submit(stepper : MatStepper) {
+		if (!this.formGroup.controls['firstFormGroup'].valid) {
+			for (let i = 0; i < stepper.steps.length - 1; i++ ) {
+				stepper.previous();
+
+			}
+			return;
+		}
+		else if (!this.formGroup.controls['secondFormGroup'].valid) {
+			for (let i = 0; i < stepper.steps.length - 2; i++ ) {
+				stepper.previous();
+
+			}
+			return;
+		}
+		else if (!this.formGroup.controls['secondFormGroup'].valid) {
+			for (let i = 0; i < stepper.steps.length - 2; i++ ) {
+				stepper.previous();
+
+			}
+			return;
+		}
+		else if (!this.formGroup.controls['secondFormGroup'].valid) {
+			for (let i = 0; i < stepper.steps.length - 2; i++ ) {
+				stepper.previous();
+
+			}
+			return;
+		}
+		else {
+			var leagues = this.storage.getLeagues();
+			if (leagues === undefined) {
+				console.log("something went wrong, no league was saved on localstorage");
+				return;
+			}
+			else {
+				var id_ : string = "l" + leagues.length.toString();
+				var new_league : League = {id : id_,
+									  name : this.formGroup.controls['firstFormGroup'].value.nameCtrl,
+									  city : this.formGroup.controls['thirdFormGroup'].value.locationCtrl,
+									  max_players: this.formGroup.controls['thirdFormGroup'].value.maxPlayerCtrl,
+									  admin_id: this.storage.getSelectedUser().UID,
+									  picture_url: '/assets/images/users/1.jpg',
+									  active: true,
+									  end: new Date( this.formGroup.controls['fourthFormGroup'].value.end)}
+				
+				leagues.push(new_league);
+				this.storage.saveLeague(leagues);
+
+			}
+			
+		}
+
+
+	}
 }

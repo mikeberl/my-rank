@@ -2,62 +2,79 @@
     <mat-card-content>
         <mat-card-title>Create a new League</mat-card-title>
         <mat-card-subtitle>Fill this form to ask us to create you a league. We will contact you back!</mat-card-subtitle>
-        <mat-vertical-stepper [linear]="isLinear">
-            <mat-step [stepControl]="firstFormGroup">
-                <form [formGroup]="firstFormGroup">
-                    <ng-template matStepLabel>Fill out your name</ng-template>
-                    <mat-form-field>
-                        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-                    </mat-form-field>
-                    <div>
-                        <button mat-raised-button color="warn" matStepperNext>Next</button>
+        <mat-vertical-stepper [linear]="isLinear" #stepper id="stepper">
+            <form [formGroup]="formGroup" (ngSubmit)="onClickSubmit(formGroup.value)">
+                <mat-step [stepControl]="formGroup.controls['firstFormGroup']">
+                    <div [formGroup]="formGroup.controls['firstFormGroup']">
+                        <ng-template matStepLabel>Your League name</ng-template>
+                        <mat-form-field>
+                            <input matInput placeholder="League name" formControlName="nameCtrl" required>
+                        </mat-form-field>
+                        <div>
+                            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                            <button mat-raised-button color="warn" matStepperNext>Next</button>
+                        </div>
                     </div>
-                </form>
-            </mat-step>
-            <mat-step [stepControl]="secondFormGroup">
-                <form [formGroup]="secondFormGroup">
-                    <ng-template matStepLabel>Fill out your league name</ng-template>
-                    <mat-form-field>
-                        <input matInput placeholder="League name" formControlName="secondCtrl" required>
-                    </mat-form-field>
+                </mat-step>
+                <mat-step [stepControl]="formGroup.controls['secondFormGroup']">
+                    <div [formGroup]="formGroup.controls['secondFormGroup']">
+                        <ng-template matStepLabel>Your League name</ng-template>
+                        <div class="preview" *ngIf="imgFile">
+                            <img [src]="imgFile" style="width:200px; height:200px; border: 1px black">
+                        </div>                    
+                          <div class="form-group">
+                            <label for="file">File</label>
+                            <input type="file" class="form-control" id="file" formControlName="file" (change)="onImageChange($event)">
+                            <div *ngIf="second.file.touched && second.file.invalid" class="alert alert-danger">
+                              <div *ngIf="second.file.errors.required">Image file is required.</div>
+                            </div>
+                          </div> 
+                        <div>
+                            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                            <button mat-raised-button color="warn" matStepperNext>Next</button>
+                        </div>
+                    </div>
+                </mat-step>
+                <mat-step [stepControl]="formGroup.controls['thirdFormGroup']">
+                    <div [formGroup]="formGroup.controls['thirdFormGroup']">
+                        <ng-template matStepLabel>Other Informations</ng-template>
+                        <label> Location </label>
+                        <mat-form-field>
+                            <input matInput placeholder="Location" formControlName="locationCtrl" required>
+                        </mat-form-field>
+                        <label> Number of players of this league </label>
+                        <mat-form-field>
+                            <input matInput placeholder="MaxPlayer" formControlName="maxPlayerCtrl">
+                        </mat-form-field>
+                        <div>
+                            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                            <button mat-raised-button color="warn" matStepperNext>Next</button>
+                        </div>
+                    </div>
+                </mat-step>
+                <mat-step [stepControl]="formGroup.controls['fourthFormGroup']">
+                    <div [formGroup]="formGroup.controls['fourthFormGroup']">
+                        <ng-template matStepLabel>When should the league end</ng-template>
+    <!--                         <input matInput placeholder="Places" formControlName="fourthCtrl" required>
+     -->                        <label>End of the league</label>
+                                <input [matDatepicker] placeholder="" id="date" name="date" formControlName="endDateCtrl" required>
+                        <div>
+                            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                            <button mat-raised-button color="warn" matStepperNext>Next</button>
+                        </div>
+                    </div>
+                </mat-step>
+    
+                <mat-step>
+                    <ng-template matStepLabel>Done</ng-template>
+                    Thanks for the information. We will contact you back!
                     <div>
                         <button mat-raised-button color="accent" matStepperPrevious>Back</button>
-                        <button mat-raised-button color="warn" matStepperNext>Next</button>
+                        <button mat-raised-button color="warn" disabled *ngIf="first.nameCtrl.invalid">Submit</button>
+                        <button mat-raised-button color="primary" type="submit" class="submit" *ngIf="!first.nameCtrl.invalid" (click)="submit(stepper)">Submit</button>
                     </div>
-                </form>
-            </mat-step>
-            <mat-step [stepControl]="thirdFormGroup">
-                <form [formGroup]="thirdFormGroup">
-                    <ng-template matStepLabel>Where do your league take place</ng-template>
-                    <mat-form-field>
-                        <input matInput placeholder="Location" formControlName="thirdCtrl" required>
-                    </mat-form-field>
-                    <div>
-                        <button mat-raised-button color="accent" matStepperPrevious>Back</button>
-                        <button mat-raised-button color="warn" matStepperNext>Next</button>
-                    </div>
-                </form>
-            </mat-step>
-            <mat-step [stepControl]="fourthFormGroup">
-                <form [formGroup]="fourthFormGroup">
-                    <ng-template matStepLabel>How many places do you need</ng-template>
-                    <mat-form-field>
-                        <input matInput placeholder="Places" formControlName="fourthCtrl" required>
-                    </mat-form-field>
-                    <div>
-                        <button mat-raised-button color="accent" matStepperPrevious>Back</button>
-                        <button mat-raised-button color="warn" matStepperNext>Next</button>
-                    </div>
-                </form>
-            </mat-step>
-
-            <mat-step>
-                <ng-template matStepLabel>Done</ng-template>
-                Thanks for the information. We will contact you back!
-                <div>
-                    <button mat-raised-button color="accent" matStepperPrevious>Back</button>
-                </div>
-            </mat-step>
+                </mat-step>
+            </form>   
         </mat-vertical-stepper>
     </mat-card-content>
 </mat-card>    

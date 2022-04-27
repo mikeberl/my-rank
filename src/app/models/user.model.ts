@@ -5,12 +5,11 @@ export interface User {
     fullname: string;
     username: string; 
     profile_pic: string;
-    is_admin: boolean;
     joined_leagues : string[];
 }
 
 const USER = [
-    {UID: 1, fullname: "Michele Berlanda", username: "Smikeball", profile_pic: "", is_admin: true, joined_leagues: ['l1', 'l2']}
+    {UID: 1, fullname: "Michele Berlanda", username: "Smikeball", profile_pic: "", joined_leagues: ['l1', 'l2']}
 ]
 
 @Injectable()

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LeagueItems } from 'src/app/models/league.model';
 import { Users } from 'src/app/models/user.model';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-all-leagues',
@@ -10,7 +11,7 @@ import { Users } from 'src/app/models/user.model';
 })
 export class AllLeaguesComponent implements OnInit {
 
-  constructor(public leagueItems : LeagueItems,
+  constructor(public storage : StorageService,
               public snackBar: MatSnackBar,
               public userService : Users) {}
 
@@ -24,7 +25,7 @@ export class AllLeaguesComponent implements OnInit {
   }
 
   isJoinable(league : string) {
-    var user = this.userService.getMain();
+    var user = this.storage.getSelectedUser();
     if (user.joined_leagues.indexOf(league) === -1) {
       return true;
     }
