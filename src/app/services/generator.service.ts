@@ -16,14 +16,14 @@ const USER = [
   {UID: 1, fullname: "Michele Berlanda", username: "Smikeball", profile_pic: "", joined_leagues: ['l1', 'l2']}
 ]
 
-const RANKEDPLAYERS = [
+/* const RANKEDPLAYERS = [
   { id: 'p1', UID: 1, fullname: 'Michele Berlanda', points: 0, picture_url: '/assets/images/users/1.jpg', matches: [], active: true},
   { id: 'p2', UID: 2, fullname: 'Piero Magi', points: 0, picture_url: '/assets/images/users/2.jpg', matches: [], active: true},
   { id: 'p3', UID: 3, fullname: 'Luca Arsev', points: 0, picture_url: '/assets/images/users/3.jpg', matches: [], active: true},
   { id: 'p4', UID: 4, fullname: 'Lucia Dandolomea', points: 0, picture_url: '/assets/images/users/4.jpg', matches: [], active: true},
   { id: 'p5', UID: 1, fullname: 'Asah Moah', points: 0, picture_url: '/assets/images/users/5.jpg', matches: [], active: true},
   { id: 'p99', UID: 9, fullname: 'ERROR', points: 0, picture_url: '/assets/images/users/6.jpg', matches: [], active: false}   
-]
+] */
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,7 @@ export class GeneratorService {
 
   generationDone : boolean = false;
 
-  constructor(private playerService : PlayerService) {   }
+  constructor() {   }
 
   getLeagueitem(): League[] {
     return LEAGUEITEMS;
@@ -53,14 +53,14 @@ export class GeneratorService {
 
   generate() {
     console.log("Generating testing data");
-    if (this.generationDone === true) {
-      console.log("you are searching for unexisting data but data hes been generated");
+    if (localStorage.getItem(this.users_prefix) != null) {
+      console.log("TO BE FIXED: Dummy block for avoing data generation");
     }
     else {
       for(let user of this.users_) {
         for(let league of user.joined_leagues) {
           var players_string = localStorage.getItem(this.players_prefix + league);
-          var new_player = this.playerService.newPlayer(league, user.UID);
+          var new_player = this.newPlayer(league, user, players_string);
           var players : RankedPlayer[] = [];
           if (players_string === null) {  
             players.push(new_player);          
@@ -72,7 +72,37 @@ export class GeneratorService {
           localStorage.setItem(this.players_prefix + league, JSON.stringify(players));
         }
       }
+      localStorage.setItem(this.leagues_prefix, JSON.stringify(this.leagues_));
+      localStorage.setItem(this.users_prefix, JSON.stringify(this.users_));
       this.generationDone = true;
+    }
+  }
+
+  newPlayer(league : string, user : User, players_string : string | null) {
+    if (players_string === null) {
+      var player : RankedPlayer = {
+        id : 'p1',
+        UID : user.UID,
+        fullname : user.fullname,
+        points : 0,
+        picture_url : '/assets/images/users/1.jpg', 
+        matches: [], 
+        active: true};
+      return player;  
+    }
+    else {
+      var players : RankedPlayer[]= JSON.parse(players_string);
+      var player : RankedPlayer = {
+        id : 'p' + players.length.toString(),
+        UID : user.UID,
+        fullname : user.fullname,
+        points : 0,
+        picture_url : '/assets/images/users/1.jpg', 
+        matches: [],
+        active: true};
+      players.push(player);
+
+      return player;    
     }
   }
 

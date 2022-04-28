@@ -32,7 +32,7 @@ export class PlayerService {
     } 
   }
 
-  createTestingData() {
+  /* createTestingData() {
     var main_user = this.storage.getSelectedUser();
     for(let league of main_user.joined_leagues) {
       var check_for_testing = this.storage.getPlayersByLeague(league);
@@ -40,7 +40,7 @@ export class PlayerService {
         this.storage.savePlayer(league, RANKEDPLAYERS);
       }
     } 
-  }
+  } */
 
   addMatch(match : Match) {
     console.log("Starting to add a match to every player");
@@ -101,7 +101,7 @@ export class PlayerService {
     var tmp = this.storage.getPlayersByLeague(league);
     if (tmp === null) {
       console.log("ERROR: No player found! getRankedPlayersByLeague");
-      this.createTestingData();
+      //this.createTestingData();
     }
     else {
       this.all_players = JSON.parse(tmp);

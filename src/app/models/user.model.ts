@@ -1,4 +1,3 @@
-import { Injectable } from "@angular/core";
 
 export interface User {
     UID: number;
@@ -8,9 +7,7 @@ export interface User {
     joined_leagues : string[];
 }
 
-const USER = [
-    {UID: 1, fullname: "Michele Berlanda", username: "Smikeball", profile_pic: "", joined_leagues: ['l1', 'l2']}
-]
+
 
 /* @Injectable()
 export class UserService {

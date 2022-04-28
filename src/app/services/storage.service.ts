@@ -33,12 +33,14 @@ export class StorageService {
       localStorage.setItem(this.leagues_, JSON.stringify(leagueService.getLeagueitem()));
     }
 
+    leagueService.generate();
    }
 
   getUsers() : User[] {
     var users_string = localStorage.getItem(this.users_);
     if (users_string === null) {
-      localStorage.setItem(this.users_, JSON.stringify(this.userService.getUsers()));
+      //localStorage.setItem(this.users_, JSON.stringify(this.userService.getUsers()));
+      this.leagueService.generate();
       return this.userService.getUsers();
     }
     else {
@@ -51,7 +53,8 @@ export class StorageService {
   getSelectedUser() : User {
     var users_string = localStorage.getItem(this.users_);
     if (users_string === null) {
-      localStorage.setItem(this.users_, JSON.stringify(this.userService.getUsers()));
+      //localStorage.setItem(this.users_, JSON.stringify(this.userService.getUsers()));
+      this.leagueService.generate();
       return this.userService.getUsers()[0];
     }
     else {
@@ -63,7 +66,8 @@ export class StorageService {
   getLeagues() : League[] {
     var leagues_string = localStorage.getItem(this.leagues_);
     if (leagues_string === null) {
-      localStorage.setItem(this.leagues_, JSON.stringify(this.leagueService.getLeagueitem()));
+      this.leagueService.generate();
+      //localStorage.setItem(this.leagues_, JSON.stringify(this.leagueService.getLeagueitem()));
       return this.leagueService.getLeagueitem();
     }
     else {
@@ -85,17 +89,19 @@ export class StorageService {
       return leagues[0];
     }
     else {
-      localStorage.setItem(this.leagues_, JSON.stringify(this.leagueService.getLeagueitem()));
+      this.leagueService.generate();
+      //localStorage.setItem(this.leagues_, JSON.stringify(this.leagueService.getLeagueitem()));
       return this.leagueService.getLeagueitem()[0];
 
     }
     
   }
 
-  getLeaguesByUser(user : User) {
+  getLeaguesByUser(user : User) : League[] {
     var leagues_string = localStorage.getItem(this.leagues_);
     if (leagues_string === null) {
-      localStorage.setItem(this.leagues_, JSON.stringify(this.leagueService.getLeagueitem()));
+      this.leagueService.generate();
+      //localStorage.setItem(this.leagues_, JSON.stringify(this.leagueService.getLeagueitem()));
       return this.leagueService.getLeagueitem();
     }
     else {
