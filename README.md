@@ -29,10 +29,10 @@ prima di poter testare active bisogna per forza far coincidere i dati
 
 # form e creazione di oggetti
 
->player -> indiretta quando ci si registra ad una lega
->match -> si ma senza check e senza doppi punti, da creare un sistema per errori di compilazione/di regolamento
->lega -> si ma con info base, non personalizzabile / da rivedere informazioni necessarie 
->report -> dovrebbe funzionare , viene visualizzato male e bisogna rivedere il formato data
+> player -> indiretta quando ci si registra ad una lega
+> match -> si ma senza check e senza doppi punti, da creare un sistema per errori di compilazione/di regolamento
+> lega -> si ma con info base, non personalizzabile / da rivedere informazioni necessarie 
+> report -> dovrebbe funzionare , viene visualizzato male e bisogna rivedere il formato data
 > user -> TODO
 
 

@@ -24,16 +24,3 @@ export interface MatchNoId {
   date: string; //TODO
   was_reported: boolean;
 }
-
-
-const MATCHITEMS = [
-    {id : 0o1, player_id : 'p1', league_id : 'l1', winners: [], losers: [], points: 15, date : '01-01-2001', was_reported: true}
-
-
-  ]
-
-/*     export class MatchItems {
-  getResultitem(): Match[] {
-    return MATCHITEMS;
-  }
-} */

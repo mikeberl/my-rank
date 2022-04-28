@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { League, LeagueItems } from '../models/league.model';
+import { League } from '../models/league.model';
 import { Match } from '../models/match.model';
 import { RankedPlayer } from '../models/ranked-player.model';
 import { ReportMessage } from '../models/report-message.model';
 import { User } from '../models/user.model';
 import { UserService } from './user.service';
 import { PlayerService } from './player.service';
+import { GeneratorService } from './generator.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,8 @@ export class StorageService {
   leagues_ : string = "LEAGUES_";
   users_ : string = "USERS_";
 
-  constructor(private leagueService : LeagueItems,
-              private userService : UserService,
+  constructor(private userService : UserService,
+              private leagueService : GeneratorService
               //private playerService : PlayerService
               ) {
     var leagues = localStorage.getItem(this.leagues_);

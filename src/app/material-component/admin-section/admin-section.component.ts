@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { League, LeagueItems } from 'src/app/models/league.model';
+import { League } from 'src/app/models/league.model';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { LeagueService } from 'src/app/services/league.service';
 
 @Component({
   selector: 'app-admin-section',
@@ -17,8 +18,7 @@ export class AdminSectionComponent implements OnInit {
   not_admin = false;
   managed_leagues : League[] = [];
 
-  constructor(private storage : StorageService,
-              private leagueService : LeagueItems) { 
+  constructor(private storage : StorageService) { 
     this.user = this.storage.getSelectedUser();
 
     
@@ -27,7 +27,7 @@ export class AdminSectionComponent implements OnInit {
 
   ngOnInit(): void {
 
-    var leagues = this.leagueService.getLeagueitem();
+    var leagues = this.storage.getLeagues();
     var check = true;
     for (let league of leagues) {
       if (league.admin_id === this.user.UID)  {

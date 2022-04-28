@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { League, LeagueItems } from 'src/app/models/league.model';
+import { League } from 'src/app/models/league.model';
 import { User } from 'src/app/models/user.model';
 import { StorageService } from 'src/app/services/storage.service';
 

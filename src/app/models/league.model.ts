@@ -20,19 +20,7 @@ const LEAGUEITEMS = [
 
 ]
 
-@Injectable()
+/* @Injectable()
 export class LeagueItems {
-  getLeagueitem(): League[] {
-    return LEAGUEITEMS;
-  }
-
-  getLeagueById(id: string) : League {
-    for (let league of LEAGUEITEMS) {
-      if (league.id === id) {
-        return league;
-      }
-    }
-    console.log("ERROR NO LEAGUE FOUND IN getLeagueById");
-    return LEAGUEITEMS[0];
-  }
-}
+ 
+} */

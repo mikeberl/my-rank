@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { LeagueItems } from 'src/app/models/league.model';
 import { UserService } from 'src/app/services/user.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { LeagueService } from 'src/app/services/league.service';

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { LeagueItems } from '../models/league.model';
 import { Match, MatchNoId } from '../models/match.model';
 import { PlayerService } from './player.service';
 import { StorageService } from './storage.service';
