@@ -164,6 +164,7 @@ getSortedPlayersByLeague(league : string) : RankedPlayer[] {
         picture_url : '/assets/images/users/1.jpg', 
         matches: []};
       players.push(player);
+      
       return player;    
     }
   }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { User } from '../models/user.model';
 import { PlayerService } from './player.service';
 import { StorageService } from './storage.service';
 
@@ -8,12 +9,23 @@ import { StorageService } from './storage.service';
 export class LeagueService {
 
   constructor(private playerService : PlayerService,
-              private storage : StorageService) { }
+              private storage : StorageService) 
+  { }
 
 
+  checkIfPlayerIsInactive(users : User[]) : boolean {
+
+  }
 
   joinLeague(league : string, user : number) {
+
+    var users = this.storage.getUsers();
+
+    if (this.checkIfPlayerIsInactive(users)) {
+
+    }
     var player = this.playerService.newPlayer(league, user);
+
     var users = this.storage.getUsers();
     var index = users.findIndex(function(x, index) {
       if(x.UID == user)

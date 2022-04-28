@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { LeagueService } from 'src/app/services/league.service';
 import { User } from 'src/app/models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-leagues',
@@ -18,7 +19,8 @@ export class AllLeaguesComponent implements OnInit {
   constructor(public storage : StorageService,
               public snackBar: MatSnackBar,
               public userService : UserService,
-              public leagueService : LeagueService) {
+              public leagueService : LeagueService,
+              private router: Router) {
       
     this.selected_user = storage.getSelectedUser();
               }
@@ -54,6 +56,8 @@ export class AllLeaguesComponent implements OnInit {
     this.snackBar.open("You joined the league!", "OK", {
       duration: 2000,
     });
+    this.router.navigate(['/league/' + league]);
+
   }
 
   

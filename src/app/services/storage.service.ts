@@ -34,7 +34,7 @@ export class StorageService {
 
    }
 
-  getUsers() {
+  getUsers() : User[] {
     var users_string = localStorage.getItem(this.users_);
     if (users_string === null) {
       localStorage.setItem(this.users_, JSON.stringify(this.userService.getUsers()));
@@ -46,7 +46,7 @@ export class StorageService {
     }
   }
 
-  getSelectedUser() {
+  getSelectedUser() : User {
     var users_string = localStorage.getItem(this.users_);
     if (users_string === null) {
       localStorage.setItem(this.users_, JSON.stringify(this.userService.getUsers()));
@@ -58,7 +58,7 @@ export class StorageService {
     }
   }
 
-  getLeagues() {
+  getLeagues() : League[] {
     var leagues_string = localStorage.getItem(this.leagues_);
     if (leagues_string === null) {
       localStorage.setItem(this.leagues_, JSON.stringify(this.leagueService.getLeagueitem()));
@@ -90,17 +90,17 @@ export class StorageService {
     
   }
 
-  getReportByLeague(league : string) {
+  getReportByLeague(league : string) : string | null {
     var tmp_report = localStorage.getItem(this.report_ + league);
     return tmp_report;
   }
 
-  getMatchesByLeague(league : string) {
+  getMatchesByLeague(league : string) : string | null {
     var tmp_report = localStorage.getItem(this.matches_ + league);
     return tmp_report;
   }
 
-  getPlayersByLeague(league : string) {
+  getPlayersByLeague(league : string) : string | null {
     var tmp_report = localStorage.getItem(this.players_ + league);
     return tmp_report;
   }
