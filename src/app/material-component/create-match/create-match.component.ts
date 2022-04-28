@@ -4,7 +4,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RankedPlayer, RankedPlayers } from 'src/app/models/ranked-player.model';
 import { Match, MatchItems, MatchNoId } from 'src/app/models/match.model';
-import { User, Users } from 'src/app/models/user.model';
+import { User } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 import { MatchService } from 'src/app/services/match.service';
 import { PlayerService } from 'src/app/services/player.service';
@@ -29,7 +30,7 @@ export class CreateMatchComponent {
   constructor(/* private navbarService : NavbarServiceService, */
               private router: Router,
               private route: ActivatedRoute,
-              private userService : Users,
+              private userService : UserService,
               private playerService : PlayerService,
               private matchService : MatchService) {
                 this.user = userService.getUsers()[0];

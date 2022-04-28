@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { League, LeagueItems } from 'src/app/models/league.model';
-import { User, Users } from 'src/app/models/user.model';
+import { User } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user.service';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Component({

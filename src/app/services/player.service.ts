@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Match } from '../models/match.model';
 import { RankedPlayer, RankedPlayers } from '../models/ranked-player.model';
-import { Users } from '../models/user.model';
+import { UserService } from './user.service';
 import { StorageService } from './storage.service';
 
 const RANKEDPLAYERS = [
@@ -22,7 +22,7 @@ export class PlayerService {
 
   constructor(private playerModel : RankedPlayers,
           private storage : StorageService,
-          private userService : Users) {
+          private userService : UserService) {
     //creating some players for testing
     var main_user = this.storage.getSelectedUser();
     for(let league of main_user.joined_leagues) {

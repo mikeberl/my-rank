@@ -4,7 +4,7 @@ import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import { MatStepper } from '@angular/material/stepper';
 import { League, LeagueItems } from 'src/app/models/league.model';
 import { StorageService } from 'src/app/services/storage.service';
-import { Users } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class CreateNewLeagueComponent implements OnInit {
 
 	constructor(private _formBuilder: FormBuilder,
 				private storage: StorageService,
-				private userService: Users) {}
+				private userService: UserService) {}
 
 	ngOnInit() {
 		this.formGroup = this._formBuilder.group({

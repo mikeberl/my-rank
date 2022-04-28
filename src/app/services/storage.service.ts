@@ -3,7 +3,8 @@ import { League, LeagueItems } from '../models/league.model';
 import { Match } from '../models/match.model';
 import { RankedPlayer, RankedPlayers } from '../models/ranked-player.model';
 import { ReportMessage } from '../models/report-message.model';
-import { User, Users } from '../models/user.model';
+import { User } from '../models/user.model';
+import { UserService } from './user.service';
 import { PlayerService } from './player.service';
 
 @Injectable({
@@ -18,8 +19,9 @@ export class StorageService {
   users_ : string = "USERS_";
 
   constructor(private leagueService : LeagueItems,
-              private userService : Users,
-              private playerService : PlayerService) {
+              private userService : UserService,
+              //private playerService : PlayerService
+              ) {
     var leagues = localStorage.getItem(this.leagues_);
     if (leagues === null) {
       localStorage.setItem(this.leagues_, JSON.stringify(leagueService.getLeagueitem()));
@@ -48,7 +50,7 @@ export class StorageService {
     var users_string = localStorage.getItem(this.users_);
     if (users_string === null) {
       localStorage.setItem(this.users_, JSON.stringify(this.userService.getUsers()));
-      return this.userService.getMain();
+      return this.userService.getUsers()[0];
     }
     else {
       var users : User[] = JSON.parse(users_string);
@@ -119,18 +121,7 @@ export class StorageService {
     localStorage.setItem(this.leagues_, JSON.stringify(leagues));
   }
 
-  joinLeague(league : string, user : number) {
-    var player = this.playerService.newPlayer(league, user);
-    var users_string = localStorage.getItem(this.users_);
-    if (users_string === null) {
-      localStorage.setItem(this.users_, JSON.stringify(this.userService.getUsers()));
-      return
-    }
-    else {
-      var users : User[] = JSON.parse(users_string);
-      users[0].joined_leagues.push(league);
-      return
-    }
-
+  saveUser(users : User[]) {
+    localStorage.setItem(this.users_, JSON.stringify(users));
   }
 }

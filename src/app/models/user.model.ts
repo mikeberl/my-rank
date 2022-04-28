@@ -12,8 +12,8 @@ const USER = [
     {UID: 1, fullname: "Michele Berlanda", username: "Smikeball", profile_pic: "", joined_leagues: ['l1', 'l2']}
 ]
 
-@Injectable()
-export class Users {
+/* @Injectable()
+export class UserService {
   getUsers(): User[] {
     return USER;
   }
@@ -21,4 +21,4 @@ export class Users {
   getMain() : User {
     return USER[0]; 
   }
-}
+} */

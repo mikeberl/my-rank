@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LeagueItems } from 'src/app/models/league.model';
-import { Users } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { LeagueService } from 'src/app/services/league.service';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-all-leagues',
@@ -11,9 +13,15 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 export class AllLeaguesComponent implements OnInit {
 
+  selected_user : User;
+
   constructor(public storage : StorageService,
               public snackBar: MatSnackBar,
-              public userService : Users) {}
+              public userService : UserService,
+              public leagueService : LeagueService) {
+      
+    this.selected_user = storage.getSelectedUser();
+              }
 
   ngOnInit(): void {
   }
@@ -35,7 +43,15 @@ export class AllLeaguesComponent implements OnInit {
   }
 
   leaveLeague(league : string) {
-    this.snackBar.open("YOU STILL NEED TO IMPLEMENT THIS!", "OK", {
+    this.leagueService.leaveLeague(league, this.selected_user.UID);
+    this.snackBar.open("You leaved the league!", "OK", {
+      duration: 2000,
+    });
+  }
+
+  joinLeague(league : string) {
+    this.leagueService.joinLeague(league, this.selected_user.UID);
+    this.snackBar.open("You joined the league!", "OK", {
       duration: 2000,
     });
   }
