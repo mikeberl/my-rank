@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Match } from 'src/app/models/match.model';
-import { RankedPlayer, RankedPlayers } from 'src/app/models/ranked-player.model';
+import { RankedPlayer } from 'src/app/models/ranked-player.model';
 import { MatchDay, MatchService } from 'src/app/services/match.service';
 import { PlayerService } from 'src/app/services/player.service';
 import { DialogOverviewExampleDialogComponent } from '../dialog/dialog.component';

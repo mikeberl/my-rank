@@ -13,17 +13,17 @@ export class LeagueService {
   { }
 
 
-  checkIfPlayerIsInactive(users : User[]) : boolean {
+  /* checkIfPlayerIsInactive(users : User[]) : boolean {
 
-  }
+  } */
 
   joinLeague(league : string, user : number) {
 
     var users = this.storage.getUsers();
 
-    if (this.checkIfPlayerIsInactive(users)) {
+    /* if (this.checkIfPlayerIsInactive(users)) {
 
-    }
+    } */
     var player = this.playerService.newPlayer(league, user);
 
     var users = this.storage.getUsers();

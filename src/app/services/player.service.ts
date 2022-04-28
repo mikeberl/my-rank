@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Match } from '../models/match.model';
-import { RankedPlayer, RankedPlayers } from '../models/ranked-player.model';
+import { RankedPlayer } from '../models/ranked-player.model';
 import { UserService } from './user.service';
 import { StorageService } from './storage.service';
 
 const RANKEDPLAYERS = [
-  { id: 'p1', UID: 1, fullname: 'Michele Berlanda', points: 0, picture_url: '/assets/images/users/1.jpg', matches: []},
-  { id: 'p2', UID: 2, fullname: 'Piero Magi', points: 0, picture_url: '/assets/images/users/2.jpg', matches: []},
-  { id: 'p3', UID: 3, fullname: 'Luca Arsev', points: 0, picture_url: '/assets/images/users/3.jpg', matches: []},
-  { id: 'p4', UID: 4, fullname: 'Lucia Dandolomea', points: 0, picture_url: '/assets/images/users/4.jpg', matches: []},
-  { id: 'p5', UID: 1, fullname: 'Asah Moah', points: 0, picture_url: '/assets/images/users/5.jpg', matches: []},
-  { id: 'p99', UID: 9, fullname: 'ERROR', points: 0, picture_url: '/assets/images/users/6.jpg', matches: []}   
+  { id: 'p1', UID: 1, fullname: 'Michele Berlanda', points: 0, picture_url: '/assets/images/users/1.jpg', matches: [], active: true},
+  { id: 'p2', UID: 2, fullname: 'Piero Magi', points: 0, picture_url: '/assets/images/users/2.jpg', matches: [], active: true},
+  { id: 'p3', UID: 3, fullname: 'Luca Arsev', points: 0, picture_url: '/assets/images/users/3.jpg', matches: [], active: true},
+  { id: 'p4', UID: 4, fullname: 'Lucia Dandolomea', points: 0, picture_url: '/assets/images/users/4.jpg', matches: [], active: true},
+  { id: 'p5', UID: 1, fullname: 'Asah Moah', points: 0, picture_url: '/assets/images/users/5.jpg', matches: [], active: true},
+  { id: 'p99', UID: 9, fullname: 'ERROR', points: 0, picture_url: '/assets/images/users/6.jpg', matches: [], active: false}   
 ]
 
 @Injectable({
@@ -20,8 +20,7 @@ export class PlayerService {
 
   all_players : RankedPlayer[] = [];
 
-  constructor(private playerModel : RankedPlayers,
-          private storage : StorageService,
+  constructor(private storage : StorageService,
           private userService : UserService) {
     //creating some players for testing
     var main_user = this.storage.getSelectedUser();
@@ -119,6 +118,10 @@ export class PlayerService {
     return players;
 }
 
+getPlayers(): RankedPlayer[] {
+  return RANKEDPLAYERS;
+}
+
 getPlayerByUserAndLeague(UID : number, league : string)  {
   var tmp : RankedPlayer = RANKEDPLAYERS[6];
   for (let player of RANKEDPLAYERS) {
@@ -151,7 +154,8 @@ getSortedPlayersByLeague(league : string) : RankedPlayer[] {
         fullname : this.storage.getSelectedUser().fullname,
         points : 0,
         picture_url : '/assets/images/users/1.jpg', 
-        matches: []};
+        matches: [], 
+        active: true};
       return player;  
     }
     else {
@@ -162,9 +166,10 @@ getSortedPlayersByLeague(league : string) : RankedPlayer[] {
         fullname : this.storage.getSelectedUser().fullname,
         points : 0,
         picture_url : '/assets/images/users/1.jpg', 
-        matches: []};
+        matches: [],
+        active: true};
       players.push(player);
-      
+
       return player;    
     }
   }

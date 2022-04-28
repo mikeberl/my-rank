@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { League, LeagueItems } from '../models/league.model';
 import { Match } from '../models/match.model';
-import { RankedPlayer, RankedPlayers } from '../models/ranked-player.model';
+import { RankedPlayer } from '../models/ranked-player.model';
 import { ReportMessage } from '../models/report-message.model';
 import { User } from '../models/user.model';
 import { UserService } from './user.service';
@@ -46,6 +46,7 @@ export class StorageService {
     }
   }
 
+
   getSelectedUser() : User {
     var users_string = localStorage.getItem(this.users_);
     if (users_string === null) {
@@ -88,6 +89,25 @@ export class StorageService {
 
     }
     
+  }
+
+  getLeaguesByUser(user : User) {
+    var leagues_string = localStorage.getItem(this.leagues_);
+    if (leagues_string === null) {
+      localStorage.setItem(this.leagues_, JSON.stringify(this.leagueService.getLeagueitem()));
+      return this.leagueService.getLeagueitem();
+    }
+    else {
+      var leagues : League[] = JSON.parse(leagues_string);
+      var joined_leagues : League[] = [];
+      for (let league of user.joined_leagues) {
+        var index = leagues.findIndex(function(x, index) {
+          if(x.id == league)
+            joined_leagues.push(x);
+        });
+      }
+      return joined_leagues;
+    }
   }
 
   getReportByLeague(league : string) : string | null {

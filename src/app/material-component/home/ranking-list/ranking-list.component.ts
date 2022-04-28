@@ -13,7 +13,8 @@ export class RankingListComponent implements OnInit {
   leagueData : League[];
 
   constructor(public storage : StorageService) {
-    this.leagueData = storage.getLeagues();
+    var user = storage.getSelectedUser();
+    this.leagueData = storage.getLeaguesByUser(user);
    }
 
   ngOnInit(): void {

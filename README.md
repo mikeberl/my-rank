@@ -23,3 +23,19 @@ Check Player Exists but is Inactive -> Attivalo
 Check Player Don't exists -> Create & add to league player list 
 
 User -> add league to joined league
+
+prima di poter testare active bisogna per forza far coincidere i dati
+--> creare interfaccia di registrazione
+
+# form e creazione di oggetti
+
+>player -> indiretta quando ci si registra ad una lega
+>match -> si ma senza check e senza doppi punti, da creare un sistema per errori di compilazione/di regolamento
+>lega -> si ma con info base, non personalizzabile / da rivedere informazioni necessarie 
+>report -> dovrebbe funzionare , viene visualizzato male e bisogna rivedere il formato data
+> user -> TODO
+
+
+
+# ERRORS
+rankedplayers model ha un get -> tutto sul service - SOLVED

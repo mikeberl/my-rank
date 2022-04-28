@@ -32,8 +32,8 @@ const MATCHITEMS = [
 
   ]
 
-    export class MatchItems {
+/*     export class MatchItems {
   getResultitem(): Match[] {
     return MATCHITEMS;
   }
-}
+} */
