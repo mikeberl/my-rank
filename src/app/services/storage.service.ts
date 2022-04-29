@@ -132,16 +132,61 @@ export class StorageService {
     return tmp_report;
   }
 
+  getActivePlayersByLeague(league : string) {
+    var players_string = localStorage.getItem(this.players_ + league);
+    var active_players : RankedPlayer[] = [];
+
+    if (players_string === null) {
+      console.log("you should never come here");
+      return active_players;
+    }
+    else {
+      var players = JSON.parse(players_string);
+      
+      for (let player of players) {
+        if (player.active === true) {
+          active_players.push(player);
+        }
+      }
+      return active_players;
+    }
+  }
+
+  getSpecificPlayerOfUser(league : string, user : User) {
+    var players_string = localStorage.getItem(this.players_ + league);
+    if (players_string === null) {
+      this.leagueService.generate();
+    }
+    else 
+    {
+      var players : RankedPlayer[] = JSON.parse(players_string);
+      var index = players.findIndex(function(x, index) {
+        if(x.UID == user.UID)
+          return true;
+      });
+      if (index === -1) {
+        console.log("NO sense error! Selected user is not part of users list.");
+        return;
+      }
+      else {
+        //return players[index];
+        return index;
+      }
+
+    }
+    
+  }
+
   saveReport(league : string, reports : ReportMessage[]) {
     localStorage.setItem(this.report_ + league, JSON.stringify(reports));
   }
 
-  saveMatch(league : string, reports : Match[]) {
-    localStorage.setItem(this.matches_ + league, JSON.stringify(reports));
+  saveMatch(league : string, matches : Match[]) {
+    localStorage.setItem(this.matches_ + league, JSON.stringify(matches));
   }
 
-  savePlayer(league : string, reports : RankedPlayer[]) {
-    localStorage.setItem(this.players_ + league, JSON.stringify(reports));
+  savePlayer(league : string, players : RankedPlayer[]) {
+    localStorage.setItem(this.players_ + league, JSON.stringify(players));
   }
 
   saveLeague(leagues : League[]) {

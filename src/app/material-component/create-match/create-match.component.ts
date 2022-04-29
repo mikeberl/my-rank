@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 import { MatchService } from 'src/app/services/match.service';
 import { PlayerService } from 'src/app/services/player.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-create-match',
@@ -32,7 +33,8 @@ export class CreateMatchComponent {
               private route: ActivatedRoute,
               private userService : UserService,
               private playerService : PlayerService,
-              private matchService : MatchService) {
+              private matchService : MatchService,
+              private storage : StorageService) {
                 this.user = userService.getUsers()[0];
   }
 
@@ -42,7 +44,7 @@ export class CreateMatchComponent {
     this.route.params.subscribe(params => {
       console.log(params['id']) //log the value of id
       this.league_id = params['id'];
-      this.arr_player = this.playerService.getRankedPlayersByLeague(this.league_id);
+      this.arr_player = this.storage.getActivePlayersByLeague(this.league_id);
       console.log(this.arr_player);
     });
   }

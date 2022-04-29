@@ -9,15 +9,24 @@ const LEAGUEITEMS = [
   {id : 'l2', name: 'Roundnet Padova', city: 'Padova', max_players : 120, admin_id : 2, picture_url: '/assets/images/users/2.jpg', active: true, end: new Date('22/04/2025')},
   {id : 'l3', name: 'Roundnet Graz', city: 'Graz', max_players : 30, admin_id : 1, picture_url: '/assets/images/users/3.jpg', active: true, end: new Date('22/04/2025')},
   {id : 'l4', name: 'Roundnet Monaco', city: 'Monaco', max_players : 10, admin_id : 3, picture_url: '/assets/images/users/4.jpg', active: true, end: new Date('22/04/2025')},
-  {id : 'l5', name: 'Roundnet Milano', city: 'Milano', max_players : 20, admin_id : 5, picture_url: '/assets/images/users/5.jpg', active: false, end: new Date('22/04/2025')},  
+  {id : 'l5', name: 'Roundnet Milano', city: 'Milano', max_players : 20, admin_id : 4, picture_url: '/assets/images/users/5.jpg', active: false, end: new Date('22/04/2025')},  
 ]
 
 const USER = [
-  {UID: 1, fullname: "Michele Berlanda", username: "Smikeball", profile_pic: "", joined_leagues: ['l1', 'l2']}
+  {UID: 1, fullname: "Michele Berlanda", username: "Smikeball", profile_pic: '/assets/images/users/1.jpg', joined_leagues: ['l1', 'l2']},
+  {UID: 2, fullname: "Piero Magi", username: "Pier", profile_pic: '/assets/images/users/2.jpg', joined_leagues: ['l1', 'l2', 'l4']},
+  {UID: 3, fullname: "Maria Antonietta", username: "Trodena", profile_pic: '/assets/images/users/3.jpg', joined_leagues: ['l2']},
+  {UID: 4, fullname: "Marco Brown", username: "Sniper", profile_pic: '/assets/images/users/d1.jpg', joined_leagues: ['l3', 'l2']}
 ]
 
-/* 
- */
+/* const RANKEDPLAYERS = [
+  { id: 'p1', UID: 1, fullname: 'Michele Berlanda', points: 0, picture_url: '/assets/images/users/1.jpg', matches: [], active: true},
+  { id: 'p2', UID: 2, fullname: 'Piero Magi', points: 0, picture_url: '/assets/images/users/2.jpg', matches: [], active: true},
+  { id: 'p3', UID: 3, fullname: 'Luca Arsev', points: 0, picture_url: '/assets/images/users/3.jpg', matches: [], active: true},
+  { id: 'p4', UID: 4, fullname: 'Lucia Dandolomea', points: 0, picture_url: '/assets/images/users/4.jpg', matches: [], active: true},
+  { id: 'p5', UID: 1, fullname: 'Asah Moah', points: 0, picture_url: '/assets/images/users/5.jpg', matches: [], active: true},
+  { id: 'p99', UID: 9, fullname: 'ERROR', points: 0, picture_url: '/assets/images/users/6.jpg', matches: [], active: false}   
+] */
 
 @Injectable({
   providedIn: 'root'
@@ -75,11 +84,11 @@ export class GeneratorService {
   newPlayer(league : string, user : User, players_string : string | null) {
     if (players_string === null) {
       var player : RankedPlayer = {
-        id : 'p1',
+        id : 'p0',
         UID : user.UID,
         fullname : user.fullname,
         points : 0,
-        picture_url : '/assets/images/users/1.jpg', 
+        picture_url : user.profile_pic, 
         matches: [], 
         active: true};
       return player;  
@@ -91,7 +100,7 @@ export class GeneratorService {
         UID : user.UID,
         fullname : user.fullname,
         points : 0,
-        picture_url : '/assets/images/users/1.jpg', 
+        picture_url : user.profile_pic,  
         matches: [],
         active: true};
       players.push(player);

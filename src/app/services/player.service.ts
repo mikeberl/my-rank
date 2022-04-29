@@ -24,23 +24,13 @@ export class PlayerService {
           private userService : UserService) {
     //creating some players for testing
     var main_user = this.storage.getSelectedUser();
-    for(let league of main_user.joined_leagues) {
+    /* for(let league of main_user.joined_leagues) {
       var check_for_testing = this.storage.getPlayersByLeague(league);
       if (check_for_testing === null) {
         this.storage.savePlayer(league, RANKEDPLAYERS);
       }
-    } 
+    }  */
   }
-
-  /* createTestingData() {
-    var main_user = this.storage.getSelectedUser();
-    for(let league of main_user.joined_leagues) {
-      var check_for_testing = this.storage.getPlayersByLeague(league);
-      if (check_for_testing === undefined) {
-        this.storage.savePlayer(league, RANKEDPLAYERS);
-      }
-    } 
-  } */
 
   addMatch(match : Match) {
     console.log("Starting to add a match to every player");
@@ -53,27 +43,21 @@ export class PlayerService {
     else {
       this.all_players = JSON.parse(tmp);
     }
-      console.log(this.all_players);
       for (let winner of match.winners) {
         var i = this.all_players.findIndex(x => x.UID === winner.UID);
         if (i != -1) {
           this.all_players[i].matches.push(match);
-          console.log(this.all_players[i]);
           this.all_players[i].points = Number(this.all_players[i].points) + Number(match.points);
-          console.log(this.all_players[i]);
         }
         else {
           console.log("IMP ERROR");
         }
       }
       for (let loser of match.losers) {
-        console.log("losers");
-        console.log(loser);
         var j = this.all_players.findIndex(x => x.UID === loser.UID);
         if (j != -1) { /////////////////////////////////////////////////////////////////////////////////////////
           this.all_players[j].matches.push(match);
           this.all_players[j].points = this.all_players[j].points - match.points;
-          console.log(this.all_players[j]);
         }
         else {
           console.log("IMP ERROR");
@@ -85,23 +69,11 @@ export class PlayerService {
     
   }
 
-
-/*   getRankedPlayers(): RankedPlayer[] {
-    var tmp = this.storage
-    if (tmp === null) {
-      return RANKEDPLAYERS;
-    }
-    else {
-      return JSON.parse(tmp);
-    }
-  } */
-
   getRankedPlayersByLeague(league : string) : RankedPlayer[] {
     var players : RankedPlayer[] = [];
     var tmp = this.storage.getPlayersByLeague(league);
     if (tmp === null) {
       console.log("ERROR: No player found! getRankedPlayersByLeague");
-      //this.createTestingData();
     }
     else {
       this.all_players = JSON.parse(tmp);
@@ -133,27 +105,15 @@ getPlayerByUserAndLeague(UID : number, league : string)  {
   return tmp;
 }
 
-/*
-getSortedPlayersByLeague(league : string) : RankedPlayer[] {
-      var tmp : RankedPlayer[] = [];
-      for (let player of RANKEDPLAYERS) {
-          if (player.league_id === league) {
-              tmp.push(player);
-          }
-      }
-      return tmp;
-  }
- */
-
   newPlayer(league : string, user : number) {
     var players_string = this.storage.getPlayersByLeague(league);
     if (players_string === null) {
       var player : RankedPlayer = {
-        id : 'p1',
+        id : 'p0',
         UID : user,
         fullname : this.storage.getSelectedUser().fullname,
         points : 0,
-        picture_url : '/assets/images/users/1.jpg', 
+        picture_url : this.storage.getSelectedUser().profile_pic, 
         matches: [], 
         active: true};
       return player;  
@@ -165,7 +125,7 @@ getSortedPlayersByLeague(league : string) : RankedPlayer[] {
         UID : user,
         fullname : this.storage.getSelectedUser().fullname,
         points : 0,
-        picture_url : '/assets/images/users/1.jpg', 
+        picture_url : this.storage.getSelectedUser().profile_pic, 
         matches: [],
         active: true};
       players.push(player);

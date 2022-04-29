@@ -28,7 +28,8 @@
                                 </div>
                                 <h4> {{ player.fullname }} </h4>
                             </mat-grid-tile>
-                            <mat-grid-tile [colspan]="1">{{ player.points }}</mat-grid-tile>
+                            <mat-grid-tile [colspan]="1" *ngIf="player.active">{{ player.points }}</mat-grid-tile>
+                            <mat-grid-tile [colspan]="1" *ngIf="!player.active">OUT</mat-grid-tile>
                         </div>
                         <!-- <mat-grid-tile
                             *ngFor="let tile of tiles"

@@ -39,3 +39,6 @@ prima di poter testare active bisogna per forza far coincidere i dati
 
 # ERRORS
 rankedplayers model ha un get -> tutto sul service - SOLVED
+
+
+id assignment in new player + double new player
