@@ -5,4 +5,8 @@
   .losers {
     background: lightcoral;
   }
+
+  mat-chip[selected=true] {
+    color : accent;
+  }
 //}

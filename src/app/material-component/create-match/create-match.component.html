@@ -5,25 +5,29 @@
     <div fxFlex>
         <mat-card>
             <mat-card-content>
-              <mat-card-title>Players of Summer Season Ranking</mat-card-title>
-              <button (click)="clearStorage()">CLEAR</button> 
-<!--                 <mat-card-subtitle><code>&lt;mat-grid-list&gt;</code> is a two-dimensional list view that arranges cells into grid-based layout. See Material Design spec. <code><a href="https://material.io/guidelines/components/grid-lists.html">Official Doc here</a></code></mat-card-subtitle>
- -->                
+              <mat-toolbar color="primary">
+                <span>Create a new Match</span>
+                <span fxFlex></span>
                 <input id="nts">
-                <button mat-icon-button (click)="search()">
+                <button mat-button (click)="search()" mat-icon-button>
                   <mat-icon>search</mat-icon>
                 </button>
+              </mat-toolbar>
+              
+<!--                 <mat-card-subtitle><code>&lt;mat-grid-list&gt;</code> is a two-dimensional list view that arranges cells into grid-based layout. See Material Design spec. <code><a href="https://material.io/guidelines/components/grid-lists.html">Official Doc here</a></code></mat-card-subtitle>
+ -->                
+                
                 <mat-selection-list #players>
                   <mat-list-item *ngFor="let player of arr_player">
                       <div mat-line>
                           {{player.fullname}}
                       </div>
                       <div>
-                        <button mat-icon-button class="btn_winners" (click)="addToWinners(player)">
-                          <mat-icon>thumb_up</mat-icon>
+                        <button mat-raised-button class="btn_winners" (click)="addToWinners(player)" color="primary">
+                          <mat-icon>thumb_up</mat-icon> Winner
                         </button>
-                        <button mat-icon-button class="btn_losers" (click)="addToLosers(player)">
-                          <mat-icon>thumb_down</mat-icon>
+                        <button mat-raised-button class="btn_losers" (click)="addToLosers(player)" color="warn">
+                          <mat-icon>thumb_down</mat-icon> Loser
                         </button>
                       </div>
                       <mat-divider></mat-divider>
@@ -31,15 +35,6 @@
                   </mat-list-item>
 
                 </mat-selection-list>
-                <!-- <mat-grid-list cols="4" rowHeight="100px">
-                  <mat-grid-tile
-                      *ngFor="let tile of tiles"
-                      [colspan]="tile.cols"
-                      [rowspan]="tile.rows"
-                      [style.background]="tile.color">
-                    {{tile.text}}
-                  </mat-grid-tile>
-                </mat-grid-list>   -->
             </mat-card-content>        
         </mat-card>
     </div>
@@ -51,56 +46,62 @@
     <mat-card-content>
       
       <form  #result="ngForm" (ngSubmit)="onSubmit(result)">
-        <input [matDatepicker]="basicDatepicker" id="date" name="date" ngModel required>
-      <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
-      <mat-datepicker #basicDatepicker></mat-datepicker>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" ngModel name="picker" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-chip-list id="chiplist">
+        <label>Points : </label>
+        <div *ngFor="let chip of chips">
+          <mat-chip value="chip.value" [selected]="chip.state" (click)="chip.state=!chip.state; selectChip(chip)">{{chip.value}}</mat-chip>
+        </div>
+      </mat-chip-list>
+      <br>
       <mat-grid-list cols="2" rowHeight="30px">
         <mat-grid-tile class="winners">
-          <h2> Winners </h2>
+          <mat-toolbar color="primary">
+            <span>Winners</span>
+            <span fxFlex></span>
+            <span>
+              points : {{ winned_points }}            
+            </span>   
+          </mat-toolbar>
         </mat-grid-tile>
         <mat-grid-tile class="losers">
-          <h2> Losers </h2>
+          <mat-toolbar color="warn">
+            <span>Losers</span>
+            <span fxFlex></span>
+            <span>
+              points : {{ loosed_points }}            
+            </span> 
+          </mat-toolbar>
         </mat-grid-tile>
       </mat-grid-list>
         <mat-grid-list cols="2" rowHeight="200px">  <!-- rowHeight="2:1" -->
           <mat-grid-tile >
-            <div>
-              <mat-selection-list #losers="ngModel" name="losers" ngModel>
-                <mat-list-item *ngFor="let player of arr_winners" ngDefaultControl id="{{player.id}}">
-                  {{player.fullname}}
-                  <button mat-icon-button type="button" (click)="changeToLoser(player)" color="primary">
-                    <mat-icon>swap_horiz</mat-icon>
-                  </button>
-                  <button mat-icon-button type="button" (click)="restorePlayer(player, 1)" color="warn">
-                    <mat-icon>delete</mat-icon>
-                  </button>  
-                </mat-list-item>            
-              </mat-selection-list>
-            </div>
+
+            <mat-chip-list class="mat-chip-list-stacked"  #winners="ngModel" name="winners" ngModel>
+              <mat-chip *ngFor="let player of arr_winners">{{player.fullname}}
+                <mat-icon (click)="changeToLoser(player)">swap_horiz</mat-icon>
+                <mat-icon matChipRemove (click)="restorePlayer(player, 1)">cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
           </mat-grid-tile>
   
           <mat-grid-tile>
-            <div>
-              <mat-selection-list #winners="ngModel" name="winners" ngModel>
-                <mat-list-item *ngFor="let player of arr_losers" ngDefaultControl id="{{player.id}}">
-                  {{player.fullname}}
-                  <button mat-icon-button type="button" (click)="changeToWinner(player)" color="primary">
-                    <mat-icon>swap_horiz</mat-icon>
-                  </button>
-                  <button mat-icon-button type="button" (click)="restorePlayer(player, 2)" color="warn">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </mat-list-item>
-              </mat-selection-list>
-          </div>
+            <mat-chip-list class="mat-chip-list-stacked"  #losers="ngModel" name="losers" ngModel>
+              <mat-chip *ngFor="let player of arr_losers">{{player.fullname}}
+                <mat-icon (click)="changeToWinner(player)">swap_horiz</mat-icon>
+                <mat-icon matChipRemove (click)="restorePlayer(player, 2)">cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
           </mat-grid-tile>
         </mat-grid-list>          
-          <div>
-            <label> Insert points :</label>
-            <input name="points" #points="ngModel" ngModel required>
-            <button mat-button class="btn-primary" type="submit" color="primary">Submit</button>
-          </div>
+        <button mat-button class="btn-primary" type="submit" color="primary" [disabled]="!result.valid">Submit</button>
+
       </form>
     </mat-card-content>       
     
 </mat-card>
+<button (click)="clearStorage()">CLEAR</button> 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +10,12 @@ import Swal from 'sweetalert2';
 import { MatchService } from 'src/app/services/match.service';
 import { PlayerService } from 'src/app/services/player.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { MatChip } from '@angular/material/chips';
+
+interface Chip {
+  value : number;
+  state : boolean;
+}
 
 @Component({
   selector: 'app-create-match',
@@ -23,10 +29,23 @@ export class CreateMatchComponent {
   arr_winners : RankedPlayer[] = [];
   arr_losers: RankedPlayer[] = [];
 
-  title = "Create Match";
-
   league_id : string = "";
   user : User;
+
+  selected_chip : Chip | undefined;
+
+  winned_points = 0;
+  loosed_points = 0;
+  multiplier = 0;
+
+  chips : Chip[] = [
+    {value : 5, state: false},
+    {value : 10, state: false},
+    {value : 15, state: false},
+    {value : 20, state: false},
+    {value : 25, state: false},
+    {value : 30, state: false},
+  ];
 
   constructor(/* private navbarService : NavbarServiceService, */
               private router: Router,
@@ -98,25 +117,77 @@ export class CreateMatchComponent {
     if (this.arr_winners.length === 0 || this.arr_losers.length === 0) {
       this.alertError();
     }
-    else if (this.arr_losers.length === this.arr_winners.length) {
-      var new_match : MatchNoId = this.createMatch(form);
-      this.matchService.newMatch(this.league_id, new_match);
-      this.alertConfirmationEqual();
-
+    else if (this.multiplier === 0) {
+      this.alertNoPoints();
+    }
+    else if ((this.winned_points % 5) != 0 || (this.loosed_points % 5) != 0) {
+      this.alertInvalidPoints();
     }
     else {
       var new_match : MatchNoId = this.createMatch(form);
       this.matchService.newMatch(this.league_id, new_match);
-      this.alertConfirmationNotEqual();
+      this.alertConfirmationEqual();
     }
   }
 
   createMatch(form : NgForm) : MatchNoId {
+    var points : number = 0;
+    if (this.winned_points > this.loosed_points) {
+      points = this.loosed_points;
+    }
+    else {
+      points = this.winned_points;
+    }
     var match : MatchNoId = {league_id : this.league_id, 
                 player_id: this.playerService.getPlayerByUserAndLeague(this.user.UID, this.league_id)?.id,
-              winners: this.arr_winners, losers: this.arr_losers, points: form.value.points, date : form.value.date, was_reported: false};
+              winners: this.arr_winners, losers: this.arr_losers, points: points, date : form.value.date, was_reported: false};
 
     return match;
+  }
+
+  selectChip(chip : Chip) {
+    // tmp needend for avoiding nested this in findIndex
+    var tmp = this.selected_chip;
+    if (tmp === undefined) {
+      this.selected_chip = chip;
+      this.changeMultiplier(chip.value);
+      return;
+    }
+    else {
+      var index = this.chips.findIndex(function(x, index) {
+        if(x.value === tmp?.value)
+          return true;
+      });
+      this.chips[index].state = false;
+      if (this.selected_chip != chip) {
+        this.selected_chip = chip;
+      }
+      else {
+        this.selected_chip = undefined;
+        this.multiplier = 0;
+      } 
+      this.changeMultiplier(chip.value);
+    }
+  }
+
+  changeMultiplier(multiplier : number) {
+    if (this.arr_winners.length === this.arr_losers.length) {
+      this.winned_points = multiplier;
+      this.loosed_points = multiplier;
+    }
+    else if (this.arr_winners.length > this.arr_losers.length) {
+      this.loosed_points = multiplier;
+      this.winned_points = multiplier / this.arr_losers.length * this.arr_winners.length;
+    }
+    else if (this.arr_winners.length < this.arr_losers.length) {
+      this.winned_points = multiplier;
+      this.loosed_points = multiplier / this.arr_winners.length * this.arr_losers.length;
+    }
+    else {
+      console.log("Impossible to modify the multiplier.");
+    }
+    this.multiplier = multiplier;
+    
   }
 
   clearStorage() {
@@ -127,6 +198,26 @@ export class CreateMatchComponent {
     Swal.fire({
       title: 'Error by your registration',
       text: 'you need to insert at least 1 winner and 1 user',
+      icon: 'error',
+      showCancelButton: false,
+      confirmButtonText: 'Ok'
+    })
+  }
+
+  alertNoPoints() {
+    Swal.fire({
+      title: 'No points selected',
+      text : 'Please insert the points that every partecipant of the smallest team will get or loose',
+      icon: 'error',
+      showCancelButton: false,
+      confirmButtonText: 'Ok'
+    })
+  }
+
+  alertInvalidPoints() {
+    Swal.fire({
+      title: 'Invalid points',
+      text : 'All the points need to be multiple of 5.',
       icon: 'error',
       showCancelButton: false,
       confirmButtonText: 'Ok'
@@ -145,24 +236,6 @@ export class CreateMatchComponent {
       if (result.value) {
         Swal.fire('Registered!', 'Your game has been registered successfully.', 'success');
         // this.router.navigate(['/']);
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire('Cancelled', 'Your registration has been stopped', 'error');
-      }
-    });
-  }
-
-  alertConfirmationNotEqual() {
-    Swal.fire({
-      title: 'Confirm result registration',
-      text: 'Winners and losers are not equal. Do you still want to confirm? The team with less players will get double the points calculation.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, go ahead.',
-      cancelButtonText: 'No, let me think',
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire('Registered!', 'Your game has been registered successfully.', 'success');
-        this.router.navigate(['/']);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire('Cancelled', 'Your registration has been stopped', 'error');
       }

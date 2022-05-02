@@ -50,7 +50,7 @@ export class PlayerService {
           this.all_players[i].points = Number(this.all_players[i].points) + Number(match.points);
         }
         else {
-          console.log("IMP ERROR");
+          console.log("Impossible to add a new match, winners are not in the league");
         }
       }
       for (let loser of match.losers) {
@@ -60,13 +60,10 @@ export class PlayerService {
           this.all_players[j].points = this.all_players[j].points - match.points;
         }
         else {
-          console.log("IMP ERROR");
+          console.log("Impossible to add a new match, losers are not in the league");
         }
       }
       this.storage.savePlayer(match.league_id, this.all_players);
-      console.log("END");
-    // }
-    
   }
 
   getRankedPlayersByLeague(league : string) : RankedPlayer[] {
