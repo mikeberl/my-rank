@@ -72,12 +72,14 @@ export class CreateMatchComponent {
   addToWinners(player : RankedPlayer) {
     var tmp_player = this.arr_player.splice(this.arr_player.indexOf(player), 1)[0];
     this.arr_winners.push(tmp_player);
+    this.changeMultiplier(this.multiplier);
   }
 
   // Add to losing team
   addToLosers(player : RankedPlayer) {
     var tmp_player = this.arr_player.splice(this.arr_player.indexOf(player), 1)[0];
     this.arr_losers.push(tmp_player);
+    this.changeMultiplier(this.multiplier);
   }
 
   // Add to search list
@@ -86,10 +88,12 @@ export class CreateMatchComponent {
     if (list === 1) {
       tmp_player = this.arr_winners.splice(this.arr_winners.indexOf(player), 1)[0];
       this.arr_player.push(tmp_player);
+      this.changeMultiplier(this.multiplier);
     }
     else {
       tmp_player = this.arr_losers.splice(this.arr_losers.indexOf(player), 1)[0];
       this.arr_player.push(tmp_player);
+      this.changeMultiplier(this.multiplier);
     }
     // should not happend
     console.log(player);
@@ -97,18 +101,21 @@ export class CreateMatchComponent {
     console.log(this.arr_losers);
     console.log(this.arr_winners);
     
+    
   }
 
   // swap team
   changeToLoser(player : RankedPlayer) {
     this.arr_winners.splice(this.arr_winners.indexOf(player), 1);
     this.arr_losers.push(player);
+    this.changeMultiplier(this.multiplier);
   }
 
   // swap team
   changeToWinner(player : RankedPlayer) {
     this.arr_losers.splice(this.arr_winners.indexOf(player), 1);
     this.arr_winners.push(player);
+    this.changeMultiplier(this.multiplier);
   }
 
   onSubmit(form : NgForm) {

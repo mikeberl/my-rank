@@ -31,88 +31,13 @@
                             <mat-grid-tile [colspan]="1" *ngIf="player.active">{{ player.points }}</mat-grid-tile>
                             <mat-grid-tile [colspan]="1" *ngIf="!player.active">OUT</mat-grid-tile>
                         </div>
-                        <!-- <mat-grid-tile
-                            *ngFor="let tile of tiles"
-                            [colspan]="tile.cols"
-                            [rowspan]="tile.rows"
-                            [style.background]="tile.color">
-                          {{tile.text}}
-                        </mat-grid-tile> -->
                       </mat-grid-list>
-
-
-
-
-                    <!-- <mat-list>
-                        <mat-list-item>
-                            <h4 mat-column> Rank </h4>
-                            <h4> Player </h4>
-                            <h4> Points </h4>
-                        </mat-list-item>
-                        <mat-list-item *ngFor="let message of messages">
-                            <img mat-list-avatar [src]="message.image" alt="Image of {{message.from}}">    
-                            <h3 matLine>{{message.from}}</h3>
-                            <p matLine class="text-muted">{{message.content}}</p>     
-                        </mat-list-item>
-                    </mat-list> -->
                 </mat-card-content>
             </mat-card>
         </div>
     </mat-tab>
     <mat-tab label="Matches">
-        <div class="p-20" *ngIf="matches_available">
-            <div *ngFor="let day of match_days">
-                <mat-card>
-                    <mat-card-content>
-                    <mat-card-title>{{ day.date }}</mat-card-title>
-<!--                     <mat-card-subtitle>Expansion panel</mat-card-subtitle>
- -->                    
-                        <mat-accordion class="example-headers-align">
-                            <div *ngFor="let match of day.matches">
-                                <mat-expansion-panel hideToggle="true">
-                                    <mat-expansion-panel-header>
-                                        <mat-panel-title>     
-                                            <mat-line>
-                                                {{match.player_id}}
-                                            </mat-line>
-                                            
-                                             
-                                        </mat-panel-title>
-                                        <mat-panel-description> 
-                                            <div *ngFor="let winner of getPlayersName(match.winners)">
-                                                <p> {{ winner }} </p>
-
-                                            </div>
-                                            <div *ngFor="let loser of getPlayersName(match.losers)">
-                                                <p> {{ loser }} </p>
-
-                                            </div>
-                                        
-                                            
-                                        </mat-panel-description>
-                                        <mat-panel-description> {{match.points}}
-                                            <button mat-icon-button (click)="openDialog(match)" *ngIf="(!match.was_reported)">
-                                                <mat-icon>report</mat-icon>
-                                            </button> 
-                                            <button mat-button clickable="false" *ngIf="(match.was_reported)">
-                                                Reported
-                                            </button>   
-                                        </mat-panel-description>
-                                    </mat-expansion-panel-header>
-                                </mat-expansion-panel>
-
-                            </div>
-                        </mat-accordion>
-                    </mat-card-content>
-                </mat-card>
-                
-            </div>
-            <button mat-button class="load-more-btn" color="accent" (click)="loadMore()"> Load more games </button>
-            
-        </div>
-        <div *ngIf="!matches_available">
-            <h1> There are no matches available</h1>
-        </div>
+        <app-matches-view></app-matches-view>
     </mat-tab>
 </mat-tab-group>
 
