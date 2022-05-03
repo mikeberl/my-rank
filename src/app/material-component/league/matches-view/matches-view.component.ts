@@ -3,7 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Match } from 'src/app/models/match.model';
 import { RankedPlayer } from 'src/app/models/ranked-player.model';
+import { User } from 'src/app/models/user.model';
 import { MatchDay, MatchService } from 'src/app/services/match.service';
+import { PlayerService } from 'src/app/services/player.service';
+import { UserService } from 'src/app/services/user.service';
 import { DialogOverviewExampleDialogComponent } from '../../dialog/dialog.component';
 
 @Component({
@@ -21,7 +24,8 @@ export class MatchesViewComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               private route: ActivatedRoute,
-              private matchService: MatchService) { }
+              private matchService: MatchService,
+              private playerService : PlayerService) { }
 
   ngOnInit(): void {
 
@@ -59,6 +63,11 @@ export class MatchesViewComponent implements OnInit {
       players_string.push(player.fullname);
     }
     return players_string;
+  }
+
+  getPlayerPic(id : string) {
+    var player = this.playerService.getPlayerById(this.league_id, id);
+    return player;
   }
 
 }

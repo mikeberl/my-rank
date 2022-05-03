@@ -38,6 +38,8 @@ export class CreateMatchComponent {
   loosed_points = 0;
   multiplier = 0;
 
+  max_point = 60; // TODO add max point to league
+
   chips : Chip[] = [
     {value : 5, state: false},
     {value : 10, state: false},
@@ -241,6 +243,15 @@ export class CreateMatchComponent {
         Swal.fire('Cancelled', 'Your registration has been stopped', 'error');
       }
     });
+  }
+
+  disableSubmit(form : NgForm) {
+    if (form.valid === true && this.winned_points <= this.max_point  && this.loosed_points <= this.max_point) {
+      return false;
+    }
+    else {
+      return true;
+    }
   }
 
   search() {

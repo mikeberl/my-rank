@@ -1,44 +1,39 @@
 <div class="p-20" *ngIf="matches_available">
     <div *ngFor="let day of match_days">
         <mat-card>
-            <mat-card-content>
             <mat-card-title>{{ day.date }}</mat-card-title>
-<!--                     <mat-card-subtitle>Expansion panel</mat-card-subtitle>
--->                    
+            <!-- <mat-card-subtitle>Expansion panel</mat-card-subtitle>   -->
+            <mat-card-content>
+
+
+                <div class="d-flex no-block" *ngFor="let match of day.matches">
+                    <div class="m-r-20">
+                        <img class="img-circle" width="50" [src]="getPlayerPic(match.player_id).picture_url" alt="Image">                
+                    </div>
+                    <div class="p-b-20 b-b m-b-30">
+                        <h4 class="m-0">{{match.player_id}}
+                            <small class="text-muted">({{match.date}})</small>
+                        </h4>
+                        <p class="text-muted">dsfgdgdsfdfhghgfhd</p>
+
+                        <button>Check Now</button>
+
+                    </div>
+                </div>
+            </mat-card-content>
+            <!-- <mat-card-content>
+            <mat-card-title>{{ day.date }}</mat-card-title>
+            <mat-card-subtitle>Expansion panel</mat-card-subtitle>
+       
                 <mat-accordion class="example-headers-align">
                     <div *ngFor="let match of day.matches">
-                        <!-- <mat-expansion-panel hideToggle="true">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>     
-                                    {{ match.winners.length}} vs {{ match.losers.length}}
-                                    registered by {{ match.player_id }}
-                                    
-                                     
-                                </mat-panel-title>
-                                <mat-panel-description> DIOCANE
-                                    <mat-icon (click)="openDialog(match)" *ngIf="(!match.was_reported)">report</mat-icon> 
-                                    <button mat-button clickable="false" *ngIf="(match.was_reported)">
-                                        Reported
-                                    </button>   
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-                        </mat-expansion-panel> -->
-                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [expanded]="step === 0" hideToggle="true">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                             <mat-expansion-panel-header>
                                 <mat-panel-title> {{ match.winners.length}} vs {{ match.losers.length}}
                                     registered by {{ match.player_id }} </mat-panel-title>
-                                <!-- <mat-panel-description> {{panelOpenState ? 'Players' :  match.winned_points}} </mat-panel-description> -->
                                 <mat-panel-description> 
-                                    <div>
-                                        + {{match.winned_points}} / - {{match.loosed_points}}
-                                    </div> 
-                                    <div>
-                                        <mat-icon (click)="openDialog(match)" *ngIf="(!match.was_reported)">report</mat-icon> 
-                                        <!-- <button mat-button clickable="false" *ngIf="(match.was_reported)">
-                                            Reported
-                                        </button> -->
-                                    </div>
-                                    
+                                    + {{match.winned_points}} / - {{match.loosed_points}}
+
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
                             <p>I'm visible because I am open</p>
@@ -46,7 +41,7 @@
 
                     </div>
                 </mat-accordion>
-            </mat-card-content>
+            </mat-card-content> -->
         </mat-card>
         
     </div>

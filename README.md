@@ -42,3 +42,9 @@ rankedplayers model ha un get -> tutto sul service - SOLVED
 
 
 id assignment in new player + double new player
+
+
+# TODO
+add max point to league
+add sport to league
+userService need to be completely refactored

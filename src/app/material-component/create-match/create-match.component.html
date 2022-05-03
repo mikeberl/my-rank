@@ -97,8 +97,10 @@
               </mat-chip>
             </mat-chip-list>
           </mat-grid-tile>
-        </mat-grid-list>          
-        <button mat-button class="btn-primary" type="submit" color="primary" [disabled]="!result.valid">Submit</button>
+        </mat-grid-list>
+        <p class="points-error" *ngIf="winned_points > max_point || loosed_points > max_point">The maximum of points a player can get is : {{max_point}}</p>
+        <p class="points-error" *ngIf="!result.valid">Please insert a date.</p>          
+        <button mat-button class="btn-primary" type="submit" color="primary" [disabled]="disableSubmit(result)">Submit</button>
 
       </form>
     </mat-card-content>       

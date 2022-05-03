@@ -92,7 +92,7 @@ getPlayers(): RankedPlayer[] {
 }
 
 getPlayerByUserAndLeague(UID : number, league : string)  {
-  var tmp : RankedPlayer = RANKEDPLAYERS[6];
+  var tmp : RankedPlayer = RANKEDPLAYERS[5];
   for (let player of RANKEDPLAYERS) {
       if (player.UID === UID) {
           tmp  = player;
@@ -128,6 +128,27 @@ getPlayerByUserAndLeague(UID : number, league : string)  {
       players.push(player);
 
       return player;    
+    }
+  }
+
+  getPlayerById(league : string, id : string) {
+    var players_string = this.storage.getPlayersByLeague(league);
+    if (players_string === null) {
+      console.log("No player present, impossibile");
+      return RANKEDPLAYERS[5]; //error player
+    }
+    else {
+      var players : RankedPlayer[] = JSON.parse(players_string);
+      var index = players.findIndex(function(x, index) {
+        if(x.id == id)
+          return true;
+      });
+      if (index === -1) {
+        return RANKEDPLAYERS[5]; //error player
+      }
+      else {
+        return players[index];
+      }
     }
   }
 }
