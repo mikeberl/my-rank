@@ -52,7 +52,7 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <mat-chip-list id="chiplist">
-        <label>Points : </label>
+        <label>Points of players of the smallest team : </label>
         <div *ngFor="let chip of chips">
           <mat-chip value="chip.value" [selected]="chip.state" (click)="chip.state=!chip.state; selectChip(chip)">{{chip.value}}</mat-chip>
         </div>

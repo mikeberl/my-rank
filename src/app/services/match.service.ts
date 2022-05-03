@@ -48,7 +48,7 @@ export class MatchService {
   getMatchId(no_id : MatchNoId, matches : Match[]) {
     var next_id = matches.length;
     var match : Match = {id : next_id, player_id: no_id.player_id, league_id: no_id.league_id, winners: no_id.winners,
-              losers : no_id.losers, points : no_id.points, was_reported: no_id.was_reported, date: no_id.date};
+              losers : no_id.losers, winned_points : no_id.winned_points, loosed_points : no_id.loosed_points, was_reported: no_id.was_reported, date: no_id.date};
     return match;
   }
 
@@ -103,7 +103,8 @@ export class MatchService {
       var matches : Match[] = JSON.parse(tmp_matches);
       for (let match_ of matches) {
         if(match_.id === match.id) {
-          matches[matches.indexOf(match_)].points = match.points;
+          matches[matches.indexOf(match_)].winned_points = match.winned_points;
+          matches[matches.indexOf(match_)].loosed_points = match.loosed_points;
           matches[matches.indexOf(match_)].was_reported = false;
           this.storage.saveMatch(match.league_id, matches); 
         }

@@ -47,7 +47,7 @@ export class PlayerService {
         var i = this.all_players.findIndex(x => x.UID === winner.UID);
         if (i != -1) {
           this.all_players[i].matches.push(match);
-          this.all_players[i].points = Number(this.all_players[i].points) + Number(match.points);
+          this.all_players[i].points = Number(this.all_players[i].points) + Number(match.winned_points);
         }
         else {
           console.log("Impossible to add a new match, winners are not in the league");
@@ -57,7 +57,7 @@ export class PlayerService {
         var j = this.all_players.findIndex(x => x.UID === loser.UID);
         if (j != -1) { /////////////////////////////////////////////////////////////////////////////////////////
           this.all_players[j].matches.push(match);
-          this.all_players[j].points = this.all_players[j].points - match.points;
+          this.all_players[j].points = this.all_players[j].points - match.loosed_points;
         }
         else {
           console.log("Impossible to add a new match, losers are not in the league");

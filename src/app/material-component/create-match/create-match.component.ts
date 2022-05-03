@@ -131,16 +131,10 @@ export class CreateMatchComponent {
   }
 
   createMatch(form : NgForm) : MatchNoId {
-    var points : number = 0;
-    if (this.winned_points > this.loosed_points) {
-      points = this.loosed_points;
-    }
-    else {
-      points = this.winned_points;
-    }
     var match : MatchNoId = {league_id : this.league_id, 
                 player_id: this.playerService.getPlayerByUserAndLeague(this.user.UID, this.league_id)?.id,
-              winners: this.arr_winners, losers: this.arr_losers, points: points, date : form.value.date, was_reported: false};
+              winners: this.arr_winners, losers: this.arr_losers, winned_points: this.winned_points, loosed_points: this.loosed_points,
+              date : form.value.date, was_reported: false};
 
     return match;
   }
@@ -176,12 +170,12 @@ export class CreateMatchComponent {
       this.loosed_points = multiplier;
     }
     else if (this.arr_winners.length > this.arr_losers.length) {
-      this.loosed_points = multiplier;
-      this.winned_points = multiplier / this.arr_losers.length * this.arr_winners.length;
+      this.loosed_points = multiplier / this.arr_losers.length * this.arr_winners.length;
+      this.winned_points = multiplier;
     }
     else if (this.arr_winners.length < this.arr_losers.length) {
-      this.winned_points = multiplier;
-      this.loosed_points = multiplier / this.arr_winners.length * this.arr_losers.length;
+      this.winned_points = multiplier / this.arr_winners.length * this.arr_losers.length;
+      this.loosed_points = multiplier;
     }
     else {
       console.log("Impossible to modify the multiplier.");

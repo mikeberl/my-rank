@@ -8,8 +8,8 @@ export interface Match {
     league_id : string;
     winners: RankedPlayer[]; // id of winners
     losers: RankedPlayer[];
-    points: number;
-    // winned loosed points
+    winned_points: number;
+    loosed_points: number;
     date: string; //TODO
     was_reported: boolean;
 }
@@ -20,7 +20,8 @@ export interface MatchNoId {
   league_id : string;
   winners: RankedPlayer[]; // id of winners
   losers: RankedPlayer[];
-  points: number;
+  winned_points: number;
+  loosed_points: number;
   date: string; //TODO
   was_reported: boolean;
 }

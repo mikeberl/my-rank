@@ -16,7 +16,8 @@ const USER = [
   {UID: 1, fullname: "Michele Berlanda", username: "Smikeball", profile_pic: '/assets/images/users/1.jpg', joined_leagues: ['l1', 'l2']},
   {UID: 2, fullname: "Piero Magi", username: "Pier", profile_pic: '/assets/images/users/2.jpg', joined_leagues: ['l1', 'l2', 'l4']},
   {UID: 3, fullname: "Maria Antonietta", username: "Trodena", profile_pic: '/assets/images/users/3.jpg', joined_leagues: ['l2']},
-  {UID: 4, fullname: "Marco Brown", username: "Sniper", profile_pic: '/assets/images/users/d1.jpg', joined_leagues: ['l3', 'l2']}
+  {UID: 4, fullname: "Marco Brown", username: "Sniper", profile_pic: '/assets/images/users/d1.jpg', joined_leagues: ['l3', 'l2']},
+  {UID: 5, fullname: "Giulio Giulio", username: "Giulio", profile_pic: '/assets/images/users/4.jpg', joined_leagues: ['l3', 'l2', 'l1']}
 ]
 
 /* const RANKEDPLAYERS = [
