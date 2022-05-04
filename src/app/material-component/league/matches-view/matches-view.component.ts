@@ -9,6 +9,7 @@ import { PlayerService } from 'src/app/services/player.service';
 import { UserService } from 'src/app/services/user.service';
 import { DialogOverviewExampleDialogComponent } from '../../dialog/dialog.component';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-matches-view',
@@ -29,7 +30,8 @@ export class MatchesViewComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private route: ActivatedRoute,
               private matchService: MatchService,
-              private playerService : PlayerService) { }
+              private playerService : PlayerService,
+              public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
 
@@ -67,6 +69,7 @@ export class MatchesViewComponent implements OnInit {
   }
 
   loadMore() {
+    this.openSnackBarNoMoreMatches("ERROR:", "No more mathes to be loaded.");
   }
 
   getPlayersName(players : RankedPlayer[]) {
@@ -77,9 +80,15 @@ export class MatchesViewComponent implements OnInit {
     return players_string;
   }
 
-  getPlayerPic(id : string) {
+  getPlayer(id : string) {
     var player = this.playerService.getPlayerById(this.league_id, id);
     return player;
+  }
+
+  openSnackBarNoMoreMatches(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
 }

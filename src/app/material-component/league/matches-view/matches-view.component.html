@@ -11,7 +11,7 @@
                                 <mat-panel-title> {{ match.winners.length}} vs {{ match.losers.length}}
                                     </mat-panel-title>
                                 <mat-panel-description> 
-                                    registered by {{ match.player_id }} 
+                                    registered by {{ getPlayer(match.player_id).fullname }} 
 
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
