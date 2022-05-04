@@ -140,10 +140,11 @@ export class CreateMatchComponent {
   }
 
   createMatch(form : NgForm) : MatchNoId {
+    console.log(form.value.date);
     var match : MatchNoId = {league_id : this.league_id, 
                 player_id: this.playerService.getPlayerByUserAndLeague(this.user.UID, this.league_id)?.id,
               winners: this.arr_winners, losers: this.arr_losers, winned_points: this.winned_points, loosed_points: this.loosed_points,
-              date : form.value.date, was_reported: false};
+              date : form.value.date.toString(), was_reported: false};
 
     return match;
   }

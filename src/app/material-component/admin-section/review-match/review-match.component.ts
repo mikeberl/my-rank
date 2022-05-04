@@ -14,7 +14,7 @@ export class ReviewMatchComponent implements OnInit {
   league_id : string = "";
   match_id : number = 0; 
   match : Match = {id : 999, player_id : 'p1', league_id : 'l1', winners: [],
-  losers: [], winned_points: 15, loosed_points: 15, date : '01-01-2001', was_reported: true};
+  losers: [], winned_points: 15, loosed_points: 15, date : new Date(), was_reported: true};
 
   constructor(private matchService : MatchService,
               private reportService : ReportService,

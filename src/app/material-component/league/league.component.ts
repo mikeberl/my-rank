@@ -29,7 +29,6 @@ export class LeagueComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      console.log(params['id']) //log the value of id
       this.league_id = params['id'];
       this.playerList = this.playerService.getRankedPlayersByLeague(this.league_id);
     });

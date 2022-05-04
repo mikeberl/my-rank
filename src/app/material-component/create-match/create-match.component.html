@@ -47,7 +47,7 @@
       
       <form  #result="ngForm" (ngSubmit)="onSubmit(result)">
       <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Choose a date" ngModel name="picker" required>
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" ngModel name="date" required>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>

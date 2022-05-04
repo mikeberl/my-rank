@@ -5,7 +5,7 @@ import { StorageService } from './storage.service';
 
 
 export interface MatchDay {
-  date: string,
+  date: Date,
   matches: Match[]
 }
 

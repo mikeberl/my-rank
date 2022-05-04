@@ -1,25 +1,41 @@
 <div class="p-20" *ngIf="matches_available">
     <div *ngFor="let day of match_days">
         <mat-card>
-            <mat-card-title>{{ day.date }}</mat-card-title>
+            <mat-card-title>  {{ getFormatedDate(day.date) }}</mat-card-title>
             <!-- <mat-card-subtitle>Expansion panel</mat-card-subtitle>   -->
             <mat-card-content>
+                <mat-accordion class="example-headers-align">
+                    <div *ngFor="let match of day.matches">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title> {{ match.winners.length}} vs {{ match.losers.length}}
+                                    </mat-panel-title>
+                                <mat-panel-description> 
+                                    registered by {{ match.player_id }} 
 
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div>
+                                Winners :
+                                <mat-chip-list *ngFor="let winner of match.winners">
+                                    <mat-chip color="primary" selected> {{winner.fullname }} +{{match.winned_points}}</mat-chip>
+                                  </mat-chip-list>
+                            </div>
+                            <div>
+                                Losers :
+                                <mat-chip-list *ngFor="let loser of match.losers">
+                                    <mat-chip color="warn" selected> {{loser.fullname }} +{{match.loosed_points}}</mat-chip>
+                                  </mat-chip-list>
+                            </div>
+                            <br>
+                            <button mat-raised-button class="report-button" (click)="openDialog()">
+                                <mat-icon> report </mat-icon>
+                                Report
+                            </button>
+                        </mat-expansion-panel>
 
-                <div class="d-flex no-block" *ngFor="let match of day.matches">
-                    <div class="m-r-20">
-                        <img class="img-circle" width="50" [src]="getPlayerPic(match.player_id).picture_url" alt="Image">                
                     </div>
-                    <div class="p-b-20 b-b m-b-30">
-                        <h4 class="m-0">{{match.player_id}}
-                            <small class="text-muted">({{match.date}})</small>
-                        </h4>
-                        <p class="text-muted">dsfgdgdsfdfhghgfhd</p>
-
-                        <button>Check Now</button>
-
-                    </div>
-                </div>
+                </mat-accordion>
             </mat-card-content>
             <!-- <mat-card-content>
             <mat-card-title>{{ day.date }}</mat-card-title>

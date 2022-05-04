@@ -33,9 +33,6 @@ export class PlayerService {
   }
 
   addMatch(match : Match) {
-    console.log("Starting to add a match to every player");
-    console.log(match);
-    console.log(this.all_players);
     var tmp = this.storage.getPlayersByLeague(match.league_id);
     if (tmp === null) {
       console.log("ERROR: No player found! addMatch");

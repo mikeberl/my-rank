@@ -10,7 +10,7 @@ export interface Match {
     losers: RankedPlayer[];
     winned_points: number;
     loosed_points: number;
-    date: string; //TODO
+    date: Date; //TODO
     was_reported: boolean;
 }
 
@@ -22,6 +22,6 @@ export interface MatchNoId {
   losers: RankedPlayer[];
   winned_points: number;
   loosed_points: number;
-  date: string; //TODO
+  date: Date; //TODO
   was_reported: boolean;
 }

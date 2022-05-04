@@ -8,6 +8,7 @@ import { MatchDay, MatchService } from 'src/app/services/match.service';
 import { PlayerService } from 'src/app/services/player.service';
 import { UserService } from 'src/app/services/user.service';
 import { DialogOverviewExampleDialogComponent } from '../../dialog/dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-matches-view',
@@ -22,6 +23,9 @@ export class MatchesViewComponent implements OnInit {
 
   league_id :string = "";
 
+  pipe = new DatePipe('en-US');
+  
+
   constructor(public dialog: MatDialog,
               private route: ActivatedRoute,
               private matchService: MatchService,
@@ -30,9 +34,9 @@ export class MatchesViewComponent implements OnInit {
   ngOnInit(): void {
 
     this.route.params.subscribe(params => {
-      console.log(params['id']) //log the value of id
       this.league_id = params['id'];
       var days_tmp = this.matchService.getMatchesByDays(this.league_id);
+      console.log(days_tmp);
       if (days_tmp != null) {
         this.match_days = days_tmp;
       }
@@ -42,10 +46,18 @@ export class MatchesViewComponent implements OnInit {
     });
   }
 
+  getFormatedDate(date : Date) {
+    var dateWithPipe = null;
+    dateWithPipe = this.pipe.transform(date, 'EEEE, MMMM d, y')?.toString();
+    return dateWithPipe;
+
+  }
+
   openDialog(match : Match): void {
 
     const dialogRef = this.dialog.open(DialogOverviewExampleDialogComponent, {
-      width: '250px',
+      width: '300px',
+      height: '400px',
       data: { reporter_id : 0, match : match } // TODO get player_id/user_id of reporter
     });
 

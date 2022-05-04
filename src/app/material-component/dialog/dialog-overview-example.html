@@ -2,26 +2,27 @@
 <div mat-dialog-content>
 	<label class="example-margin">Select your report type</label>
 	<form  #report="ngForm" name="report" (ngSubmit)="onSubmit(report)">
-	  <mat-radio-group [(ngModel)]="report_type" name="report_type" class="m-l-20">
-		  <br>
-		  <mat-radio-button class="example-margin" value="WRONGPOINTS" class="m-r-10">
-			  Points are wrong
-		  </mat-radio-button>
-		  <mat-radio-button class="example-margin" value="WRONGPLAYERS" class="m-r-10">
-			  Players are wrong
-		  </mat-radio-button>
-		  <mat-radio-button class="example-margin" value="WRONGINPUT">
-			  Double input
-		  </mat-radio-button>
-		  <mat-radio-button class="example-margin" value="OTHERS">
-			  Others
-		  </mat-radio-button>
-	  </mat-radio-group>
+		<mat-form-field>
+			<mat-select [(ngModel)]="report_type" name="report_type" class="m-l-20" placeholder="Error type" required>
+				<mat-option class="example-margin" value="WRONGPOINTS" class="m-r-10">
+					Points are wrong
+				</mat-option>
+				<mat-option class="example-margin" value="WRONGPLAYERS" class="m-r-10">
+					Players are wrong
+				</mat-option>
+				<mat-option class="example-margin" value="WRONGINPUT">
+					Double input
+				</mat-option>
+				<mat-option class="example-margin" value="OTHERS">
+					Others
+				</mat-option>
+			</mat-select>
+		  </mat-form-field>
 	  <mat-form-field>
-	  <input matInput tabindex="1" #message="ngModel" ngModel name="message">
+	  <input matInput tabindex="1" #message="ngModel" ngModel name="message" placeholder="Message for the admin">
 	  </mat-form-field>
 	  <div mat-dialog-actions>
-		<button mat-button [mat-dialog-close]="" tabindex="2" type="submit">Ok</button>
+		<button mat-button [mat-dialog-close]="" tabindex="2" type="submit">Report</button>
 		<button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
 		</div>
     </form>
