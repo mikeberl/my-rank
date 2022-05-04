@@ -45,6 +45,10 @@ id assignment in new player + double new player
 
 
 # TODO
-add max point to league
-add sport to league
+create-new-league end of submit methos should be a method of league service
 userService need to be completely refactored
+NO STORAGE CALLS OUTSIDE SERVICES
+
+
+add max point to league DONE
+add sport to league DONE

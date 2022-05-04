@@ -28,15 +28,14 @@ export class CreateNewLeagueComponent implements OnInit {
 	ngOnInit() {
 		this.formGroup = this._formBuilder.group({
 			firstFormGroup : this._formBuilder.group({
-				nameCtrl: new FormControl('', [Validators.required])
+				nameCtrl: new FormControl('', [Validators.required]),
+				locationCtrl: ['', Validators.required],
+				maxPlayerCtrl: ['', null],
+				sportCtrl: ['', Validators.required],
 			}),
 			secondFormGroup : this._formBuilder.group({
 				file: new FormControl('', [Validators.required]),
 				imgSrc: new FormControl('', [Validators.required])
-			}),
-			thirdFormGroup : this._formBuilder.group({
-				locationCtrl: ['', Validators.required],
-				maxPlayerCtrl: ['', null]
 			}),
 			fourthFormGroup : this._formBuilder.group({
 				endDateCtrl: ['', Validators.required]
@@ -88,21 +87,15 @@ export class CreateNewLeagueComponent implements OnInit {
 			}
 			return;
 		}
-		else if (!this.formGroup.controls['secondFormGroup'].valid) {
-			for (let i = 0; i < stepper.steps.length - 2; i++ ) {
-				stepper.previous();
-
-			}
-			return;
-		}
-		else if (!this.formGroup.controls['secondFormGroup'].valid) {
-			for (let i = 0; i < stepper.steps.length - 2; i++ ) {
+		else if (!this.formGroup.controls['fourthFormGroup'].valid) {
+			for (let i = 0; i < stepper.steps.length - 3; i++ ) {
 				stepper.previous();
 
 			}
 			return;
 		}
 		else {
+			// TODO this should be a method of league service
 			var leagues = this.storage.getLeagues();
 			if (leagues === undefined) {
 				console.log("something went wrong, no league was saved on localstorage");
@@ -112,13 +105,14 @@ export class CreateNewLeagueComponent implements OnInit {
 				var id_ : string = "l" + leagues.length.toString();
 				var new_league : League = {id : id_,
 									  name : this.formGroup.controls['firstFormGroup'].value.nameCtrl,
-									  city : this.formGroup.controls['thirdFormGroup'].value.locationCtrl,
-									  max_players: this.formGroup.controls['thirdFormGroup'].value.maxPlayerCtrl,
+									  city : this.formGroup.controls['firstFormGroup'].value.locationCtrl,
+									  sport: this.formGroup.controls['firstFormGroup'].value.locationCtrl,
+									  max_players: this.formGroup.controls['firstFormGroup'].value.sportCtrl,
 									  admin_id: this.storage.getSelectedUser().UID,
 									  picture_url: '/assets/images/users/1.jpg',
 									  active: true,
 									  end: new Date( this.formGroup.controls['fourthFormGroup'].value.end)}
-				
+				console.log("a new league has been created");
 				leagues.push(new_league);
 				this.storage.saveLeague(leagues);
 
