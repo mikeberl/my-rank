@@ -39,6 +39,8 @@ export class DialogOverviewExampleDialogComponent {
   }
 
   onSubmit(form : NgForm) {
+    console.log(form);
+    console.log(this.data);
     
     var new_report : ReportMessageNoId = {
       match_id : this.data.match.id,
@@ -48,10 +50,11 @@ export class DialogOverviewExampleDialogComponent {
       date : Date.now().toString(),
       report_type : form.value.report_type     
     }
-    
-    this.reportService.addReport('l1', new_report);
-    this.matchService.reportMatch('l1', this.data.match);
     this.data.match.was_reported = true;
+    
+    this.reportService.addReport(this.data.match.league_id, new_report);
+    this.matchService.reportMatch(this.data.match.league_id, this.data.match);
+    
   }
 }
 

@@ -1,21 +1,26 @@
-<mat-card *ngIf="not_admin">
-    <mat-card-title> Manage your league</mat-card-title>
+<mat-card *ngIf="managed_leagues.length > 0">
     <mat-card-content>
-        <button mat-button type="button" class="block" color="primary">Create A Special Event</button>
-        <br>
-        <button mat-button type="button" class="block" color="primary" routerLink="/reports">Review Matches</button>
-        <br>
-        <button mat-button type="button" class="block" color="primary">Review Requests</button>
-        <br>
-        <button mat-button type="button" class="block" color="primary">Add a new Admin</button>
-        <br>
-        <button mat-button type="button" class="block" color="primary">Get More Places</button>
-        <br>
-        <button mat-button type="button" class="block" color="primary">Support</button>
+        <mat-tab-group mat-align-tabs="center" >
+            <mat-tab *ngFor="let league of managed_leagues" label="{{league.name}}">
+                <button mat-button type="button" class="block" color="primary">Create A Special Event</button>
+                <br>
+                <button mat-button type="button" class="block" color="primary" routerLink="/reports">Review Matches</button>
+                <br>
+                <button mat-button type="button" class="block" color="primary">Review Requests</button>
+                <br>
+                <button mat-button type="button" class="block" color="primary">Add a new Admin</button>
+                <br>
+                <button mat-button type="button" class="block" color="primary">Get More Places</button>
+                <br>
+                <button mat-button type="button" class="block" color="primary">Support</button>
+            </mat-tab>
+    
+        </mat-tab-group>
+        
     </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="!not_admin">
+<mat-card *ngIf="managed_leagues.length === 0">
     <mat-card-title> Manage your league</mat-card-title>
     <mat-card-content>
         <button mat-raised-button type="button" class="block" color="primary" routerLink="/new-league">Create A New League</button>

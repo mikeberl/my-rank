@@ -13,28 +13,24 @@ import { LeagueService } from 'src/app/services/league.service';
 export class AdminSectionComponent implements OnInit {
 
   user : User;
-
-
-  not_admin = false;
   managed_leagues : League[] = [];
 
-  constructor(private storage : StorageService) { 
+
+  constructor(private storage : StorageService,
+              private leagueService : LeagueService) { 
     this.user = this.storage.getSelectedUser();
+    var leagues = storage.getLeagues();
+    for (let league of leagues) {
+      if (league.admin_id === this.user.UID) {
+        this.managed_leagues.push(league);
+      }
+    }
+
 
     
 
   }
 
   ngOnInit(): void {
-
-    var leagues = this.storage.getLeagues();
-    var check = true;
-    for (let league of leagues) {
-      if (league.admin_id === this.user.UID)  {
-        check = false;
-        this.managed_leagues.push(league);
-      }
-    }
-    this.not_admin = check;
   }
 }
