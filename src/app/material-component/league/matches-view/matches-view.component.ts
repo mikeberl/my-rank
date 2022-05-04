@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 import { DialogOverviewExampleDialogComponent } from '../../dialog/dialog.component';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { GeneratorService } from 'src/app/services/generator.service';
 
 @Component({
   selector: 'app-matches-view',
@@ -25,13 +26,18 @@ export class MatchesViewComponent implements OnInit {
   league_id :string = "";
 
   pipe = new DatePipe('en-US');
+
+  user : User;
   
 
   constructor(public dialog: MatDialog,
               private route: ActivatedRoute,
               private matchService: MatchService,
               private playerService : PlayerService,
-              public snackBar: MatSnackBar) { }
+              public snackBar: MatSnackBar,
+              private userService : UserService) {
+    this.user = userService.getMain();
+               }
 
   ngOnInit(): void {
 
@@ -60,7 +66,7 @@ export class MatchesViewComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialogComponent, {
       width: '300px',
       height: '400px',
-      data: { reporter_id : 0, match : match } // TODO get player_id/user_id of reporter
+      data: { reporter_id : this.playerService.getPlayerByUserAndLeague(this.user.UID, this.league_id).id, match : match } // TODO get player_id/user_id of reporter
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -69,7 +75,7 @@ export class MatchesViewComponent implements OnInit {
   }
 
   loadMore() {
-    this.openSnackBarNoMoreMatches("ERROR:", "No more mathes to be loaded.");
+    this.openSnackBarNoMoreMatches("ERROR:", "No more matches to be loaded.");
   }
 
   getPlayersName(players : RankedPlayer[]) {

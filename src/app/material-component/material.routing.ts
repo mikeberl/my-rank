@@ -47,7 +47,7 @@ export const MaterialRoutes: Routes = [
     component: AllLeaguesComponent
   },
   {
-    path: 'reports',
+    path: 'reports/:id',
     component: ReportMessageViewComponent
   },
   {

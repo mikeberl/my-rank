@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ReportMessage } from 'src/app/models/report-message.model';
+import { PlayerService } from 'src/app/services/player.service';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -11,19 +13,31 @@ export class ReportMessageViewComponent implements OnInit {
 
   reports : ReportMessage[] = [];
 
-  constructor(private reportService : ReportService) {
-    var tmp = reportService.getReportsByLeague('l1');
-    if (tmp != undefined) {
-      this.reports = tmp;
-    }
-    else {
-      
-    }
-    
-    console.log(this.reports);
-   }
+  league_id : string = '';
+  no_reports = false;
+
+  constructor(private reportService : ReportService,
+              private route: ActivatedRoute,
+              private playerService : PlayerService) {
+    this.route.params.subscribe(params => {
+      this.league_id = params['id'];
+      var tmp = reportService.getReportsByLeague(this.league_id);
+      if (tmp != undefined) {
+        console.log(tmp);
+        this.reports = tmp;
+      }
+      else {
+        this.no_reports = true;
+      }
+    });
+  }
 
   ngOnInit(): void {
+  }
+
+  getReporter(id : string) {
+    console.log(id);
+    return this.playerService.getPlayerById(this.league_id, id);  
   }
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Match } from '../models/match.model';
-import { ReportMessage, ReportMessageNoId } from '../models/report-message.model';
+import { ReportMessage, ReportMessageNoId, ReportType } from '../models/report-message.model';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +76,21 @@ export class ReportService {
     }
     else {
       return undefined;
+    }
+  }
+
+  getReportTypeString(type : ReportType) : string {
+    if (type === ReportType.WRONGPOINTS) {
+      return "Wrong Points";
+    }
+    else if (type === ReportType.WRONGPLAYERS) {
+      return "Wrong Players";
+    }
+    else if (type === ReportType.DOUBLEINPUT) {
+      return "Double Input";
+    }
+    else {
+      return "Others";
     }
   }
 }

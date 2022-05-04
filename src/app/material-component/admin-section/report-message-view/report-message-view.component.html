@@ -1,39 +1,32 @@
 
     
 
-    <div class="p-20">
+    <div class="p-20" *ngIf="!no_reports">
         <div *ngFor="let report of reports">
             <mat-card>
-                <mat-card-content>
-                <mat-card-title>{{ report.date }}</mat-card-title>
-<!--                     <mat-card-subtitle>Expansion panel</mat-card-subtitle>
--->                    
-                    <mat-accordion class="example-headers-align">
+               <!--  <mat-card-header>
                     
-                            <mat-expansion-panel hideToggle="true">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>     
-                                        <mat-line>
-                                            {{report.reporter_id}}
-                                        </mat-line>
-                                        <mat-line>
-                                            {{report.match_id}}
-                                        </mat-line>
-                                        
-                                         
-                                    </mat-panel-title>
-                                    <mat-panel-description> 
-                                        {{report.message}}                                          
-                                    </mat-panel-description>
-                                    <button mat-button color="primary" routerLink="/l1/review-match/{{report.match_id}}">
-                                        Manage Match
-                                    </button> 
-                                </mat-expansion-panel-header>
-                            </mat-expansion-panel>
-                    </mat-accordion>
+
+                </mat-card-header> -->
+                <mat-card-content>
+                    <mat-card-title>Match #{{report.match_id}}</mat-card-title>
+                    <mat-card-subtitle>Reported by: {{getReporter(report.reporter_id).fullname}}</mat-card-subtitle>
+                    <br>
+                    " {{ report.message}} "
+                    <div class="error-type">
+                        Error type : {{reportService.getReportTypeString(report.type)}}
+                    </div>
+                    <button mat-raised-button color="accent" class="review-match-button"> 
+                        Review Match 
+                        <mat-icon>arrow_right</mat-icon>
+                    </button>
                 </mat-card-content>
             </mat-card>
             
         </div>
             
+    </div>
+
+    <div *ngIf="no_reports">
+        <h1> No match is reported at the moment. </h1>
     </div>

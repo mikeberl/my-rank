@@ -1,0 +1,16 @@
+.error-type {
+    position: absolute;
+    top: 5% ;
+    right: 2% ;
+    font-size: small;
+}
+
+.review-match-button {
+    position: absolute;
+    bottom: 5% ;
+    right: 2% ;
+}
+
+mat-card-subtitle {
+    border-bottom: grey 1px;
+}
