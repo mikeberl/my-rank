@@ -49,6 +49,7 @@ create-new-league end of submit methos should be a method of league service
 userService need to be completely refactored
 NO STORAGE CALLS OUTSIDE SERVICES
 smallest diventa largest create team
+Error page if not found in storage
 
 
 add max point to league DONE

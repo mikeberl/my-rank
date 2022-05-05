@@ -16,7 +16,7 @@
                     <div class="error-type">
                         Error type : {{reportService.getReportTypeString(report.type)}}
                     </div>
-                    <button mat-raised-button color="accent" class="review-match-button" routerLink="review/{{report.match_id}}"> 
+                    <button mat-raised-button color="accent" class="review-match-button" routerLink="/{{league_id}}/report/{{report.match_id}}"> 
                         Review Match 
                         <mat-icon>arrow_right</mat-icon>
                     </button>

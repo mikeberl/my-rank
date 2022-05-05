@@ -78,13 +78,13 @@ export class MatchesViewComponent implements OnInit {
     this.openSnackBarNoMoreMatches("ERROR:", "No more matches to be loaded.");
   }
 
-  getPlayersName(players : RankedPlayer[]) {
+  /* getPlayersName(players : RankedPlayer[]) {
     var players_string : string[] = [];
     for (let player of players) {
       players_string.push(player.fullname);
     }
     return players_string;
-  }
+  } */
 
   getPlayer(id : string) {
     var player = this.playerService.getPlayerById(this.league_id, id);

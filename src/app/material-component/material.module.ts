@@ -41,6 +41,7 @@ import { AllLeaguesComponent } from './all-leagues/all-leagues.component';
 import { ReportMessageViewComponent } from './admin-section/report-message-view/report-message-view.component';
 import { ReviewMatchComponent } from './admin-section/review-match/review-match.component';
 import { MatchesViewComponent } from './league/matches-view/matches-view.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   imports: [
@@ -82,7 +83,8 @@ import { MatchesViewComponent } from './league/matches-view/matches-view.compone
     AllLeaguesComponent,
     ReportMessageViewComponent,
     ReviewMatchComponent,
-    MatchesViewComponent
+    MatchesViewComponent,
+    ErrorComponent
   ]
 })
 export class MaterialComponentsModule {}

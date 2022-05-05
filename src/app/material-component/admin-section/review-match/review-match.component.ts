@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Match } from 'src/app/models/match.model';
+import { ReportMessage } from 'src/app/models/report-message.model';
 import { MatchService } from 'src/app/services/match.service';
+import { PlayerService } from 'src/app/services/player.service';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -12,34 +14,44 @@ import { ReportService } from 'src/app/services/report.service';
 export class ReviewMatchComponent implements OnInit {
 
   league_id : string = "";
-  match_id : number = 0; 
-  match : Match = {id : 999, player_id : 'p1', league_id : 'l1', winners: [],
-  losers: [], winned_points: 15, loosed_points: 15, date : new Date(), was_reported: true};
+  report_id : number = 0; 
+  match : Match | undefined = undefined;
+  report : ReportMessage | undefined = undefined;
 
   constructor(private matchService : MatchService,
               private reportService : ReportService,
+              private playerService : PlayerService,
               private route: ActivatedRoute) {
     
     this.route.params.subscribe(params => {
       this.league_id = params['league'];
-      this.match_id = params['match'];
-      var tmp = matchService.getMatch(this.league_id, this.match_id);
-      if (tmp != undefined) {
-        this.match = tmp;
+      this.report_id = params['report'];
+      this.report = reportService.getReportById(this.league_id, this.report_id);
+      if (this.report != undefined) {
+        this.match = matchService.getMatch(this.league_id, this.report?.match_id);
+        if (this.match === undefined) {
+          console.log("match not found");
+        }
+      } 
+      else {
+        console.log("Report not found");
       }
-      else {}
-      console.log(this.match);
     });
-    
-  
   }
 
   ngOnInit(): void {
   }
 
   changePoints() {
-    this.match.winned_points = 999;
-    this.matchService.modifyMatchPoints(this.match);
-    this.reportService.resolveReport(this.league_id, this.match_id);
+    if (this.match != undefined) {
+      this.match.winned_points = 999;
+      this.matchService.modifyMatchPoints(this.match);
+      this.reportService.resolveReport(this.league_id, this.report_id); //TODO CHECK!!
+    }  
+  }
+
+  getPlayer(id : string) {
+    var player = this.playerService.getPlayerById(this.league_id, id);
+    return player;
   }
 }

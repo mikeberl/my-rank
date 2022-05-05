@@ -1,32 +1,67 @@
-<mat-card>
-    <mat-card-title>Review Match #{{match.id}}</mat-card-title>
-    <mat-card-subtitle>
-        
-    </mat-card-subtitle>
-    <mat-card-content>
-        <div>
-            <label> Winners 
-            </label>
-            <h5> Michele </h5>
-        </div>
-        <div>
-            <label> Losers 
-            </label>
-            <h5> Michele </h5>
-        </div>
-        <div>
-            <label> 
-                Points 
-                <span>
-                    <button mat-icon-button (click)="changePoints()">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+<div *ngIf="match != undefined">
+    <mat-card>
+        <mat-card-title>Review Match #{{match.id}}</mat-card-title>
+        <mat-card-subtitle>
+            {{ match.winners.length}} vs {{ match.losers.length}} registered by {{ getPlayer(match.player_id).fullname }} 
+        </mat-card-subtitle>
+        <mat-card-content>
+            <mat-grid-list cols="2">
+                <mat-grid-tile>
+                    <div>
+                        Winners :
+                        <mat-chip-list *ngFor="let winner of match.winners">
+                            <mat-chip color="primary" selected> {{winner.fullname }} +{{match.winned_points}}</mat-chip>
+                          </mat-chip-list>
+                    </div>
+                    <!-- <label> Total: </label>
+                    {{match.loosed_points * match.losers.length}} -->
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <div>
+                        Losers :
+                        <mat-chip-list *ngFor="let loser of match.losers">
+                            <mat-chip color="warn" selected> {{loser.fullname }} +{{match.loosed_points}}</mat-chip>
+                          </mat-chip-list>
+                    </div>
+                    <!-- <label> Total: </label>
+                    {{match.loosed_points * match.losers.length}} -->
+                </mat-grid-tile>
+            </mat-grid-list>
+            
+            <br>
+            
+        </mat-card-content>
 
-                </span>
-                
-            </label>
-            <h5> 34 </h5>
-        </div>
-    </mat-card-content>
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title> {{ match.winners.length}} vs {{ match.losers.length}}
+                    </mat-panel-title>
+                <mat-panel-description> 
+                    registered by {{ getPlayer(match.player_id).fullname }} 
 
-</mat-card>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div>
+                Winners :
+                <mat-chip-list *ngFor="let winner of match.winners">
+                    <mat-chip color="primary" selected> {{winner.fullname }} +{{match.winned_points}}</mat-chip>
+                  </mat-chip-list>
+            </div>
+            <div>
+                Losers :
+                <mat-chip-list *ngFor="let loser of match.losers">
+                    <mat-chip color="warn" selected> {{loser.fullname }} +{{match.loosed_points}}</mat-chip>
+                  </mat-chip-list>
+            </div>
+            <br>
+            <button mat-raised-button class="report-button" (click)="openDialog(match)">
+                <mat-icon> report </mat-icon>
+                Report
+            </button>
+        </mat-expansion-panel>
+    
+    </mat-card>
+</div>
+<div>
+    <app-error></app-error>
+</div>

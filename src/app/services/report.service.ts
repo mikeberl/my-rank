@@ -93,4 +93,18 @@ export class ReportService {
       return "Others";
     }
   }
+
+  getReportById(league: string, report : number) {
+    var reports = this.getReportsByLeague(league);
+    if (reports != undefined) {
+      var index = reports.findIndex(function(x, index) {
+        if(x.id == x.id)
+          return true;
+      });
+      return reports[index];
+    }
+    else {
+      return undefined;
+    }
+  }
 }
