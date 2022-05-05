@@ -36,7 +36,6 @@ export class ReportMessageViewComponent implements OnInit {
   }
 
   getReporter(id : string) {
-    console.log(id);
     return this.playerService.getPlayerById(this.league_id, id);  
   }
 

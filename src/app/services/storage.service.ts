@@ -23,6 +23,7 @@ export class StorageService {
               private leagueService : GeneratorService
               //private playerService : PlayerService
               ) {
+              
     var leagues = localStorage.getItem(this.leagues_);
     if (leagues === null) {
       localStorage.setItem(this.leagues_, JSON.stringify(leagueService.getLeagueitem()));
@@ -35,6 +36,8 @@ export class StorageService {
 
     leagueService.generate();
    }
+
+
 
   getUsers() : User[] {
     var users_string = localStorage.getItem(this.users_);
