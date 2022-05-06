@@ -17,6 +17,7 @@ export class ReviewMatchComponent implements OnInit {
   report_id : number = 0; 
   match : Match | undefined = undefined;
   report : ReportMessage | undefined = undefined;
+  change_check = false;
 
   constructor(private matchService : MatchService,
               private reportService : ReportService,
@@ -42,12 +43,46 @@ export class ReviewMatchComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  changePoints() {
+  changePoints(list : number, points: number) {
     if (this.match != undefined) {
-      this.match.winned_points = 999;
-      this.matchService.modifyMatchPoints(this.match);
-      this.reportService.resolveReport(this.league_id, this.report_id); //TODO CHECK!!
+      if (list === 0) {
+        if (this.match.winned_points != points) {
+          this.change_check = true;
+        }
+        this.match.winned_points = points;
+        this.match.loosed_points = points;  
+      }
+      else if (list === 1) {
+        if (this.match.loosed_points != points) {
+          this.change_check = true;
+        }
+        this.match.winned_points = points / this.match.losers.length * this.match.winners.length;
+        this.match.loosed_points = points;
+      }
+      else if (list === 2) {
+        if (this.match.winned_points != points) {
+          this.change_check = true;
+        }
+        this.match.winned_points = points;
+        this.match.loosed_points = points / this.match.winners.length * this.match.losers.length;
+      }         
     }  
+  }
+
+  saveMatch() {
+    if (this.match != undefined) {
+      if ((this.match.winned_points % 5) === 0 && (this.match.loosed_points % 5) === 0) {
+        this.matchService.modifyMatchPoints(this.match);
+        this.reportService.resolveReport(this.league_id, this.report_id); //TODO CHECK!!
+      }
+    }
+  }
+
+  deleteMatch() {
+    if (this.match != undefined) {
+      this.reportService.resolveReport(this.league_id, this.report_id); //TODO CHECK!!
+      this.matchService.deleteMatch(this.match);
+    }
   }
 
   getPlayer(id : string) {

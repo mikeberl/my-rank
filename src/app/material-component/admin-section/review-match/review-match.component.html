@@ -5,6 +5,22 @@
             {{ match.winners.length}} vs {{ match.losers.length}} registered by {{ getPlayer(match.player_id).fullname }} 
         </mat-card-subtitle>
         <mat-card-content>
+            <label *ngIf="match.winners.length > match.losers.length">
+                Points of the players of the winning team: 
+                <input  #wpoints placeholder="{{match.winned_points}}">
+                <button mat-button (click)="changePoints(2, wpoints.value)">Change</button>
+            </label>
+            <br>
+            <label *ngIf="match.winners.length < match.losers.length">
+                Points of the players of the loosing team:
+                <input  #lpoints placeholder="{{match.loosed_points}}">
+                <button mat-button (click)="changePoints(1, lpoints.value)">Change</button>
+            </label>   
+            <label *ngIf="match.winners.length === match.losers.length">
+                Points of the players:
+                <input  #points placeholder="{{match.loosed_points}}">
+                <button mat-button (click)="changePoints(0, points.value)">Change</button>
+            </label>         
             <mat-grid-list cols="2">
                 <mat-grid-tile>
                     <div>
@@ -13,8 +29,6 @@
                             <mat-chip color="primary" selected> {{winner.fullname }} +{{match.winned_points}}</mat-chip>
                           </mat-chip-list>
                     </div>
-                    <!-- <label> Total: </label>
-                    {{match.loosed_points * match.losers.length}} -->
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <div>
@@ -29,37 +43,19 @@
             </mat-grid-list>
             
             <br>
+            <div class="review-buttons">
+                <button mat-raised-button color="warn" (click)="deleteMatch()">
+                    <mat-icon>delete</mat-icon>
+                    Delete
+                </button>
+                <button mat-raised-button color="primary" [disabled]="!change_check" (click)="saveMatch()">
+                    <mat-icon>ok</mat-icon>
+                    Save
+                </button>
+            </div>
+            
             
         </mat-card-content>
-
-        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-                <mat-panel-title> {{ match.winners.length}} vs {{ match.losers.length}}
-                    </mat-panel-title>
-                <mat-panel-description> 
-                    registered by {{ getPlayer(match.player_id).fullname }} 
-
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div>
-                Winners :
-                <mat-chip-list *ngFor="let winner of match.winners">
-                    <mat-chip color="primary" selected> {{winner.fullname }} +{{match.winned_points}}</mat-chip>
-                  </mat-chip-list>
-            </div>
-            <div>
-                Losers :
-                <mat-chip-list *ngFor="let loser of match.losers">
-                    <mat-chip color="warn" selected> {{loser.fullname }} +{{match.loosed_points}}</mat-chip>
-                  </mat-chip-list>
-            </div>
-            <br>
-            <button mat-raised-button class="report-button" (click)="openDialog(match)">
-                <mat-icon> report </mat-icon>
-                Report
-            </button>
-        </mat-expansion-panel>
-    
     </mat-card>
 </div>
 <div>

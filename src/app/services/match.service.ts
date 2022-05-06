@@ -148,6 +148,20 @@ export class MatchService {
     }
   }
 
+  deleteMatch(match : Match) {
+    var tmp_matches = this.storage.getMatchesByLeague(match.league_id);
+    if (tmp_matches != null) {
+      var matches : Match[] = JSON.parse(tmp_matches);
+      for (let match_ of matches) {
+        if(match_.id === match.id) {
+          matches.splice(matches.indexOf(match_), 1);
+          break;
+        }
+      }
+      this.storage.saveMatch(match.league_id, matches); 
+    }
+  }
+
   // just for testing
   clearMatches() {
     localStorage.clear();
