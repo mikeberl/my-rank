@@ -13,10 +13,6 @@
                   <mat-icon>search</mat-icon>
                 </button>
               </mat-toolbar>
-              
-<!--                 <mat-card-subtitle><code>&lt;mat-grid-list&gt;</code> is a two-dimensional list view that arranges cells into grid-based layout. See Material Design spec. <code><a href="https://material.io/guidelines/components/grid-lists.html">Official Doc here</a></code></mat-card-subtitle>
- -->                
-                
                 <mat-selection-list #players>
                   <mat-list-item *ngFor="let player of arr_player">
                       <div mat-line>
@@ -82,7 +78,7 @@
           <mat-grid-tile >
 
             <mat-chip-list class="mat-chip-list-stacked"  #winners="ngModel" name="winners" ngModel>
-              <mat-chip *ngFor="let player of arr_winners">{{player.fullname}}
+              <mat-chip *ngFor="let player of arr_winners" color="primary" selected>{{player.fullname}}
                 <mat-icon (click)="changeToLoser(player)">swap_horiz</mat-icon>
                 <mat-icon matChipRemove (click)="restorePlayer(player, 1)">cancel</mat-icon>
               </mat-chip>
@@ -91,7 +87,7 @@
   
           <mat-grid-tile>
             <mat-chip-list class="mat-chip-list-stacked"  #losers="ngModel" name="losers" ngModel>
-              <mat-chip *ngFor="let player of arr_losers">{{player.fullname}}
+              <mat-chip *ngFor="let player of arr_losers" color="warn" selected>{{player.fullname}}
                 <mat-icon (click)="changeToWinner(player)">swap_horiz</mat-icon>
                 <mat-icon matChipRemove (click)="restorePlayer(player, 2)">cancel</mat-icon>
               </mat-chip>

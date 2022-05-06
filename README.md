@@ -50,6 +50,8 @@ userService need to be completely refactored
 NO STORAGE CALLS OUTSIDE SERVICES
 smallest diventa largest create team
 Error page if not found in storage
+Close sidenav on item click
+add type : match/tournament/activity/bonus to match
 
 
 add max point to league DONE

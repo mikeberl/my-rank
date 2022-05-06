@@ -1,16 +1,14 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import {MatGridListModule} from '@angular/material/grid-list';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatchNoId } from 'src/app/models/match.model';
 import { RankedPlayer } from 'src/app/models/ranked-player.model';
-import { Match, MatchNoId } from 'src/app/models/match.model';
 import { User } from 'src/app/models/user.model';
-import { UserService } from 'src/app/services/user.service';
-import Swal from 'sweetalert2';
 import { MatchService } from 'src/app/services/match.service';
 import { PlayerService } from 'src/app/services/player.service';
 import { StorageService } from 'src/app/services/storage.service';
-import { MatChip } from '@angular/material/chips';
+import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 interface Chip {
   value : number;
@@ -18,11 +16,11 @@ interface Chip {
 }
 
 @Component({
-  selector: 'app-create-match',
-  templateUrl: './create-match.component.html',
-  styleUrls: ['./create-match.component.scss']
+  selector: 'app-special-event',
+  templateUrl: './special-event.component.html',
+  styleUrls: ['./special-event.component.css']
 })
-export class CreateMatchComponent {
+export class SpecialEventComponent implements OnInit {
   
   arr_player: RankedPlayer[] = [];
   arr_player_copy: RankedPlayer[] = [];
@@ -63,7 +61,7 @@ export class CreateMatchComponent {
     /* this.navbarService.selectNavbarBack();
     this.navbarService.navbarBackTitle(this.title); */
     this.route.params.subscribe(params => {
-      this.league_id = params['id'];
+      this.league_id = params['league'];
       this.arr_player = this.storage.getActivePlayersByLeague(this.league_id);
       console.log(this.arr_player);
     });

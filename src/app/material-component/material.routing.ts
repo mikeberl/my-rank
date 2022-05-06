@@ -23,6 +23,7 @@ import { CreateNewLeagueComponent } from './create-new-league/create-new-league.
 import { AllLeaguesComponent } from './all-leagues/all-leagues.component';
 import { ReportMessageViewComponent } from './admin-section/report-message-view/report-message-view.component';
 import { ReviewMatchComponent } from './admin-section/review-match/review-match.component';
+import { SpecialEventComponent } from './special-event/special-event.component';
 
 export const MaterialRoutes: Routes = [
   {
@@ -47,8 +48,12 @@ export const MaterialRoutes: Routes = [
     component: AllLeaguesComponent
   },
   {
-    path: 'reports/:id',
+    path: ':id/reports',
     component: ReportMessageViewComponent
+  },
+  {
+    path: ':league/special-event',
+    component: SpecialEventComponent
   },
   {
     path: ':league/report/:report',

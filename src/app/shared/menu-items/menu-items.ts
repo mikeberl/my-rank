@@ -13,8 +13,8 @@ const MENUITEMS = [
   // { state: 'league/', name: 'View your League', type: 'link', icon: 'emoji_events'},
   { state: 'admin-section', name: 'Manage League', type: 'link', icon: 'manage_accounts'},
   { state: 'new-league', name: 'New League', type: 'link', icon: 'add_circle_outline'},
-  { state: 'dashboard', name: 'Dashboard', type: 'link', icon: 'av_timer' },
-  { state: 'button', type: 'link', name: 'Buttons', icon: 'crop_7_5' },
+  // { state: 'dashboard', name: 'Dashboard', type: 'link', icon: 'av_timer' },
+/*   { state: 'button', type: 'link', name: 'Buttons', icon: 'crop_7_5' },
   { state: 'lists', type: 'link', name: 'Lists', icon: 'view_list' },
   { state: 'menu', type: 'link', name: 'Menu', icon: 'view_headline' },
   { state: 'tabs', type: 'link', name: 'Tabs', icon: 'tab' },
@@ -53,7 +53,7 @@ const MENUITEMS = [
     type: 'link',
     name: 'Slide Toggle',
     icon: 'all_inclusive'
-  }
+  } */
 ];
 
 @Injectable()
