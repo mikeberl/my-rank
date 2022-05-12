@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Match } from "./match.model";
+import { SpecialEvent } from "./special-event.model";
 
 export interface RankedPlayer {
     id: string;
@@ -8,6 +9,7 @@ export interface RankedPlayer {
     points : number;
     picture_url: string;
     matches : Match[];
+    events : SpecialEvent[];
     active : boolean;
 }
 

@@ -45,11 +45,10 @@
       <mat-chip-list class="mat-chip-list-stacked"  #winners="ngModel" name="winners" ngModel>
         <mat-chip *ngFor="let player of arr_winners" color="primary" selected>{{player.fullname}}
           <!-- <mat-icon (click)="changeToLoser(player)">swap_horiz</mat-icon> -->
-          <input>
-          <mat-icon matChipRemove (click)="restorePlayer(player, 1)">cancel</mat-icon>
+          <input ngModel id="{{player.id}}" name="{{player.id}}" required>
+          <mat-icon matChipRemove (click)="restorePlayer(player)">cancel</mat-icon>
         </mat-chip>
       </mat-chip-list>
-        <p class="points-error" *ngIf="winned_points > max_point || loosed_points > max_point">The maximum of points a player can get is : {{max_point}}</p>
         <p class="points-error" *ngIf="!result.valid">Please insert a date.</p>          
         <button mat-button class="btn-primary" type="submit" color="primary" [disabled]="disableSubmit(result)">Submit</button>
 

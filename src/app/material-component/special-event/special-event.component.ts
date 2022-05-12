@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatchNoId } from 'src/app/models/match.model';
 import { RankedPlayer } from 'src/app/models/ranked-player.model';
+import { EventElement, EventType, SpecialEvent } from 'src/app/models/special-event.model';
 import { User } from 'src/app/models/user.model';
 import { MatchService } from 'src/app/services/match.service';
 import { PlayerService } from 'src/app/services/player.service';
@@ -25,27 +26,13 @@ export class SpecialEventComponent implements OnInit {
   arr_player: RankedPlayer[] = [];
   arr_player_copy: RankedPlayer[] = [];
   arr_winners : RankedPlayer[] = [];
-  arr_losers: RankedPlayer[] = [];
 
   league_id : string = "";
   user : User;
 
   selected_chip : Chip | undefined;
 
-  winned_points = 0;
-  loosed_points = 0;
-  multiplier = 0;
-
   max_point = 60; // TODO add max point to league
-
-  chips : Chip[] = [
-    {value : 5, state: false},
-    {value : 10, state: false},
-    {value : 15, state: false},
-    {value : 20, state: false},
-    {value : 25, state: false},
-    {value : 30, state: false},
-  ];
 
   constructor(/* private navbarService : NavbarServiceService, */
               private router: Router,
@@ -71,72 +58,66 @@ export class SpecialEventComponent implements OnInit {
   addToWinners(player : RankedPlayer) {
     var tmp_player = this.arr_player.splice(this.arr_player.indexOf(player), 1)[0];
     this.arr_winners.push(tmp_player);
-    this.changeMultiplier(this.multiplier);
-  }
-
-  // Add to losing team
-  addToLosers(player : RankedPlayer) {
-    var tmp_player = this.arr_player.splice(this.arr_player.indexOf(player), 1)[0];
-    this.arr_losers.push(tmp_player);
-    this.changeMultiplier(this.multiplier);
   }
 
   // Add to search list
-  restorePlayer(player : RankedPlayer, list : number) {
+  restorePlayer(player : RankedPlayer) {
     var tmp_player : RankedPlayer;
-    if (list === 1) {
-      tmp_player = this.arr_winners.splice(this.arr_winners.indexOf(player), 1)[0];
-      this.arr_player.push(tmp_player);
-      this.changeMultiplier(this.multiplier);
-    }
-    else {
-      tmp_player = this.arr_losers.splice(this.arr_losers.indexOf(player), 1)[0];
-      this.arr_player.push(tmp_player);
-      this.changeMultiplier(this.multiplier);
-    }
+
+    tmp_player = this.arr_winners.splice(this.arr_winners.indexOf(player), 1)[0];
+    this.arr_player.push(tmp_player);
     // should not happend
     console.log(player);
     console.log(tmp_player);
-    console.log(this.arr_losers);
     console.log(this.arr_winners);
     
     
   }
 
-  // swap team
-  changeToLoser(player : RankedPlayer) {
-    this.arr_winners.splice(this.arr_winners.indexOf(player), 1);
-    this.arr_losers.push(player);
-    this.changeMultiplier(this.multiplier);
-  }
-
-  // swap team
-  changeToWinner(player : RankedPlayer) {
-    this.arr_losers.splice(this.arr_winners.indexOf(player), 1);
-    this.arr_winners.push(player);
-    this.changeMultiplier(this.multiplier);
-  }
-
   onSubmit(form : NgForm) {
-    
+    console.log(form);
+    for(let player of this.arr_winners) {
+      if (form.controls[player.id].value % 5 != 0) {
+        this.alertError();
+        console.log("invalid points");
+        return;
+      }
+    }
     // this.router.navigate(['/']);
-    if (this.arr_winners.length === 0 || this.arr_losers.length === 0) {
+    if (this.arr_winners.length === 0) {
       this.alertError();
     }
-    else if (this.multiplier === 0) {
-      this.alertNoPoints();
-    }
-    else if ((this.winned_points % 5) != 0 || (this.loosed_points % 5) != 0) {
-      this.alertInvalidPoints();
-    }
     else {
-      var new_match : MatchNoId = this.createMatch(form);
-      this.matchService.newMatch(this.league_id, new_match);
+      var new_event : SpecialEvent = this.createEvent(form);
+      this.matchService.newEvent(this.league_id, new_event);
+      /* var new_match : MatchNoId = this.createMatch(form);
+      this.matchService.newMatch(this.league_id, new_match); */
       this.alertConfirmationEqual();
     }
   }
 
-  createMatch(form : NgForm) : MatchNoId {
+  createEvent(form : NgForm) {
+    var eventelement : EventElement[] = [];
+    for (let player_ of this.arr_winners) {
+      var points_ = form.controls[player_.id].value;
+      var element : EventElement = {
+        player : player_,
+        points : points_
+      }
+      eventelement.push(element);
+    }
+    var event : SpecialEvent = {
+      id : 0,
+      league_id : this.league_id,
+      points : eventelement,
+      date : form.controls['date'].value.toString(),
+      was_reported : false,
+      event_type : EventType.OTHER
+    }
+    return event;
+  }
+
+  /* createMatch(form : NgForm) : MatchNoId {
     console.log(form.value.date);
     var match : MatchNoId = {league_id : this.league_id, 
                 player_id: this.playerService.getPlayerByUserAndLeague(this.user.UID, this.league_id)?.id,
@@ -144,56 +125,7 @@ export class SpecialEventComponent implements OnInit {
               date : form.value.date.toString(), was_reported: false};
 
     return match;
-  }
-
-  selectChip(chip : Chip) {
-    // tmp needend for avoiding nested this in findIndex
-    var tmp = this.selected_chip;
-    if (tmp === undefined) {
-      this.selected_chip = chip;
-      this.changeMultiplier(chip.value);
-      return;
-    }
-    else {
-      var index = this.chips.findIndex(function(x, index) {
-        if(x.value === tmp?.value)
-          return true;
-      });
-      this.chips[index].state = false;
-      if (this.selected_chip != chip) {
-        this.selected_chip = chip;
-      }
-      else {
-        this.selected_chip = undefined;
-        this.multiplier = 0;
-      } 
-      this.changeMultiplier(chip.value);
-    }
-  }
-
-  changeMultiplier(multiplier : number) {
-    if (this.arr_winners.length === this.arr_losers.length) {
-      this.winned_points = multiplier;
-      this.loosed_points = multiplier;
-    }
-    else if (this.arr_winners.length > this.arr_losers.length) {
-      this.loosed_points = multiplier / this.arr_losers.length * this.arr_winners.length;
-      this.winned_points = multiplier;
-    }
-    else if (this.arr_winners.length < this.arr_losers.length) {
-      this.winned_points = multiplier / this.arr_winners.length * this.arr_losers.length;
-      this.loosed_points = multiplier;
-    }
-    else {
-      console.log("Impossible to modify the multiplier.");
-    }
-    this.multiplier = multiplier;
-    
-  }
-
-  clearStorage() {
-    this.matchService.clearMatches();
-  }
+  } */
 
   alertError() {
     Swal.fire({
@@ -244,7 +176,7 @@ export class SpecialEventComponent implements OnInit {
   }
 
   disableSubmit(form : NgForm) {
-    if (form.valid === true && this.winned_points <= this.max_point  && this.loosed_points <= this.max_point) {
+    if (form.valid === true) {
       return false;
     }
     else {

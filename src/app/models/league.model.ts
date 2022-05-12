@@ -1,5 +1,3 @@
-import { Injectable } from "@angular/core";
-
 export interface League {
     id: string;
     name: string;

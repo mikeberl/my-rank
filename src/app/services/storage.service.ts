@@ -5,8 +5,8 @@ import { RankedPlayer } from '../models/ranked-player.model';
 import { ReportMessage } from '../models/report-message.model';
 import { User } from '../models/user.model';
 import { UserService } from './user.service';
-import { PlayerService } from './player.service';
 import { GeneratorService } from './generator.service';
+import { SpecialEvent } from '../models/special-event.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,7 @@ export class StorageService {
   players_ : string = "PLAYERS_";
   leagues_ : string = "LEAGUES_";
   users_ : string = "USERS_";
+  events_ : string = "EVENTS_";
 
   constructor(private userService : UserService,
               private leagueService : GeneratorService
@@ -37,6 +38,10 @@ export class StorageService {
     leagueService.generate();
    }
 
+  getEventByLeague(league : string) {
+
+  } 
+
 
 
   getUsers() : User[] {
@@ -51,7 +56,6 @@ export class StorageService {
       return users;
     }
   }
-
 
   getSelectedUser() : User {
     var users_string = localStorage.getItem(this.users_);
@@ -126,13 +130,18 @@ export class StorageService {
   }
 
   getMatchesByLeague(league : string) : string | null {
-    var tmp_report = localStorage.getItem(this.matches_ + league);
-    return tmp_report;
+    var tmp_matches = localStorage.getItem(this.matches_ + league);
+    return tmp_matches;
+  }
+
+  getEventsByLeague(league : string) : string | null {
+    var tmp_events = localStorage.getItem(this.events_ + league);
+    return tmp_events;
   }
 
   getPlayersByLeague(league : string) : string | null {
-    var tmp_report = localStorage.getItem(this.players_ + league);
-    return tmp_report;
+    var tmp_players = localStorage.getItem(this.players_ + league);
+    return tmp_players;
   }
 
   getActivePlayersByLeague(league : string) {
@@ -198,5 +207,19 @@ export class StorageService {
 
   saveUser(users : User[]) {
     localStorage.setItem(this.users_, JSON.stringify(users));
+  }
+
+  saveEvent(event : SpecialEvent) {
+    var events_string = localStorage.getItem(this.events_ + event.league_id);
+    if (events_string != null) {
+      var events : SpecialEvent[] = JSON.parse(events_string);
+      events.push(event);
+      localStorage.setItem(this.events_, JSON.stringify(events));
+    }
+    else {
+      var events : SpecialEvent[] = [];
+      events.push(event);
+      localStorage.setItem(this.events_, JSON.stringify(events));
+    }
   }
 }

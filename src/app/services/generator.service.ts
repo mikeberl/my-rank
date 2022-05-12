@@ -42,6 +42,7 @@ export class GeneratorService {
   players_prefix : string = "PLAYERS_";
   leagues_prefix : string = "LEAGUES_";
   users_prefix : string = "USERS_";
+  events_prefix : string = "EVENTS_";
 
   users_: User[] = USER;
   leagues_ : League[] = LEAGUEITEMS;
@@ -91,6 +92,7 @@ export class GeneratorService {
         points : 0,
         picture_url : user.profile_pic, 
         matches: [], 
+        events: [],
         active: true};
       return player;  
     }
@@ -103,6 +105,7 @@ export class GeneratorService {
         points : 0,
         picture_url : user.profile_pic,  
         matches: [],
+        events: [],
         active: true};
       players.push(player);
 

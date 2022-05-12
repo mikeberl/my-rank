@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Match, MatchNoId } from '../models/match.model';
+import { SpecialEvent } from '../models/special-event.model';
 import { PlayerService } from './player.service';
 import { StorageService } from './storage.service';
 
@@ -43,6 +44,11 @@ export class MatchService {
       this.playerService.addMatch(match);
     }
 
+  }
+
+  newEvent(league : string, event : SpecialEvent) {
+    this.storage.saveEvent(event);  
+    this.playerService.addEvent(event);
   }
 
   getMatchId(no_id : MatchNoId, matches : Match[]) {
@@ -166,4 +172,6 @@ export class MatchService {
   clearMatches() {
     localStorage.clear();
   } 
+
+  
 }

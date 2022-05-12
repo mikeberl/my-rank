@@ -3,14 +3,15 @@ import { Match } from '../models/match.model';
 import { RankedPlayer } from '../models/ranked-player.model';
 import { UserService } from './user.service';
 import { StorageService } from './storage.service';
+import { SpecialEvent } from '../models/special-event.model';
 
 const RANKEDPLAYERS = [
-  { id: 'p1', UID: 1, fullname: 'Michele Berlanda', points: 0, picture_url: '/assets/images/users/1.jpg', matches: [], active: true},
-  { id: 'p2', UID: 2, fullname: 'Piero Magi', points: 0, picture_url: '/assets/images/users/2.jpg', matches: [], active: true},
-  { id: 'p3', UID: 3, fullname: 'Luca Arsev', points: 0, picture_url: '/assets/images/users/3.jpg', matches: [], active: true},
-  { id: 'p4', UID: 4, fullname: 'Lucia Dandolomea', points: 0, picture_url: '/assets/images/users/4.jpg', matches: [], active: true},
-  { id: 'p5', UID: 1, fullname: 'Asah Moah', points: 0, picture_url: '/assets/images/users/5.jpg', matches: [], active: true},
-  { id: 'p99', UID: 9, fullname: 'ERROR', points: 0, picture_url: '/assets/images/users/6.jpg', matches: [], active: false}   
+  { id: 'p1', UID: 1, fullname: 'Michele Berlanda', points: 0, picture_url: '/assets/images/users/1.jpg', matches: [], events: [], active: true},
+  { id: 'p2', UID: 2, fullname: 'Piero Magi', points: 0, picture_url: '/assets/images/users/2.jpg', matches: [],events: [], active: true},
+  { id: 'p3', UID: 3, fullname: 'Luca Arsev', points: 0, picture_url: '/assets/images/users/3.jpg', matches: [], events: [],active: true},
+  { id: 'p4', UID: 4, fullname: 'Lucia Dandolomea', points: 0, picture_url: '/assets/images/users/4.jpg', matches: [], events: [],active: true},
+  { id: 'p5', UID: 1, fullname: 'Asah Moah', points: 0, picture_url: '/assets/images/users/5.jpg', matches: [], events: [],active: true},
+  { id: 'p99', UID: 9, fullname: 'ERROR', points: 0, picture_url: '/assets/images/users/6.jpg', matches: [], events: [],active: false}   
 ]
 
 @Injectable({
@@ -61,6 +62,27 @@ export class PlayerService {
         }
       }
       this.storage.savePlayer(match.league_id, this.all_players);
+  }
+
+  addEvent(event : SpecialEvent) {
+    var tmp = this.storage.getPlayersByLeague(event.league_id);
+    if (tmp === null) {
+      console.log("ERROR: No player found! addMatch");
+    }
+    else {
+      this.all_players = JSON.parse(tmp);
+    }
+    for (let player of event.points) {
+      var j = this.all_players.findIndex(x => x.UID === player.player.UID);
+        if (j != -1) { /////////////////////////////////////////////////////////////////////////////////////////
+          this.all_players[j].events.push(event);
+          this.all_players[j].points = Number(this.all_players[j].points) + Number(player.points);
+        }
+        else {
+          console.log("Impossible to add a new match, losers are not in the league");
+        }
+    }
+    this.storage.savePlayer(event.league_id, this.all_players);
   }
 
   getRankedPlayersByLeague(league : string) : RankedPlayer[] {
@@ -119,7 +141,8 @@ getPlayerByUserAndLeague(UID : number, league : string)  {
         fullname : this.storage.getSelectedUser().fullname,
         points : 0,
         picture_url : this.storage.getSelectedUser().profile_pic, 
-        matches: [], 
+        matches: [],
+        events: [], 
         active: true};
       return player;  
     }
@@ -132,6 +155,7 @@ getPlayerByUserAndLeague(UID : number, league : string)  {
         points : 0,
         picture_url : this.storage.getSelectedUser().profile_pic, 
         matches: [],
+        events: [],
         active: true};
       players.push(player);
 
