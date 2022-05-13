@@ -329,8 +329,22 @@ export class StorageService {
       
     }
     matches.push(match);
-    localStorage.setItem(this.matches_ + match.league_id, JSON.stringify(matches));
-      
+    localStorage.setItem(this.matches_ + match.league_id, JSON.stringify(matches));   
+  }
+
+  modifyMatch(match : Match2) {
+    var tmp_matches = this.getMatchesByLeague(match.league_id);
+    if (tmp_matches != null) {
+      var matches : Match2[] = JSON.parse(tmp_matches);
+      var index = matches.findIndex(function(x, index) {
+        if(x.id === match.id)
+          return true;
+      });
+      matches[index] = match;
+    }
+    else {
+      console.log("ERROR: no league found");
+    }
   }
 
 }

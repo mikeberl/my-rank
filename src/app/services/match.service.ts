@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Match, Match2, MatchNoId } from '../models/match.model';
-import { SpecialEvent } from '../models/special-event.model';
+import { SpecialEvent, SpecialEvent2 } from '../models/special-event.model';
 import { PlayerService } from './player.service';
 import { StorageService } from './storage.service';
 
@@ -46,15 +46,35 @@ export class MatchService {
 
   }
 
-  newMatch2(league : string, match : Match2) {
-    
-  for(let entry of match.points) {
-    this.storage.newPointsEntry(entry);
-    // this.playerService.newPointsEntry(entry); TODO
-  }
-  this.storage.newMatch(match);
+  //////////////////////////////////////////////////////////////////////////
+  // new classes
+  //////////////////////////////////////////////////////////////////////////
 
+  newMatch2(league : string, match : Match2) {
+    for(let entry of match.points) {
+      this.storage.newPointsEntry(entry);
+      // this.playerService.newPointsEntry(entry); TODO
+    }
+    this.storage.newMatch(match);
   }
+
+  newEvent2(event : SpecialEvent2) {
+    for(let entry of event.points) {
+      this.storage.newPointsEntry(entry);
+      // this.playerService.newPointsEntry(entry); TODO
+    }
+    this.storage.saveEvent(event);  
+  }
+
+  modifyMatch(match : Match2) {
+    this.storage.modifyMatch(match);
+    for (let entry of match.points) {
+      this.storage.changePointsEntry(entry);
+      // this.playerService.newPointsEntry(entry); TODO
+    }
+  }
+
+  ////////////////////////////////////////////////////////////////////////////
 
   newEvent(league : string, event : SpecialEvent) {
     this.storage.saveEvent(event);  
