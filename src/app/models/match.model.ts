@@ -32,6 +32,7 @@ export interface Match2 {
 
   id : number; // will be 0 by post request / non-0 by get request
   player_id : string; // id of RANKED PLAYER who registered the match
+  league_id : string;
   points : PointsEntry[];
   date: Date; //TODO
   was_reported: boolean;

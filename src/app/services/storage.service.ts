@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { League } from '../models/league.model';
-import { Match } from '../models/match.model';
+import { Match, Match2 } from '../models/match.model';
 import { RankedPlayer } from '../models/ranked-player.model';
 import { ReportMessage } from '../models/report-message.model';
 import { User } from '../models/user.model';
 import { UserService } from './user.service';
 import { GeneratorService } from './generator.service';
 import { SpecialEvent } from '../models/special-event.model';
+import { PointsEntry } from '../models/points-entry.model';
+import { map } from 'rxjs-compat/operator/map';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,7 @@ export class StorageService {
   leagues_ : string = "LEAGUES_";
   users_ : string = "USERS_";
   events_ : string = "EVENTS_";
+  points_ : string = "POINTS_";
 
   constructor(private userService : UserService,
               private leagueService : GeneratorService
@@ -37,12 +40,10 @@ export class StorageService {
 
     leagueService.generate();
    }
-
+   // TODO
   getEventByLeague(league : string) {
 
   } 
-
-
 
   getUsers() : User[] {
     var users_string = localStorage.getItem(this.users_);
@@ -222,4 +223,114 @@ export class StorageService {
       localStorage.setItem(this.events_, JSON.stringify(events));
     }
   }
+
+  /////////////////////////////////////////////////////////////////////////
+  // POINTSENTRY functions
+  ////////////////////////////////////////////////////////////////////////
+
+  newPointsEntry(points : PointsEntry) {
+    var tmp_string = localStorage.getItem(this.points_);
+    if (tmp_string != null) {
+      var map_points : Map<number, PointsEntry> = JSON.parse(tmp_string);
+      for(var i = 1; i > 0; i++) {
+        if (!map_points.has(i)) {
+          map_points.set(i, points);
+          break;
+        }
+      } 
+    }
+    else {
+      var map_points : Map<number, PointsEntry> = new Map<number, PointsEntry>();
+      map_points.set(1, points);
+    }
+  }
+
+  changePointsEntry(points : PointsEntry) {
+    var tmp_string = localStorage.getItem(this.points_);
+    if (tmp_string != null) {
+      var map_points : Map<number, PointsEntry> = JSON.parse(tmp_string);
+      if (map_points.has(points.id)) {
+        map_points.delete(points.id);
+        map_points.set(points.id, points);
+      }
+      else {
+        console.log("changePointsEntry: points not present in the map");
+      }
+
+    }
+    else {
+      console.log("changePointsEntry: pointsentry is empty");
+    }
+  }
+
+  deletePointsEntry(points : PointsEntry) {
+    var tmp_string = localStorage.getItem(this.points_);
+    if (tmp_string != null) {
+      var map_points : Map<number, PointsEntry> = JSON.parse(tmp_string);
+      if (map_points.has(points.id)) {
+        map_points.delete(points.id);
+      }
+      else {
+        console.log("deletePointsEntry: points not present in the map");
+      }
+
+    }
+    else {
+      console.log("deletePointsEntry: pointsentry is empty");
+    }
+  }
+
+  getFiltredPointsEntry(points : PointsEntry[]) {
+    var tmp_string = localStorage.getItem(this.points_);
+    var return_list : PointsEntry[] = [];
+    if (tmp_string != null) {
+      var map_points : Map<number, PointsEntry> = JSON.parse(tmp_string);
+      for (let p of points) {
+        var tmp = map_points.get(p.id);
+        if (tmp != undefined) {          
+          return_list.push(tmp);
+        }
+        else {
+          console.log("deletePointsEntry: points not present in the map");
+        }
+      }
+
+    }
+    else {
+      console.log("deletePointsEntry: pointsentry is empty");
+    }
+  }
+
+  /* getPointsEntry() {
+    var tmp_string = localStorage.getItem(this.points_);
+    if (tmp_string != null) {
+      var map_points : Map<number, PointsEntry> = JSON.parse(tmp_string);
+      if (map_points.has(points.id)) {
+        map_points.delete(points.id);
+      }
+      else {
+        console.log("deletePointsEntry: points not present in the map");
+      }
+
+    }
+    else {
+      console.log("deletePointsEntry: pointsentry is empty");
+    }
+  } */
+
+  /////////////////////////////////////////////////////////////////////////
+  // MATCH functions
+  ////////////////////////////////////////////////////////////////////////
+  newMatch(match : Match2) {
+    var matches : Match2[] = [];
+    var tmp_string = localStorage.getItem(this.matches_ + match.league_id);
+    if (tmp_string != null) {
+      matches = JSON.parse(tmp_string);
+      
+    }
+    matches.push(match);
+    localStorage.setItem(this.matches_ + match.league_id, JSON.stringify(matches));
+      
+  }
+
 }
