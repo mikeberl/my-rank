@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Match, MatchNoId } from '../models/match.model';
+import { Match, Match2, MatchNoId } from '../models/match.model';
 import { SpecialEvent } from '../models/special-event.model';
 import { PlayerService } from './player.service';
 import { StorageService } from './storage.service';
@@ -43,6 +43,16 @@ export class MatchService {
       this.storage.saveMatch(league, matches); 
       this.playerService.addMatch(match);
     }
+
+  }
+
+  newMatch2(league : string, match : Match2) {
+    
+  for(let entry of match.points) {
+    this.storage.newPointsEntry(entry);
+    // this.playerService.newPointsEntry(entry); TODO
+  }
+  this.storage.newMatch(match);
 
   }
 
