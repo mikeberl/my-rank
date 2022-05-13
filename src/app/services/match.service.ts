@@ -113,6 +113,7 @@ export class MatchService {
           matches[matches.indexOf(match_)].loosed_points = match.loosed_points;
           matches[matches.indexOf(match_)].was_reported = false;
           this.storage.saveMatch(match.league_id, matches); 
+          // this.playerService.modifyMatchPoints(match);
         }
       }
     }

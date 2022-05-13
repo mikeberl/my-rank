@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { PointsEntry } from "./points-entry.model";
 import { RankedPlayer } from "./ranked-player.model";
 
 export interface Match {
@@ -22,6 +23,16 @@ export interface MatchNoId {
   losers: RankedPlayer[];
   winned_points: number;
   loosed_points: number;
+  date: Date; //TODO
+  was_reported: boolean;
+}
+
+
+export interface Match2 {
+
+  id : number; // will be 0 by post request / non-0 by get request
+  player_id : string; // id of RANKED PLAYER who registered the match
+  points : PointsEntry[];
   date: Date; //TODO
   was_reported: boolean;
 }

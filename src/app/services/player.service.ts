@@ -85,6 +85,43 @@ export class PlayerService {
     this.storage.savePlayer(event.league_id, this.all_players);
   }
 
+/*   modifyMatchPoints(match : Match) {
+    var tmp = this.storage.getPlayersByLeague(match.league_id);
+    if (tmp === null) {
+      console.log("ERROR: No player found! modifyMatch");
+    }
+    else {
+      this.all_players = JSON.parse(tmp);
+    }
+      for (let winner of match.winners) {
+        var i = this.all_players.findIndex(x => x.UID === winner.UID);
+        if (i != -1) {
+          var j =  this.all_players[i].matches.findIndex(y => y.id === match.id);
+          if (j != -1) {
+            var point_diff = this.all_players[i].matches[j]
+            this.all_players[i].points = Number(this.all_players[i].points) + Number(match.winned_points);
+
+          }
+          this.all_players[i].points = Number(this.all_players[i].points) + Number(match.winned_points);
+        }
+        else {
+          console.log("Impossible to add a new match, winners are not in the league");
+        }
+      }
+      for (let loser of match.losers) {
+        var j = this.all_players.findIndex(x => x.UID === loser.UID);
+        if (j != -1) { /////////////////////////////////////////////////////////////////////////////////////////
+          this.all_players[j].matches.push(match);
+          this.all_players[j].points = this.all_players[j].points - match.loosed_points;
+        }
+        else {
+          console.log("Impossible to add a new match, losers are not in the league");
+        }
+      }
+      this.storage.savePlayer(match.league_id, this.all_players);
+
+  } */
+
   getRankedPlayersByLeague(league : string) : RankedPlayer[] {
     var players : RankedPlayer[] = [];
     var tmp = this.storage.getPlayersByLeague(league);

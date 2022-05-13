@@ -1,3 +1,4 @@
+import { PointsEntry } from "./points-entry.model";
 import { RankedPlayer } from "./ranked-player.model";
 
 export interface EventElement {
@@ -22,6 +23,13 @@ export interface SpecialEvent  {
     date: Date; //TODO
     was_reported: boolean;
     event_type : EventType;
+}
 
-
+export interface SpecialEvent2  {
+    id : number; // will be 0 by post request / non-0 by get request
+    league_id : string;
+    points : PointsEntry[];
+    date: Date; //TODO
+    was_reported: boolean;
+    event_type : EventType;
 }
