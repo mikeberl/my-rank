@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { League } from '../models/league.model';
-import { RankedPlayer } from '../models/ranked-player.model';
+import { RankedPlayer, RankedPlayer2 } from '../models/ranked-player.model';
 import { User } from '../models/user.model';
 import { PlayerService } from './player.service';
 
@@ -106,6 +106,59 @@ export class GeneratorService {
         picture_url : user.profile_pic,  
         matches: [],
         events: [],
+        active: true};
+      players.push(player);
+
+      return player;    
+    }
+  }
+
+  generate2() {
+    console.log("Generating testing data");
+    if (localStorage.getItem(this.users_prefix) != null) {
+      console.log("TO BE FIXED: Dummy block for avoing data generation");
+    }
+    else {
+      for(let user of this.users_) {
+        for(let league of user.joined_leagues) {
+          var players_string = localStorage.getItem(this.players_prefix + league);
+          var new_player = this.newPlayer2(league, user, players_string);
+          var players : RankedPlayer2[] = [];
+          if (players_string === null) {  
+            players.push(new_player);          
+          }
+          else {
+           players  = JSON.parse(players_string);
+            players.push(new_player);
+          }
+          localStorage.setItem(this.players_prefix + league, JSON.stringify(players));
+        }
+      }
+      localStorage.setItem(this.leagues_prefix, JSON.stringify(this.leagues_));
+      localStorage.setItem(this.users_prefix, JSON.stringify(this.users_));
+      this.generationDone = true;
+    }
+  }
+
+  newPlayer2(league : string, user : User, players_string : string | null) {
+    if (players_string === null) {
+      var player : RankedPlayer2 = {
+        id : 'p0',
+        UID : user.UID,
+        fullname : user.fullname,
+        points : [],
+        picture_url : user.profile_pic, 
+        active: true};
+      return player;  
+    }
+    else {
+      var players : RankedPlayer2[]= JSON.parse(players_string);
+      var player : RankedPlayer2 = {
+        id : 'p' + players.length.toString(),
+        UID : user.UID,
+        fullname : user.fullname,
+        points : [],
+        picture_url : user.profile_pic,  
         active: true};
       players.push(player);
 

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Match } from '../models/match.model';
 import { ReportMessage, ReportMessageNoId, ReportType } from '../models/report-message.model';
 
 @Injectable({
