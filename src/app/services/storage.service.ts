@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { League } from '../models/league.model';
 import { Match, Match2 } from '../models/match.model';
-import { RankedPlayer } from '../models/ranked-player.model';
+import { RankedPlayer, RankedPlayer2 } from '../models/ranked-player.model';
 import { ReportMessage } from '../models/report-message.model';
 import { User } from '../models/user.model';
 import { UserService } from './user.service';
@@ -238,10 +238,12 @@ export class StorageService {
           break;
         }
       } 
+      localStorage.setItem(this.points_, JSON.stringify(map_points));
     }
     else {
       var map_points : Map<number, PointsEntry> = new Map<number, PointsEntry>();
       map_points.set(1, points);
+      localStorage.setItem(this.points_, JSON.stringify(map_points));
     }
   }
 
@@ -252,6 +254,7 @@ export class StorageService {
       if (map_points.has(points.id)) {
         map_points.delete(points.id);
         map_points.set(points.id, points);
+        localStorage.setItem(this.points_, JSON.stringify(map_points));
       }
       else {
         console.log("changePointsEntry: points not present in the map");
@@ -269,6 +272,7 @@ export class StorageService {
       var map_points : Map<number, PointsEntry> = JSON.parse(tmp_string);
       if (map_points.has(points.id)) {
         map_points.delete(points.id);
+        localStorage.setItem(this.points_, JSON.stringify(map_points));
       }
       else {
         console.log("deletePointsEntry: points not present in the map");
@@ -280,7 +284,19 @@ export class StorageService {
     }
   }
 
-  getFiltredPointsEntry(points : PointsEntry[]) {
+  private deletePointsofMatch(match : Match2, points : Map<number, PointsEntry>) {
+    var tmp_test = 0;
+      for (let m of match.points) {
+        var del = points.delete(m.id);
+        if (del) {
+          tmp_test = tmp_test + 1;
+        }         
+      }
+      console.log(tmp_test + " test deleted");
+      localStorage.setItem(this.points_, JSON.stringify(points));
+  }
+
+  getPointsByList(points : PointsEntry[]) {
     var tmp_string = localStorage.getItem(this.points_);
     var return_list : PointsEntry[] = [];
     if (tmp_string != null) {
@@ -341,9 +357,48 @@ export class StorageService {
           return true;
       });
       matches[index] = match;
+      localStorage.setItem(this.matches_ + match.league_id, JSON.stringify(matches));  
     }
     else {
       console.log("ERROR: no league found");
+    }
+  }
+
+  deleteMatch(match : Match2) {
+    var tmp_matches = this.getMatchesByLeague(match.league_id);
+    var tmp_points = localStorage.getItem(this.points_);
+    if (tmp_matches != null && tmp_points != null) {
+      var matches : Match2[] = JSON.parse(tmp_matches);
+      var points : Map<number, PointsEntry> = JSON.parse(tmp_points);
+      this.deletePointsofMatch(match, points);
+      var index = matches.findIndex(function(x, index) {
+        if(x.id === match.id)
+          return true;
+      });
+      matches.splice(index, 1);
+      localStorage.setItem(this.matches_ + match.league_id, JSON.stringify(matches)); 
+    }
+    else {
+      console.log("ERROR: no league found");
+    }
+  }
+
+  // NOT NEEDED
+  /* getMatchesByPlayer(league : string, player : RankedPlayer2) {
+    var tmp_matches = this.getMatchesByLeague(league);
+    if (tmp_matches != null) {
+
+    }
+  } */
+
+  getMatchesByLeague2(league : string) {
+    var tmp_matches = this.getMatchesByLeague(league);
+    if (tmp_matches != null) {
+      var matches : Match2[] = JSON.parse(tmp_matches);
+      return matches;
+    }
+    else {
+      throw console.error("getMatchesByLeague2: league not found");
     }
   }
 
