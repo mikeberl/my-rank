@@ -1,9 +1,9 @@
-import { Match } from "./match.model";
 import { RankedPlayer } from "./ranked-player.model";
+import { Event } from "./special-event.model";
 
 export interface PointsEntry {
     id : number;
     player : RankedPlayer;
-    match : Match;
+    match : Event | null;
     points : number;
 }

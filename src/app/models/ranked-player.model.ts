@@ -1,21 +1,19 @@
 import { Injectable } from "@angular/core";
-import { Match } from "./match.model";
 import { PointsEntry } from "./points-entry.model";
-import { SpecialEvent } from "./special-event.model";
+import { Event } from "./special-event.model";
 
-export interface RankedPlayer {
+/* export interface RankedPlayer {
     id: string;
     UID : number;
     fullname: string;
     points : number;
     picture_url: string;
-    matches : Match[];
-    events : SpecialEvent[];
+    events : Event[];
     active : boolean;
-}
+} */
 
 
-export interface RankedPlayer2 {
+export interface RankedPlayer {
     id: string;
     UID : number;
     fullname: string;

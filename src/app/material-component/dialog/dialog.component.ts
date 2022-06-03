@@ -53,7 +53,7 @@ export class DialogOverviewExampleDialogComponent {
     this.data.match.was_reported = true;
     
     this.reportService.addReport(this.data.match.league_id, new_report);
-    this.matchService.reportMatch(this.data.match.league_id, this.data.match);
+    this.matchService.reportMatch(this.data.match);
     
   }
 }

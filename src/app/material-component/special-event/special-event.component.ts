@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatchNoId } from 'src/app/models/match.model';
+import { PointsEntry } from 'src/app/models/points-entry.model';
 import { RankedPlayer } from 'src/app/models/ranked-player.model';
-import { EventElement, EventType, SpecialEvent } from 'src/app/models/special-event.model';
+import { Event, EventType } from 'src/app/models/special-event.model';
 import { User } from 'src/app/models/user.model';
 import { MatchService } from 'src/app/services/match.service';
 import { PlayerService } from 'src/app/services/player.service';
@@ -88,25 +88,26 @@ export class SpecialEventComponent implements OnInit {
       this.alertError();
     }
     else {
-      var new_event : SpecialEvent = this.createEvent(form);
-      this.matchService.newEvent(this.league_id, new_event);
-      /* var new_match : MatchNoId = this.createMatch(form);
-      this.matchService.newMatch(this.league_id, new_match); */
+      var new_event : Event = this.createEvent(form);
+      this.matchService.newEvent(new_event);
       this.alertConfirmationEqual();
     }
   }
 
   createEvent(form : NgForm) {
-    var eventelement : EventElement[] = [];
+    var eventelement : PointsEntry[] = [];
     for (let player_ of this.arr_winners) {
       var points_ = form.controls[player_.id].value;
-      var element : EventElement = {
+      var entry : PointsEntry = {
+        id : 0,
         player : player_,
-        points : points_
+        match : null,
+        points: points_
       }
-      eventelement.push(element);
+      entry.id = this.storage.newPointsEntry(entry);      
+      eventelement.push(entry);
     }
-    var event : SpecialEvent = {
+    var event : Event = {
       id : 0,
       league_id : this.league_id,
       points : eventelement,
@@ -114,18 +115,11 @@ export class SpecialEventComponent implements OnInit {
       was_reported : false,
       event_type : EventType.OTHER
     }
+    for (let e of event.points) {
+      e.match = event;
+    }
     return event;
   }
-
-  /* createMatch(form : NgForm) : MatchNoId {
-    console.log(form.value.date);
-    var match : MatchNoId = {league_id : this.league_id, 
-                player_id: this.playerService.getPlayerByUserAndLeague(this.user.UID, this.league_id)?.id,
-              winners: this.arr_winners, losers: this.arr_losers, winned_points: this.winned_points, loosed_points: this.loosed_points,
-              date : form.value.date.toString(), was_reported: false};
-
-    return match;
-  } */
 
   alertError() {
     Swal.fire({

@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RankedPlayer } from 'src/app/models/ranked-player.model';
-import { Match, MatchNoId } from 'src/app/models/match.model';
+import { Match, Match2, MatchNoId } from 'src/app/models/match.model';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
@@ -11,6 +11,7 @@ import { MatchService } from 'src/app/services/match.service';
 import { PlayerService } from 'src/app/services/player.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { MatChip } from '@angular/material/chips';
+import { PointsEntry } from 'src/app/models/points-entry.model';
 
 interface Chip {
   value : number;
@@ -132,14 +133,21 @@ export class CreateMatchComponent {
       this.alertInvalidPoints();
     }
     else {
-      var new_match : MatchNoId = this.createMatch(form);
-      this.matchService.newMatch(this.league_id, new_match);
+      var new_match : Match2 = this.createMatch(form);
+      this.matchService.newMatch(new_match);
       this.alertConfirmationEqual();
     }
   }
 
-  createMatch(form : NgForm) : MatchNoId {
+  createMatch(form : NgForm) : Match2 {
     console.log(form.value.date);
+    var tmp_points : PointsEntry[] = [];
+    for (let w of this.arr_winners) {
+      var p : PointsEntry = {
+        id : 0,
+        player
+      }
+    }
     var match : MatchNoId = {league_id : this.league_id, 
                 player_id: this.playerService.getPlayerByUserAndLeague(this.user.UID, this.league_id)?.id,
               winners: this.arr_winners, losers: this.arr_losers, winned_points: this.winned_points, loosed_points: this.loosed_points,

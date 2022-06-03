@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { League } from '../models/league.model';
-import { Match, Match2 } from '../models/match.model';
-import { RankedPlayer, RankedPlayer2 } from '../models/ranked-player.model';
+import { RankedPlayer } from '../models/ranked-player.model';
 import { ReportMessage } from '../models/report-message.model';
 import { User } from '../models/user.model';
 import { UserService } from './user.service';
 import { GeneratorService } from './generator.service';
-import { SpecialEvent } from '../models/special-event.model';
+import { Event } from '../models/special-event.model';
 import { PointsEntry } from '../models/points-entry.model';
 import { map } from 'rxjs-compat/operator/map';
 
@@ -16,7 +15,7 @@ import { map } from 'rxjs-compat/operator/map';
 export class StorageService {
 
   report_ : string = "REPORT_";
-  matches_ : string = "MATCHES_";
+  // matches_ : string = "MATCHES_";
   players_ : string = "PLAYERS_";
   leagues_ : string = "LEAGUES_";
   users_ : string = "USERS_";
@@ -130,16 +129,6 @@ export class StorageService {
     return tmp_report;
   }
 
-  getMatchesByLeague(league : string) : string | null {
-    var tmp_matches = localStorage.getItem(this.matches_ + league);
-    return tmp_matches;
-  }
-
-  getEventsByLeague(league : string) : string | null {
-    var tmp_events = localStorage.getItem(this.events_ + league);
-    return tmp_events;
-  }
-
   getPlayersByLeague(league : string) : string | null {
     var tmp_players = localStorage.getItem(this.players_ + league);
     return tmp_players;
@@ -190,18 +179,6 @@ export class StorageService {
     
   }
 
-  saveReport(league : string, reports : ReportMessage[]) {
-    localStorage.setItem(this.report_ + league, JSON.stringify(reports));
-  }
-
-  saveMatch(league : string, matches : Match[]) {
-    localStorage.setItem(this.matches_ + league, JSON.stringify(matches));
-  }
-
-  savePlayer(league : string, players : RankedPlayer[]) {
-    localStorage.setItem(this.players_ + league, JSON.stringify(players));
-  }
-
   saveLeague(leagues : League[]) {
     localStorage.setItem(this.leagues_, JSON.stringify(leagues));
   }
@@ -210,15 +187,15 @@ export class StorageService {
     localStorage.setItem(this.users_, JSON.stringify(users));
   }
 
-  saveEvent(event : SpecialEvent) {
+  saveEvent(event : Event) {
     var events_string = localStorage.getItem(this.events_ + event.league_id);
     if (events_string != null) {
-      var events : SpecialEvent[] = JSON.parse(events_string);
+      var events : Event[] = JSON.parse(events_string);
       events.push(event);
       localStorage.setItem(this.events_, JSON.stringify(events));
     }
     else {
-      var events : SpecialEvent[] = [];
+      var events : Event[] = [];
       events.push(event);
       localStorage.setItem(this.events_, JSON.stringify(events));
     }
@@ -228,22 +205,31 @@ export class StorageService {
   // POINTSENTRY functions
   ////////////////////////////////////////////////////////////////////////
 
-  newPointsEntry(points : PointsEntry) {
+  newPointsEntry(points : PointsEntry) : PointsEntry { //id will be = 0; and new a pointsentry with new id will be returned
+    if (points.id != 0) {
+      console.log("newPointsEntry with id != 0");
+      throw console.error("newPointsEntry: given entry has id != 0");     
+    }
     var tmp_string = localStorage.getItem(this.points_);
     if (tmp_string != null) {
       var map_points : Map<number, PointsEntry> = JSON.parse(tmp_string);
-      for(var i = 1; i > 0; i++) {
+      var i : number;
+      for(i = 1; i > 0; i++) {
         if (!map_points.has(i)) {
+          points.id = i;
           map_points.set(i, points);
           break;
         }
       } 
       localStorage.setItem(this.points_, JSON.stringify(map_points));
+      return points;
     }
     else {
       var map_points : Map<number, PointsEntry> = new Map<number, PointsEntry>();
+      points.id = 1;
       map_points.set(1, points);
       localStorage.setItem(this.points_, JSON.stringify(map_points));
+      return points;
     }
   }
 
@@ -271,6 +257,7 @@ export class StorageService {
     if (tmp_string != null) {
       var map_points : Map<number, PointsEntry> = JSON.parse(tmp_string);
       if (map_points.has(points.id)) {
+
         map_points.delete(points.id);
         localStorage.setItem(this.points_, JSON.stringify(map_points));
       }
@@ -284,7 +271,7 @@ export class StorageService {
     }
   }
 
-  private deletePointsofMatch(match : Match2, points : Map<number, PointsEntry>) {
+  /* private deletePointsofMatch(match : Match2, points : Map<number, PointsEntry>) {
     var tmp_test = 0;
       for (let m of match.points) {
         var del = points.delete(m.id);
@@ -294,7 +281,7 @@ export class StorageService {
       }
       console.log(tmp_test + " test deleted");
       localStorage.setItem(this.points_, JSON.stringify(points));
-  }
+  } */
 
   getPointsByList(points : PointsEntry[]) {
     var tmp_string = localStorage.getItem(this.points_);
@@ -317,89 +304,102 @@ export class StorageService {
     }
   }
 
-  /* getPointsEntry() {
-    var tmp_string = localStorage.getItem(this.points_);
-    if (tmp_string != null) {
-      var map_points : Map<number, PointsEntry> = JSON.parse(tmp_string);
-      if (map_points.has(points.id)) {
-        map_points.delete(points.id);
-      }
-      else {
-        console.log("deletePointsEntry: points not present in the map");
-      }
-
-    }
-    else {
-      console.log("deletePointsEntry: pointsentry is empty");
-    }
-  } */
-
   /////////////////////////////////////////////////////////////////////////
   // MATCH functions
   ////////////////////////////////////////////////////////////////////////
-  newMatch(match : Match2) {
-    var matches : Match2[] = [];
-    var tmp_string = localStorage.getItem(this.matches_ + match.league_id);
+
+  // not calling  this.getMatchesByLeague(match.league_id); for avoiding a
+  // crash on the first match registration
+  newEvent(match : Event) {
+    var matches : Event[] = [];
+    var tmp_string = localStorage.getItem(this.events_ + match.league_id);
     if (tmp_string != null) {
       matches = JSON.parse(tmp_string);
+      for(var i = 1; i > 0; i++) {
+        var index = matches.findIndex(function(x, index) {
+          if(x.id === i)
+            return true;
+        });
+        if (index === -1) {
+          match.id = i; 
+          break;
+        }
+      } 
       
     }
-    matches.push(match);
-    localStorage.setItem(this.matches_ + match.league_id, JSON.stringify(matches));   
-  }
-
-  modifyMatch(match : Match2) {
-    var tmp_matches = this.getMatchesByLeague(match.league_id);
-    if (tmp_matches != null) {
-      var matches : Match2[] = JSON.parse(tmp_matches);
-      var index = matches.findIndex(function(x, index) {
-        if(x.id === match.id)
-          return true;
-      });
-      matches[index] = match;
-      localStorage.setItem(this.matches_ + match.league_id, JSON.stringify(matches));  
-    }
     else {
-      console.log("ERROR: no league found");
+      match.id = 1;
     }
+    for (let entry of match.points) {
+      entry.match = match;
+    }
+    matches.push(match);
+    localStorage.setItem(this.events_ + match.league_id, JSON.stringify(matches));   
+    return match;
   }
 
-  deleteMatch(match : Match2) {
-    var tmp_matches = this.getMatchesByLeague(match.league_id);
+  modifyEvent(match : Event) {
+    var matches : Event[] = this.getEventsByLeague(match.league_id);
+    var index = matches.findIndex(function(x, index) {
+      if(x.id === match.id)
+        return true;
+    });
+    matches[index] = match;
+    localStorage.setItem(this.events_ + match.league_id, JSON.stringify(matches));  
+  }
+
+  deleteEvent(match : Event) {
+    var matches : Event[] = this.getEventsByLeague(match.league_id);
     var tmp_points = localStorage.getItem(this.points_);
-    if (tmp_matches != null && tmp_points != null) {
-      var matches : Match2[] = JSON.parse(tmp_matches);
+    if (tmp_points != null) {
       var points : Map<number, PointsEntry> = JSON.parse(tmp_points);
-      this.deletePointsofMatch(match, points);
+      // this.deletePointsofMatch(match, points);
       var index = matches.findIndex(function(x, index) {
         if(x.id === match.id)
           return true;
       });
       matches.splice(index, 1);
-      localStorage.setItem(this.matches_ + match.league_id, JSON.stringify(matches)); 
+      localStorage.setItem(this.events_ + match.league_id, JSON.stringify(matches)); 
     }
     else {
       console.log("ERROR: no league found");
     }
   }
 
-  // NOT NEEDED
-  /* getMatchesByPlayer(league : string, player : RankedPlayer2) {
-    var tmp_matches = this.getMatchesByLeague(league);
+  getEventsByLeague(league : string) {
+    var tmp_matches = localStorage.getItem(this.events_ + league);
     if (tmp_matches != null) {
-
-    }
-  } */
-
-  getMatchesByLeague2(league : string) {
-    var tmp_matches = this.getMatchesByLeague(league);
-    if (tmp_matches != null) {
-      var matches : Match2[] = JSON.parse(tmp_matches);
+      var matches : Event[] = JSON.parse(tmp_matches);
       return matches;
     }
     else {
       throw console.error("getMatchesByLeague2: league not found");
     }
+  }
+
+  newPlayer(league : string, player : RankedPlayer) {
+    var tmp_players = localStorage.getItem(this.players_ + league);
+    var players : RankedPlayer[] = [];
+    if (tmp_players === null) {
+      player.id = 'p_1';
+      players.push(player);
+    }
+    else {
+      players = JSON.parse(this.players_ + league);
+      for (var i = 1; i > 0; i++) {
+        var index = players.findIndex(function(x, index) {
+          if( x.id === ('p_' + i.toString()))
+            return true;
+        });
+        if (index === -1) {
+          player.id = 'p_' + i.toString();
+          break;
+        }
+
+      }
+    }
+    localStorage.setItem(this.players_ + league, JSON.stringify(players));
+    return player;
   }
 
 }

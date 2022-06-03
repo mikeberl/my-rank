@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Match } from '../models/match.model';
 import { RankedPlayer } from '../models/ranked-player.model';
 import { UserService } from './user.service';
 import { StorageService } from './storage.service';
-import { SpecialEvent } from '../models/special-event.model';
+import { Event } from '../models/special-event.model';
+import { PointsEntry } from '../models/points-entry.model';
 
 const RANKEDPLAYERS = [
-  { id: 'p1', UID: 1, fullname: 'Michele Berlanda', points: 0, picture_url: '/assets/images/users/1.jpg', matches: [], events: [], active: true},
-  { id: 'p2', UID: 2, fullname: 'Piero Magi', points: 0, picture_url: '/assets/images/users/2.jpg', matches: [],events: [], active: true},
-  { id: 'p3', UID: 3, fullname: 'Luca Arsev', points: 0, picture_url: '/assets/images/users/3.jpg', matches: [], events: [],active: true},
-  { id: 'p4', UID: 4, fullname: 'Lucia Dandolomea', points: 0, picture_url: '/assets/images/users/4.jpg', matches: [], events: [],active: true},
-  { id: 'p5', UID: 1, fullname: 'Asah Moah', points: 0, picture_url: '/assets/images/users/5.jpg', matches: [], events: [],active: true},
-  { id: 'p99', UID: 9, fullname: 'ERROR', points: 0, picture_url: '/assets/images/users/6.jpg', matches: [], events: [],active: false}   
+  { id: 'p1', UID: 1, fullname: 'Michele Berlanda', points: [], picture_url: '/assets/images/users/1.jpg', active: true},
+  { id: 'p2', UID: 2, fullname: 'Piero Magi', points: [], picture_url: '/assets/images/users/2.jpg', active: true},
+  { id: 'p3', UID: 3, fullname: 'Luca Arsev', points: [], picture_url: '/assets/images/users/3.jpg', active: true},
+  { id: 'p4', UID: 4, fullname: 'Lucia Dandolomea', points: [], picture_url: '/assets/images/users/4.jpg', active: true},
+  { id: 'p5', UID: 1, fullname: 'Asah Moah', points: [], picture_url: '/assets/images/users/5.jpg' , active: true},
+  { id: 'p99', UID: 9, fullname: 'ERROR', points: [], picture_url: '/assets/images/users/6.jpg', active: false}   
 ]
 
 @Injectable({
@@ -25,15 +25,9 @@ export class PlayerService {
           private userService : UserService) {
     //creating some players for testing
     var main_user = this.storage.getSelectedUser();
-    /* for(let league of main_user.joined_leagues) {
-      var check_for_testing = this.storage.getPlayersByLeague(league);
-      if (check_for_testing === null) {
-        this.storage.savePlayer(league, RANKEDPLAYERS);
-      }
-    }  */
   }
 
-  addMatch(match : Match) {
+/*   addMatch(match : Match) {
     var tmp = this.storage.getPlayersByLeague(match.league_id);
     if (tmp === null) {
       console.log("ERROR: No player found! addMatch");
@@ -83,6 +77,24 @@ export class PlayerService {
         }
     }
     this.storage.savePlayer(event.league_id, this.all_players);
+  } */
+
+  newPointsEntry(entry : PointsEntry) {
+    var league = entry.match?.league_id;
+    if (league === undefined) {
+      console.log("newEntryPoints: entry has no league");
+    }
+    else {
+      var players = this.storage.getActivePlayersByLeague(league);
+      var index = players.findIndex(function(x, index) {
+        if(x.id === entry.player.id) 
+          return true;
+      });
+      if (index != -1 ) {
+        players[index].points.push(entry);
+        this.storage.modifyPlayer(player)
+      }
+    }
   }
 
 /*   modifyMatchPoints(match : Match) {
@@ -123,103 +135,54 @@ export class PlayerService {
   } */
 
   getRankedPlayersByLeague(league : string) : RankedPlayer[] {
-    var players : RankedPlayer[] = [];
-    var tmp = this.storage.getPlayersByLeague(league);
-    if (tmp === null) {
-      console.log("ERROR: No player found! getRankedPlayersByLeague");
-    }
-    else {
-      this.all_players = JSON.parse(tmp);
-      for (let player of this.all_players) {
-          //if (player.league_id === league) {
-            players.push(player);
-          //}
-      }
-      
-    }
-    players.sort((a,b) => {
+    var players : RankedPlayer[] = this.storage.getActivePlayersByLeague(league);
+    /* players.sort((a,b) => {
       return b.points - a.points;
-    });
+    }); */
     return players;
 }
 
-getPlayers(): RankedPlayer[] {
-  return RANKEDPLAYERS;
-}
-
-getPlayerByUserAndLeague(UID : number, league : string)  {
-  var tmp : RankedPlayer = RANKEDPLAYERS[5];
-  var players_string = this.storage.getPlayersByLeague(league);
-  if (players_string === null) {
-    console.log("ERROR! No players found in this league.");
-    return RANKEDPLAYERS[5]; //error player
-  }
-  else {
-    var players : RankedPlayer[]= JSON.parse(players_string);
+  getPlayerByUserAndLeague(UID : number, league : string)  {
+    var players : RankedPlayer[] = this.storage.getActivePlayersByLeague(league);
+    var tmp : RankedPlayer | undefined = undefined;
     for (let player of players) {
       if (player.UID === UID) {
-          tmp  = player;      
+          tmp  = player;     
+          break; 
       }
     }
-    console.log("ERROR! No players found for this user in this league.");
-    console.log(players);
-    return tmp;
+    return tmp;  
 
   }
-  
-}
 
   newPlayer(league : string, user : number) {
-    var players_string = this.storage.getPlayersByLeague(league);
-    if (players_string === null) {
-      var player : RankedPlayer = {
-        id : 'p0',
+    var tmp_player : RankedPlayer = {
+        id : '',
         UID : user,
         fullname : this.storage.getSelectedUser().fullname,
-        points : 0,
+        points : [],
         picture_url : this.storage.getSelectedUser().profile_pic, 
-        matches: [],
-        events: [], 
-        active: true};
-      return player;  
-    }
-    else {
-      var players : RankedPlayer[]= JSON.parse(players_string);
-      var player : RankedPlayer = {
-        id : 'p' + players.length.toString(),
-        UID : user,
-        fullname : this.storage.getSelectedUser().fullname,
-        points : 0,
-        picture_url : this.storage.getSelectedUser().profile_pic, 
-        matches: [],
-        events: [],
-        active: true};
-      players.push(player);
+        active: true
+    };
+    var player : RankedPlayer = this.storage.newPlayer(league, tmp_player);
 
-      return player;    
-    }
+    return player;  
   }
 
   getPlayerById(league : string, id : string) {
-    var players_string = this.storage.getPlayersByLeague(league);
-    if (players_string === null) {
-      console.log("No player present, impossibile");
+    var players = this.storage.getActivePlayersByLeague(league);
+    var index = players.findIndex(function(x, index) {
+      if(x.id == id)
+        return true;
+    });
+    if (index === -1) {
+      console.log("Player not found");
+      console.log(players);
       return RANKEDPLAYERS[5]; //error player
     }
     else {
-      var players : RankedPlayer[] = JSON.parse(players_string);
-      var index = players.findIndex(function(x, index) {
-        if(x.id == id)
-          return true;
-      });
-      if (index === -1) {
-        console.log("Player not found");
-        console.log(players);
-        return RANKEDPLAYERS[5]; //error player
-      }
-      else {
-        return players[index];
-      }
+      return players[index];
     }
   }
+      
 }

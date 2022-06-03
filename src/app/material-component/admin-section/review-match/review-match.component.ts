@@ -72,7 +72,7 @@ export class ReviewMatchComponent implements OnInit {
   saveMatch() {
     if (this.match != undefined) {
       if ((this.match.winned_points % 5) === 0 && (this.match.loosed_points % 5) === 0) {
-        this.matchService.modifyMatchPoints(this.match);
+        this.matchService.modifyMatch(this.match);
         this.reportService.resolveReport(this.league_id, this.report_id); //TODO CHECK!!
       }
     }
