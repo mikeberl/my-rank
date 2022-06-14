@@ -24,11 +24,18 @@ import { AllLeaguesComponent } from './all-leagues/all-leagues.component';
 import { ReportMessageViewComponent } from './admin-section/report-message-view/report-message-view.component';
 import { ReviewMatchComponent } from './admin-section/review-match/review-match.component';
 import { SpecialEventComponent } from './special-event/special-event.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from '../guards/auth.guard';
 
 export const MaterialRoutes: Routes = [
   {
-    path: 'home',
-    component: HomeComponent
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: '',
+    component: HomeComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'league/:id',

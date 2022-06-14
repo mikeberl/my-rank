@@ -43,6 +43,8 @@ import { ReviewMatchComponent } from './admin-section/review-match/review-match.
 import { MatchesViewComponent } from './league/matches-view/matches-view.component';
 import { ErrorComponent } from './error/error.component';
 import { SpecialEventComponent } from './special-event/special-event.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from '../guards/auth.guard';
 
 @NgModule({
   imports: [
@@ -55,7 +57,7 @@ import { SpecialEventComponent } from './special-event/special-event.component';
     FlexLayoutModule,
     CdkTableModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   entryComponents: [DialogOverviewExampleDialogComponent],
   declarations: [
     ButtonsComponent,
@@ -86,7 +88,8 @@ import { SpecialEventComponent } from './special-event/special-event.component';
     ReviewMatchComponent,
     MatchesViewComponent,
     ErrorComponent,
-    SpecialEventComponent
+    SpecialEventComponent,
+    LoginComponent
   ]
 })
 export class MaterialComponentsModule {}
