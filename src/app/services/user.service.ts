@@ -14,6 +14,8 @@ export class UserService {
   ownerEmitter : EventEmitter<User> = new EventEmitter<User>();
   ownerDestroyer : EventEmitter<User> = new EventEmitter();
 
+  owner : User | undefined;
+
   constructor() { }
 
   getUsers(): User[] {
@@ -21,22 +23,26 @@ export class UserService {
   }
 
   getOwner() : User | undefined {
-    var tmp = localStorage.getItem("OWNER");
-    if (tmp != null) {
-      console.log(tmp);
-      var owner : User = JSON.parse(tmp);
-      return owner;
+    if (this.owner === undefined) {
+      var tmp = localStorage.getItem("OWNER");
+      if (tmp != null) {
+        console.log(tmp);
+        var owner : User = JSON.parse(tmp);
+        this.owner = owner;
+      }
     }
-    return undefined;
+    return this.owner;
   }
 
   login(user : User) {
     localStorage.setItem("OWNER", JSON.stringify(user));
+    this.owner = user;
     this.ownerEmitter.emit(user);
   }
 
   logout() {
     localStorage.removeItem("OWNER");
+    this.owner = undefined;
     this.ownerDestroyer.emit();
   }
 

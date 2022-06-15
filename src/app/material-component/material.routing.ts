@@ -27,11 +27,16 @@ import { SpecialEventComponent } from './special-event/special-event.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { RegisterComponent } from './register/register.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 export const MaterialRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: ':id/edit-profile',
+    component: EditProfileComponent
   },
   {
     path: 'register',
@@ -45,94 +50,117 @@ export const MaterialRoutes: Routes = [
   {
     path: 'league/:id',
     component: LeagueComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [AuthGuard]
   },
   {
     path: 'admin-section',
-    component: AdminSectionComponent
+    component: AdminSectionComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'new-league',
-    component: CreateNewLeagueComponent
+    component: CreateNewLeagueComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'all-leagues',
-    component: AllLeaguesComponent
+    component: AllLeaguesComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: ':id/reports',
-    component: ReportMessageViewComponent
+    component: ReportMessageViewComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: ':league/special-event',
-    component: SpecialEventComponent
+    component: SpecialEventComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: ':league/report/:report',
-    component : ReviewMatchComponent
+    component : ReviewMatchComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'button',
-    component: ButtonsComponent
+    component: ButtonsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'create-match/:id',
-    component: CreateMatchComponent
+    component: CreateMatchComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'lists',
-    component: ListsComponent
+    component: ListsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'menu',
-    component: MenuComponent
+    component: MenuComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'tabs',
-    component: TabsComponent
+    component: TabsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'stepper',
-    component: StepperComponent
+    component: StepperComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'expansion',
-    component: ExpansionComponent
+    component: ExpansionComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'chips',
-    component: ChipsComponent
+    component: ChipsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'toolbar',
-    component: ToolbarComponent
+    component: ToolbarComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'progress-snipper',
-    component: ProgressSnipperComponent
+    component: ProgressSnipperComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'progress',
-    component: ProgressComponent
+    component: ProgressComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'dialog',
-    component: DialogComponent
+    component: DialogComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'tooltip',
-    component: TooltipComponent
+    component: TooltipComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'snackbar',
-    component: SnackbarComponent
+    component: SnackbarComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'slider',
-    component: SliderComponent
+    component: SliderComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'slide-toggle',
-    component: SlideToggleComponent
+    component: SlideToggleComponent,
+    canActivate: [AuthGuard]
   }
 ];

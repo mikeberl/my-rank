@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { HttpServiceService } from 'src/app/services/http-service.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -10,15 +11,22 @@ import { HttpServiceService } from 'src/app/services/http-service.service';
 })
 export class HomeComponent implements OnInit {
 
-  hello$ : Observable<User> | undefined;
+  owner : User | undefined;
 
-  ss : string | undefined;
+  constructor(private httpService : HttpServiceService,
+              private userService : UserService) {
+    this.owner = this.userService.getOwner();
+    userService.ownerEmitter.subscribe(o => {
+      this.owner = o;
+    })
 
-  constructor(private httpService : HttpServiceService) { }
+    userService.ownerDestroyer.subscribe(o => {
+      this.owner = undefined;
+    })
+      
+  }
 
   ngOnInit(): void {
-    /* this.ss = this.httpService.getHelloWorld();
-    console.log(this.hello$); */
   }
 
 }
