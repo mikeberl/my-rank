@@ -28,15 +28,21 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { UploadImgComponent } from './upload-img/upload-img.component';
 
 export const MaterialRoutes: Routes = [
+  {
+    path: 'upload-img',
+    component: UploadImgComponent
+  },
   {
     path: 'login',
     component: LoginComponent
   },
   {
     path: ':id/edit-profile',
-    component: EditProfileComponent
+    component: EditProfileComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'register',

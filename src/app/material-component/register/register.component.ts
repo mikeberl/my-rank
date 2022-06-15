@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit {
         var user : User = this.userService.createUserFromForm(this.registerForm.value);
         this.httpService.register(user).pipe(
           map(() => {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/upload-img']);
           })
         ).subscribe()
         /* this.httpService.register(user)

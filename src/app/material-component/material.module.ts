@@ -47,6 +47,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { UploadImgComponent } from './upload-img/upload-img.component';
 
 @NgModule({
   imports: [
@@ -93,7 +94,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     SpecialEventComponent,
     LoginComponent,
     RegisterComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    UploadImgComponent
   ]
 })
 export class MaterialComponentsModule {}
