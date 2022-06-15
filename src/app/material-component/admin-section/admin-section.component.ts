@@ -21,7 +21,7 @@ export class AdminSectionComponent implements OnInit {
     this.user = this.storage.getSelectedUser();
     var leagues = storage.getLeagues();
     for (let league of leagues) {
-      if (league.admin_id === this.user.UID) {
+      if (league.admin_id === this.user.id) {
         this.managed_leagues.push(league);
       }
     }

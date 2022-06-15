@@ -29,7 +29,7 @@ export class RankingListComponent implements OnInit {
     //just for findIndex
     var user = this.user;
     var rank = players.findIndex(function(x, index) {
-      if(x.UID == user.UID)
+      if(x.UID == user.id)
         return true;
     });
     rank = rank + 1; //index start from 0

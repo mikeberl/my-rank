@@ -24,7 +24,7 @@ export class LeagueService {
 
     var users = this.storage.getUsers();
     var index = users.findIndex(function(x, index) {
-      if(x.UID == user)
+      if(x.id == user)
         return true;
     });
     if (index === -1) {
@@ -37,7 +37,7 @@ export class LeagueService {
       if (players_string != null) {
         players = JSON.parse(players_string);
       }
-      users[index].joined_leagues.push(league);
+      users[index].leagues.push(league);
       this.storage.saveUser(users);
 
       var existing_player_index = this.storage.getSpecificPlayerOfUser(league, users[index]);
@@ -65,7 +65,7 @@ export class LeagueService {
     var selected_user = this.storage.getSelectedUser();
     var users = this.storage.getUsers();
     var index = users.findIndex(function(x, index) {
-      if(x.UID == user)
+      if(x.id == user)
         return true;
     });
     if (index === -1) {
@@ -75,13 +75,13 @@ export class LeagueService {
       return;
     }
     else {
-      var l_index = users[index].joined_leagues.indexOf(league);
+      var l_index = users[index].leagues.indexOf(league);
       if (l_index === -1) {
         console.log("Bad error! user is not in the league he is trying to leave!");
         return;
       }
       else {
-        users[index].joined_leagues.splice(l_index, 1);
+        users[index].leagues.splice(l_index, 1);
         this.storage.saveUser(users);
 
         var players : RankedPlayer[] = [];

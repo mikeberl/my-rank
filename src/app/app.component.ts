@@ -15,8 +15,14 @@ export class AppComponent {
 
   constructor(private userService : UserService) {
     this.owner = userService.getOwner();
+    console.log(this.owner);
+    
     userService.ownerEmitter.subscribe(o => {
       this.owner = o;
+    })
+
+    userService.ownerDestroyer.subscribe(o => {
+      this.owner = undefined;
     })
   }
 }

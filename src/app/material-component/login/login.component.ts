@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { User } from 'src/app/models/user.model';
 import { HttpServiceService } from 'src/app/services/http-service.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +16,7 @@ export class LoginComponent implements OnInit {
   hello$: Observable<string> | undefined;
 
   constructor(private httpService : HttpServiceService,
+              private userService : UserService,
               private router: Router,
               ) { }
 
@@ -22,7 +25,10 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.httpService.login().pipe(
-      map(token => this.router.navigate(['/']))
+      map((user : User) => {
+        this.userService.login(user);
+        this.router.navigate(['/']);
+      })
     ).subscribe()
   }
 

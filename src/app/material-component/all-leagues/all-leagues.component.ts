@@ -35,7 +35,7 @@ export class AllLeaguesComponent implements OnInit {
 
   isJoinable(league : string) {
     var user = this.storage.getSelectedUser();
-    if (user.joined_leagues.indexOf(league) === -1) {
+    if (user.leagues.indexOf(league) === -1) {
       return true;
     }
     else {
@@ -44,14 +44,14 @@ export class AllLeaguesComponent implements OnInit {
   }
 
   leaveLeague(league : string) {
-    this.leagueService.leaveLeague(league, this.selected_user.UID);
+    this.leagueService.leaveLeague(league, this.selected_user.id);
     this.snackBar.open("You leaved the league!", "OK", {
       duration: 2000,
     });
   }
 
   joinLeague(league : string) {
-    this.leagueService.joinLeague(league, this.selected_user.UID);
+    this.leagueService.joinLeague(league, this.selected_user.id);
     this.snackBar.open("You joined the league!", "OK", {
       duration: 2000,
     });

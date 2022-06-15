@@ -34,10 +34,10 @@ export class HttpServiceService {
 
   login() {
     return this.httpClient.post<any>(this.prefix +'login', {username: login_data.username, password: login_data.password}).pipe(
-      map((token) => {
-        console.log('token' + token.access_token);
-        localStorage.setItem("OWNER", token.access_token);
-        return token;
+      map((response) => {
+        //var tmp = parseUser(user);
+        //localStorage.setItem("OWNER_TOKEN", token.access_token);
+        return response.user;
       })
     )
   }

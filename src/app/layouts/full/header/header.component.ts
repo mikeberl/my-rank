@@ -17,7 +17,7 @@ export class AppHeaderComponent implements OnInit{
   constructor(private storage : StorageService) {
     //TODO get the user for this check 
     this.user = storage.getSelectedUser();
-    for (let league of this.user.joined_leagues) {
+    for (let league of this.user.leagues) {
       this.arr_league.push(storage.getSpecificLeague(league));
     }
   }

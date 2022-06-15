@@ -1,21 +1,11 @@
 
 export interface User {
-    UID: number;
-    fullname: string;
-    username: string; 
-    profile_pic: string;
-    joined_leagues : string[];
+    id: number;
+    name: string;
+    username: string;
+    password? : string; 
+    img: string;
+    email?: string;
+    leagues : string[];
+    access_token? : string;
 }
-
-
-
-/* @Injectable()
-export class UserService {
-  getUsers(): User[] {
-    return USER;
-  }
-
-  getMain() : User {
-    return USER[0]; 
-  }
-} */

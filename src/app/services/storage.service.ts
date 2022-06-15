@@ -114,7 +114,7 @@ export class StorageService {
     else {
       var leagues : League[] = JSON.parse(leagues_string);
       var joined_leagues : League[] = [];
-      for (let league of user.joined_leagues) {
+      for (let league of user.leagues) {
         var index = leagues.findIndex(function(x, index) {
           if(x.id == league)
             joined_leagues.push(x);
@@ -173,7 +173,7 @@ export class StorageService {
     {
       var players : RankedPlayer[] = JSON.parse(players_string);
       var index = players.findIndex(function(x, index) {
-        if(x.UID == user.UID)
+        if(x.UID == user.id)
           return true;
       });
       if (index === -1) {

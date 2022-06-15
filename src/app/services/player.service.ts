@@ -138,9 +138,9 @@ getPlayerByUserAndLeague(UID : number, league : string)  {
       var player : RankedPlayer = {
         id : 'p0',
         UID : user,
-        fullname : this.storage.getSelectedUser().fullname,
+        fullname : this.storage.getSelectedUser().name,
         points : 0,
-        picture_url : this.storage.getSelectedUser().profile_pic, 
+        picture_url : this.storage.getSelectedUser().img, 
         matches: [],
         events: [], 
         active: true};
@@ -151,9 +151,9 @@ getPlayerByUserAndLeague(UID : number, league : string)  {
       var player : RankedPlayer = {
         id : 'p' + players.length.toString(),
         UID : user,
-        fullname : this.storage.getSelectedUser().fullname,
+        fullname : this.storage.getSelectedUser().name,
         points : 0,
-        picture_url : this.storage.getSelectedUser().profile_pic, 
+        picture_url : this.storage.getSelectedUser().img, 
         matches: [],
         events: [],
         active: true};

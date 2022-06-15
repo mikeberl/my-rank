@@ -3,7 +3,7 @@ import { EventEmitter } from '@angular/core';
 import { User } from '../models/user.model';
 
 const USER = [
-  {UID: 1, fullname: "Michele Berlanda", username: "Smikeball", profile_pic: "", joined_leagues: ['l1', 'l2']}
+  {id: 1, name: "Michele Berlanda", username: "Smikeball", img: "", leagues: ['l1', 'l2']}
 ]
 
 @Injectable({
@@ -12,6 +12,7 @@ const USER = [
 export class UserService {
 
   ownerEmitter : EventEmitter<User> = new EventEmitter<User>();
+  ownerDestroyer : EventEmitter<User> = new EventEmitter();
 
   constructor() { }
 
@@ -20,12 +21,23 @@ export class UserService {
   }
 
   getOwner() : User | undefined {
-    var tmp = localStorage.getItem("MAIN");
+    var tmp = localStorage.getItem("OWNER");
     if (tmp != null) {
+      console.log(tmp);
       var owner : User = JSON.parse(tmp);
       return owner;
     }
     return undefined;
+  }
+
+  login(user : User) {
+    localStorage.setItem("OWNER", JSON.stringify(user));
+    this.ownerEmitter.emit(user);
+  }
+
+  logout() {
+    localStorage.removeItem("OWNER");
+    this.ownerDestroyer.emit();
   }
 
   getMain() : User {
