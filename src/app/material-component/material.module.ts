@@ -45,6 +45,7 @@ import { ErrorComponent } from './error/error.component';
 import { SpecialEventComponent } from './special-event/special-event.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   imports: [
@@ -89,7 +90,8 @@ import { AuthGuard } from '../guards/auth.guard';
     MatchesViewComponent,
     ErrorComponent,
     SpecialEventComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ]
 })
 export class MaterialComponentsModule {}

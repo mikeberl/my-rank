@@ -43,4 +43,22 @@ export class UserService {
   getMain() : User {
     return USER[0];
   }
+
+  createUserFromForm(form : any) {
+    const tmp : User = {
+      id: 0,
+      name: form.name,
+      username: form.username,
+      password: form.password,
+      img: "",
+      email: form.email,
+      leagues : []
+    }
+    return tmp;
+  }
+
+  /* register(user : any) {
+    this.
+
+  } */
 }

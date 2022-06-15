@@ -26,11 +26,16 @@ import { ReviewMatchComponent } from './admin-section/review-match/review-match.
 import { SpecialEventComponent } from './special-event/special-event.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { RegisterComponent } from './register/register.component';
 
 export const MaterialRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
   {
     path: '',

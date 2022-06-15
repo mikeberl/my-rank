@@ -32,13 +32,20 @@ export class HttpServiceService {
     )
   }
 
-  login() {
-    return this.httpClient.post<any>(this.prefix +'login', {username: login_data.username, password: login_data.password}).pipe(
+  login(username: string, password: string) {
+    return this.httpClient.post<any>(this.prefix +'login', {username: username, password: password}).pipe(
       map((response) => {
-        //var tmp = parseUser(user);
-        //localStorage.setItem("OWNER_TOKEN", token.access_token);
         return response.user;
       })
     )
   }
+
+  register(user : User) {
+    console.log(user);
+    return this.httpClient.post<any>(this.prefix +'register', { user : user}).pipe(
+      map((response) => {
+        console.log(response);
+        return;
+      }));
+}
 }
