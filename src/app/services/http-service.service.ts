@@ -47,5 +47,14 @@ export class HttpServiceService {
         console.log(response);
         return;
       }));
-}
+  }
+
+  editName(id: number, name: string) {
+
+    let params = new HttpParams();
+    params.append('id', id);
+    params.append('name', name);
+    this.httpClient.put(this.prefix + 'users/edit-name', {params:params});
+
+  }
 }

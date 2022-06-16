@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpServiceService } from 'src/app/services/http-service.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditProfileComponent implements OnInit {
 
-  constructor() { }
+  constructor(private httpService: HttpServiceService) { }
 
   ngOnInit(): void {
+  }
+
+  editName() {
+    this.httpService.editName(1, "Marco");
   }
 
 }

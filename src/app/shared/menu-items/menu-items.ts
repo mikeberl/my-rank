@@ -8,7 +8,7 @@ export interface Menu {
 }
 
 const MENUITEMS = [
-  { state: 'home', name: 'Home', type: 'link', icon: 'home'}, 
+  { state: '', name: 'Home', type: 'link', icon: 'home'}, 
   { state: 'create-match', name: 'New Match', type: 'link', icon: 'add'},
   // { state: 'league/', name: 'View your League', type: 'link', icon: 'emoji_events'},
   { state: 'admin-section', name: 'Manage League', type: 'link', icon: 'manage_accounts'},
