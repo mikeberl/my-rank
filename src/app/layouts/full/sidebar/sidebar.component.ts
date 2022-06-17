@@ -18,7 +18,6 @@ export class AppSidebarComponent implements OnDestroy {
     media: MediaMatcher,
     public menuItems: MenuItems,
     private userService : UserService,
-    private router: Router
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -31,6 +30,5 @@ export class AppSidebarComponent implements OnDestroy {
 
   logout() {
     this.userService.logout();
-    this.router.navigate(["/login"]);
   }
 }

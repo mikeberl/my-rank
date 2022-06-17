@@ -1,8 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { User } from '../models/user.model';
 import { map, catchError } from 'rxjs/operators';
+import { UserService } from './user.service';
+import { League } from '../models/league.model';
 
 const login_data = 
   {
@@ -22,8 +24,10 @@ export class HttpServiceService {
   data : any;
 
 
-  constructor(private httpClient : HttpClient) { }
+  constructor(private httpClient : HttpClient,
+              private userService: UserService) { }
 
+/////////////////////////////////////////////////////////////////////////////////////
 
   getHelloWorld() {
     return this.httpClient.get<string>(this.prefix).pipe(
@@ -50,8 +54,18 @@ export class HttpServiceService {
       }));
   }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   editName(id: number, name: string) {
-    return this.httpClient.put<any>(this.prefix + 'users/edit-name', {id : id, name : name}).pipe(
+    const owner = this.userService.getOwner();
+    if (owner === undefined) {
+      this.userService.logout();
+    }
+    var httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + owner?.access_token })
+    };
+    return this.httpClient.put<any>(this.prefix + 'users/edit-name', {id : id, name : name}, httpOptions).pipe(
       map((response) => {
         console.log(response);
         return response.name;
@@ -60,7 +74,15 @@ export class HttpServiceService {
   }
 
   editUsername(id: number, username: string) {
-    return this.httpClient.put<any>(this.prefix + 'users/edit-name', {id : id, username : username}).pipe(
+    const owner = this.userService.getOwner();
+    if (owner === undefined) {
+      this.userService.logout();
+    }
+    var httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + owner?.access_token })
+    };
+    return this.httpClient.put<any>(this.prefix + 'users/edit-name', {id : id, username : username}, httpOptions).pipe(
       map((response) => {
         console.log(response);
         return response.name;
@@ -69,10 +91,43 @@ export class HttpServiceService {
   }
 
   editPassword(id: number, password: string) {
-    return this.httpClient.put<any>(this.prefix + 'users/edit-name', {id : id, password : password}).pipe(
+    const owner = this.userService.getOwner();
+    if (owner === undefined) {
+      this.userService.logout();
+    }
+    var httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + owner?.access_token })
+    };
+    
+    return this.httpClient.put<any>(this.prefix + 'users/edit-name', {id : id, password : password}, httpOptions).pipe(
       map((response) => {
         console.log(response);
         return response.name;
+      })
+    );
+  }
+
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+  getLeaguesByUser(Uid : number) {
+    const owner = this.userService.getOwner();
+    if (owner === undefined) {
+      this.userService.logout();
+    }
+    var httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + owner?.access_token }),
+      httpParams : new HttpParams().set('Uid', Uid)
+    };
+    var httpParams = new HttpParams().set('Uid', Uid);
+    // httpParams.append('Uid', Uid);
+
+    return this.httpClient.get<any>(this.prefix + 'leagues/get-by-user', httpOptions).pipe(
+      map( (response) => {
+        console.log(response.leagues);
+        return response.leagues;
       })
     );
   }

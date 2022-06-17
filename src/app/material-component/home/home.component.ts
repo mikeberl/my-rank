@@ -20,9 +20,9 @@ export class HomeComponent implements OnInit {
       this.owner = o;
     })
 
-    userService.ownerDestroyer.subscribe(o => {
+    /* userService.ownerDestroyer.subscribe(o => {
       this.owner = undefined;
-    })
+    }) */
       
   }
 

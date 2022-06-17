@@ -44,14 +44,14 @@ export class AllLeaguesComponent implements OnInit {
   }
 
   leaveLeague(league : string) {
-    this.leagueService.leaveLeague(league, this.selected_user.id);
+    this.leagueService.leaveLeague(league, this.selected_user.Uid);
     this.snackBar.open("You leaved the league!", "OK", {
       duration: 2000,
     });
   }
 
   joinLeague(league : string) {
-    this.leagueService.joinLeague(league, this.selected_user.id);
+    this.leagueService.joinLeague(league, this.selected_user.Uid);
     this.snackBar.open("You joined the league!", "OK", {
       duration: 2000,
     });

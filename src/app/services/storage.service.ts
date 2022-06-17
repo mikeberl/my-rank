@@ -173,7 +173,7 @@ export class StorageService {
     {
       var players : RankedPlayer[] = JSON.parse(players_string);
       var index = players.findIndex(function(x, index) {
-        if(x.UID == user.id)
+        if(x.UID == user.Uid)
           return true;
       });
       if (index === -1) {

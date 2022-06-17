@@ -1,10 +1,10 @@
 <mat-card>
     <mat-card-content>
-        <button mat-raised-button class="edit_btn" routerLink="{{owner?.id}}/edit-profile" color="primary">
+        <button mat-raised-button class="edit_btn" routerLink="{{owner?.Uid}}/edit-profile" color="primary">
             <mat-icon>edit</mat-icon>
             Edit
         </button>
-        <img class="profile_pic" src="/assets/images/users/img_avatar.png">
+        <img class="profile_pic" src="{{ owner?.img }}">
         <div>
             <h3> {{ owner?.name }} </h3>
             <span> # {{owner?.username }} </span>

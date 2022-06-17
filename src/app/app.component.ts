@@ -21,8 +21,8 @@ export class AppComponent {
       this.owner = o;
     })
 
-    userService.ownerDestroyer.subscribe(o => {
+    /* userService.ownerDestroyer.subscribe(o => {
       this.owner = undefined;
-    })
+    }) */
   }
 }

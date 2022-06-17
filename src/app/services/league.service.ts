@@ -24,7 +24,7 @@ export class LeagueService {
 
     var users = this.storage.getUsers();
     var index = users.findIndex(function(x, index) {
-      if(x.id == user)
+      if(x.Uid == user)
         return true;
     });
     if (index === -1) {
@@ -65,7 +65,7 @@ export class LeagueService {
     var selected_user = this.storage.getSelectedUser();
     var users = this.storage.getUsers();
     var index = users.findIndex(function(x, index) {
-      if(x.id == user)
+      if(x.Uid == user)
         return true;
     });
     if (index === -1) {

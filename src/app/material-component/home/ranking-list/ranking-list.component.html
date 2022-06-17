@@ -6,11 +6,11 @@
     <div class="message-widget contact-widget">
         <!-- Message -->
         <mat-list>
-            <a routerLink="/league/{{league.id}}" *ngFor='let league of leagueData'>
+            <a routerLink="/league/{{league.id}}" *ngFor='let league of owner_leagues'>
                 <mat-list-item >
                 
                     <div class="user-img" mat-list-avatar>
-                        <img [src]='league.picture_url' alt="user" class="img-circle">
+                        <img [src]='league.img' alt="user" class="img-circle">
                         
                     </div>
                     
@@ -21,7 +21,7 @@
         
                     <div>
                         <span mat-line>Rank / Players</span>
-                        <h4 mat-line>{{ getRankPlayerString(league.id) }}</h4>
+                        <h4 mat-line> TODO </h4>
                     </div>      
             </mat-list-item>
 

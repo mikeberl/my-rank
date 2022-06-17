@@ -66,7 +66,7 @@ export class MatchesViewComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialogComponent, {
       width: '300px',
       height: '400px',
-      data: { reporter_id : this.playerService.getPlayerByUserAndLeague(this.user.id, this.league_id).id, match : match } // TODO get player_id/user_id of reporter
+      data: { reporter_id : this.playerService.getPlayerByUserAndLeague(this.user.Uid, this.league_id).id, match : match } // TODO get player_id/user_id of reporter
     });
 
     dialogRef.afterClosed().subscribe(result => {

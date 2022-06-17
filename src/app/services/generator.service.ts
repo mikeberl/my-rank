@@ -13,11 +13,11 @@ const LEAGUEITEMS = [
 ]
 
 const USER = [
-  {id: 1, name: "Michele Berlanda", username: "Smikeball", img: '/assets/images/users/1.jpg', leagues: ['l1', 'l2']},
-  {id: 2, name: "Piero Magi", username: "Pier", img: '/assets/images/users/2.jpg', leagues: ['l1', 'l2', 'l4']},
-  {id: 3, name: "Maria Antonietta", username: "Trodena", img: '/assets/images/users/3.jpg', leagues: ['l2']},
-  {id: 4, name: "Marco Brown", username: "Sniper", img: '/assets/images/users/d1.jpg', leagues: ['l3', 'l2']},
-  {id: 5, name: "Giulio Giulio", username: "Giulio", img: '/assets/images/users/4.jpg', leagues: ['l3', 'l2', 'l1']}
+  {Uid: 1, name: "Michele Berlanda", username: "Smikeball", img: '/assets/images/users/1.jpg', leagues: ['l1', 'l2']},
+  {Uid: 2, name: "Piero Magi", username: "Pier", img: '/assets/images/users/2.jpg', leagues: ['l1', 'l2', 'l4']},
+  {Uid: 3, name: "Maria Antonietta", username: "Trodena", img: '/assets/images/users/3.jpg', leagues: ['l2']},
+  {Uid: 4, name: "Marco Brown", username: "Sniper", img: '/assets/images/users/d1.jpg', leagues: ['l3', 'l2']},
+  {Uid: 5, name: "Giulio Giulio", username: "Giulio", img: '/assets/images/users/4.jpg', leagues: ['l3', 'l2', 'l1']}
 ]
 
 /* const RANKEDPLAYERS = [
@@ -87,7 +87,7 @@ export class GeneratorService {
     if (players_string === null) {
       var player : RankedPlayer = {
         id : 'p0',
-        UID : user.id,
+        UID : user.Uid,
         fullname : user.name,
         points : 0,
         picture_url : user.img, 
@@ -100,7 +100,7 @@ export class GeneratorService {
       var players : RankedPlayer[]= JSON.parse(players_string);
       var player : RankedPlayer = {
         id : 'p' + players.length.toString(),
-        UID : user.id,
+        UID : user.Uid,
         fullname : user.name,
         points : 0,
         picture_url : user.img,  

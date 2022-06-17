@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 
 const USER = [
-  {id: 1, name: "Michele Berlanda", username: "Smikeball", img: "", leagues: ['l1', 'l2']}
+  {Uid: 1, name: "Michele Berlanda", username: "Smikeball", img: "", leagues: ['l1', 'l2']}
 ]
 
 @Injectable({
@@ -12,11 +13,11 @@ const USER = [
 export class UserService {
 
   ownerEmitter : EventEmitter<User> = new EventEmitter<User>();
-  ownerDestroyer : EventEmitter<User> = new EventEmitter();
+  // ownerDestroyer : EventEmitter<User> = new EventEmitter();
 
   owner : User | undefined;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   getUsers(): User[] {
     return USER;
@@ -29,6 +30,7 @@ export class UserService {
         console.log(tmp);
         var owner : User = JSON.parse(tmp);
         this.owner = owner;
+        this.ownerEmitter.emit(owner);
       }
     }
     return this.owner;
@@ -38,12 +40,14 @@ export class UserService {
     localStorage.setItem("OWNER", JSON.stringify(user));
     this.owner = user;
     this.ownerEmitter.emit(user);
+    //console.log(this.owner + "  logged in");
   }
 
   logout() {
     localStorage.removeItem("OWNER");
     this.owner = undefined;
-    this.ownerDestroyer.emit();
+    this.ownerEmitter.emit(undefined);
+    this.router.navigate(["/login"]);
   }
 
   getMain() : User {
@@ -52,7 +56,7 @@ export class UserService {
 
   createUserFromForm(form : any) {
     const tmp : User = {
-      id: 0,
+      Uid: 0,
       name: form.name,
       username: form.username,
       password: form.password,
