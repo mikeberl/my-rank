@@ -107,11 +107,12 @@ export class CreateNewLeagueComponent implements OnInit {
 									  name : this.formGroup.controls['firstFormGroup'].value.nameCtrl,
 									  city : this.formGroup.controls['firstFormGroup'].value.locationCtrl,
 									  sport: this.formGroup.controls['firstFormGroup'].value.locationCtrl,
-									  max_players: this.formGroup.controls['firstFormGroup'].value.sportCtrl,
+									  //max_players: this.formGroup.controls['firstFormGroup'].value.sportCtrl,
 									  admin_id: this.storage.getSelectedUser().id,
-									  picture_url: '/assets/images/users/1.jpg',
+									  img: '/assets/images/users/1.jpg',
 									  active: true,
-									  end: new Date( this.formGroup.controls['fourthFormGroup'].value.end)}
+									  // end: new Date( this.formGroup.controls['fourthFormGroup'].value.end)
+									}
 				console.log("a new league has been created");
 				leagues.push(new_league);
 				this.storage.saveLeague(leagues);

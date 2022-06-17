@@ -67,4 +67,25 @@ export class UserService {
     this.
 
   } */
+
+  editName(name : string) {
+    if (this.owner) {
+      this.owner.name = name;
+      this.ownerEmitter.emit(this.owner);
+    }
+  }
+
+  editUsername(username : string) {
+    if (this.owner) {
+      this.owner.username = username;
+      this.ownerEmitter.emit(this.owner);
+    }
+  }
+
+  editPassword(password : string) {
+    if (this.owner) {
+      this.owner.password = password;
+      this.ownerEmitter.emit(this.owner);
+    }
+  }
 }

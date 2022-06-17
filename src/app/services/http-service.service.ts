@@ -35,6 +35,7 @@ export class HttpServiceService {
   login(username: string, password: string) {
     return this.httpClient.post<any>(this.prefix +'login', {username: username, password: password}).pipe(
       map((response) => {
+        console.log(response);
         return response.user;
       })
     )
@@ -50,11 +51,29 @@ export class HttpServiceService {
   }
 
   editName(id: number, name: string) {
+    return this.httpClient.put<any>(this.prefix + 'users/edit-name', {id : id, name : name}).pipe(
+      map((response) => {
+        console.log(response);
+        return response.name;
+      })
+    );
+  }
 
-    let params = new HttpParams();
-    params.append('id', id);
-    params.append('name', name);
-    this.httpClient.put(this.prefix + 'users/edit-name', {params:params});
+  editUsername(id: number, username: string) {
+    return this.httpClient.put<any>(this.prefix + 'users/edit-name', {id : id, username : username}).pipe(
+      map((response) => {
+        console.log(response);
+        return response.name;
+      })
+    );
+  }
 
+  editPassword(id: number, password: string) {
+    return this.httpClient.put<any>(this.prefix + 'users/edit-name', {id : id, password : password}).pipe(
+      map((response) => {
+        console.log(response);
+        return response.name;
+      })
+    );
   }
 }

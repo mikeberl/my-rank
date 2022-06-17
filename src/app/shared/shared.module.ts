@@ -10,6 +10,7 @@ import { ReportService } from '../services/report.service';
 import { PlayerService } from '../services/player.service';
 import { UserService } from '../services/user.service';
 import { GeneratorService } from '../services/generator.service';
+import { HttpServiceService } from '../services/http-service.service';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { GeneratorService } from '../services/generator.service';
     ReportService,
     PlayerService,
     UserService,
-    GeneratorService
+    GeneratorService, 
+    HttpServiceService
  ]
 })
 export class SharedModule { }

@@ -3,11 +3,9 @@ export interface League {
     name: string;
     city: string;
     sport: string;
-    max_players: number;
     admin_id : number;
-    picture_url: string;
+    img: string;
     active: boolean;
-    end: Date;
 }
 
 /* const LEAGUEITEMS = [
