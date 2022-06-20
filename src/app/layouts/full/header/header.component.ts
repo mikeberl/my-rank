@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { League } from 'src/app/models/league.model';
 import { User } from 'src/app/models/user.model';
+import { HttpServiceService } from 'src/app/services/http-service.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -10,16 +12,29 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 export class AppHeaderComponent implements OnInit{
 
-  user : User;
+  owner : User | undefined;
 
-  arr_league : League[] = [];
+  leagues : League[] = [];
 
-  constructor(private storage : StorageService) {
+  constructor(private userService : UserService, 
+              private httpService : HttpServiceService) {
     //TODO get the user for this check 
-    this.user = storage.getSelectedUser();
-    for (let league of this.user.leagues) {
-      this.arr_league.push(storage.getSpecificLeague(league));
+    this.owner = userService.getOwner();
+    if (this.owner != undefined) {
+      httpService.getLeaguesByUser(this.owner.Uid).subscribe((leagues : League[]) => {
+        this.leagues = leagues;
+      });
     }
+    
+    this.userService.ownerEmitter.subscribe((owner) => {
+      this.owner = owner;
+      if (owner != undefined) {
+        this.owner = owner;
+        httpService.getLeaguesByUser(this.owner.Uid).subscribe((leagues : League[]) => {
+          this.leagues = leagues;
+        });
+      }
+    })
   }
 
   ngOnInit(): void {

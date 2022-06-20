@@ -170,4 +170,30 @@ export class HttpServiceService {
       })
     );
   }
+
+  leaveLeague(Uid : number, Lid : number) {
+    const owner = this.userService.getOwner();
+    if (owner === undefined ) {
+      this.userService.logout();
+    }
+    else {
+
+    }
+      var httpParams = new HttpParams().set('Uid', Uid);
+      httpParams.set('Lid', Lid);
+      var httpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + owner?.access_token }),
+        params : httpParams
+      };
+  
+      return this.httpClient.delete<any>(this.prefix + 'leagues/leave', httpOptions).pipe(
+        map((response) => {
+          console.log(response);
+          return;
+        })
+      );
+
+    
+  }
 }
