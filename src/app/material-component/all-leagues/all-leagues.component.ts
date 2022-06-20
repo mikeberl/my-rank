@@ -5,6 +5,8 @@ import { StorageService } from 'src/app/services/storage.service';
 import { LeagueService } from 'src/app/services/league.service';
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
+import { HttpServiceService } from 'src/app/services/http-service.service';
+import { League } from 'src/app/models/league.model';
 
 @Component({
   selector: 'app-all-leagues',
@@ -13,16 +15,28 @@ import { Router } from '@angular/router';
 })
 export class AllLeaguesComponent implements OnInit {
 
-  selected_user : User;
+  owner : User | undefined;
+  leagues : League[] = []
 
-  constructor(public storage : StorageService,
-              public snackBar: MatSnackBar,
+  constructor(public snackBar: MatSnackBar,
               public userService : UserService,
               public leagueService : LeagueService,
-              private router: Router) {
-      
-    this.selected_user = storage.getSelectedUser();
-              }
+              private router: Router,
+              private httpService : HttpServiceService) {
+    
+      this.owner = userService.getOwner();
+      if (this.owner === undefined) {
+        this.userService.logout();
+      }
+      else {
+        httpService.getJoinableLeagues(this.owner?.Uid).subscribe((leagues : League[]) => {
+          this.leagues = leagues
+        });
+      }
+      this.userService.ownerEmitter.subscribe((owner : User | undefined) => {
+        this.owner = owner;
+      })
+    }
 
   ngOnInit(): void {
   }
@@ -33,29 +47,32 @@ export class AllLeaguesComponent implements OnInit {
     });
   }
 
-  isJoinable(league : string) {
-    var user = this.storage.getSelectedUser();
-    if (user.leagues.indexOf(league) === -1) {
+  /* isJoinable(league : string) {
+    if (this.leagues.indexOf(league) === -1) {
       return true;
     }
     else {
       return false;
     }
-  }
+  } */
 
-  leaveLeague(league : string) {
-    this.leagueService.leaveLeague(league, this.selected_user.Uid);
+  /* leaveLeague(league : string) {
+    this.leagueService.leaveLeague(league, this.owner.Uid);
     this.snackBar.open("You leaved the league!", "OK", {
       duration: 2000,
     });
-  }
+  } */
 
-  joinLeague(league : string) {
-    this.leagueService.joinLeague(league, this.selected_user.Uid);
-    this.snackBar.open("You joined the league!", "OK", {
-      duration: 2000,
-    });
-    this.router.navigate(['/league/' + league]);
+  joinLeague(league : number) {
+    console.log(league);
+    if (this.owner != undefined) {
+      this.httpService.joinLeague(this.owner.Uid, league).subscribe();
+      this.snackBar.open("You joined the league!", "OK", {
+        duration: 2000,
+      });
+      this.router.navigate(['/league/' + league]);
+    }
+    
 
   }
 

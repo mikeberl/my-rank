@@ -119,15 +119,54 @@ export class HttpServiceService {
     var httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + owner?.access_token }),
-      httpParams : new HttpParams().set('Uid', Uid)
+      params: new HttpParams().set('Uid', Uid)
     };
-    var httpParams = new HttpParams().set('Uid', Uid);
+    //var httpParams = new HttpParams().set('Uid', Uid);
     // httpParams.append('Uid', Uid);
-
-    return this.httpClient.get<any>(this.prefix + 'leagues/get-by-user', httpOptions).pipe(
+    console.log("Asking leagues of user " + owner?.Uid + "  or  " + Uid);
+    return this.httpClient.get<any>(this.prefix + 'leagues/by-user', httpOptions).pipe(
       map( (response) => {
         console.log(response.leagues);
         return response.leagues;
+      })
+    );
+  }
+
+  getJoinableLeagues(Uid : number) {
+    const owner = this.userService.getOwner();
+    if (owner === undefined) {
+      this.userService.logout();
+    }
+    var httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + owner?.access_token }),
+      params: new HttpParams().set('Uid', Uid)
+    };
+    //var httpParams = new HttpParams().set('Uid', Uid);
+    // httpParams.append('Uid', Uid);
+    console.log("Asking leagues of user " + owner?.Uid + "  or  " + Uid);
+    return this.httpClient.get<any>(this.prefix + 'leagues/not-joined', httpOptions).pipe(
+      map( (response) => {
+        console.log(response.leagues);
+        return response.leagues;
+      })
+    );
+  }
+
+  joinLeague(Uid : number, Lid : number) {
+    const owner = this.userService.getOwner();
+    if (owner === undefined) {
+      this.userService.logout();
+    }
+    var httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + owner?.access_token }),
+    };
+
+    return this.httpClient.post<any>(this.prefix + 'leagues/register', {Uid : Uid, Lid : Lid}, httpOptions).pipe(
+      map((response) => {
+        console.log(response);
+        return;
       })
     );
   }

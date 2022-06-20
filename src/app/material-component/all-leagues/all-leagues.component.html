@@ -5,28 +5,20 @@
         <div class="message-box contact-box p-20">
             <div class="message-widget contact-widget">
                 <mat-list>
-                    <a  *ngFor='let league of storage.getLeagues()'>
+                    <a  *ngFor='let league of this.leagues'>
                         <mat-list-item >
                         
                             <div class="user-img" mat-list-avatar routerLink="/league/{{league.id}}">
-                                <img [src]='league.picture_url' alt="user" class="img-circle">
+                                <img [src]='league.img' alt="user" class="img-circle">
                                 
                             </div>
                             
                             <div class="mail-content" routerLink="/league/{{league.id}}">
                                 <h5 mat-line>{{league.name}} </h5>
                                 <span mat-line class="mail-desc">{{league.city}}</span>
-                            </div>
-                
-                            <!-- <div>
-                                <span mat-line>Places</span>
-                                <h4 mat-line>{{league.max_players}}</h4>
-                            </div>   -->   
-                            <div>
-                                <button *ngIf="isJoinable(league.id)" (click)="joinLeague(league.id)"> Join League </button>
                             </div> 
-                            <div >
-                                <button color="warn" *ngIf="!isJoinable(league.id)" (click)="leaveLeague(league.id)"> Leave League </button>
+                            <div>
+                                <button (click)="joinLeague(league.Lid)"> Join League </button>
                             </div> 
                         </mat-list-item>
         

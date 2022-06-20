@@ -104,7 +104,8 @@ export class StorageService {
     
   }
 
-  getLeaguesByUser(user : User) : League[] {
+  // NOTUSED
+  /* getLeaguesByUser(user : User) : League[] {
     var leagues_string = localStorage.getItem(this.leagues_);
     if (leagues_string === null) {
       this.leagueService.generate();
@@ -116,13 +117,13 @@ export class StorageService {
       var joined_leagues : League[] = [];
       for (let league of user.leagues) {
         var index = leagues.findIndex(function(x, index) {
-          if(x.id == league)
+          if(x.Lid == league)
             joined_leagues.push(x);
         });
       }
       return joined_leagues;
     }
-  }
+  } */
 
   getReportByLeague(league : string) : string | null {
     var tmp_report = localStorage.getItem(this.report_ + league);

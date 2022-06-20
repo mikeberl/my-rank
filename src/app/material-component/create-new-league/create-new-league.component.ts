@@ -102,8 +102,8 @@ export class CreateNewLeagueComponent implements OnInit {
 				return;
 			}
 			else {
-				var id_ : string = "l" + leagues.length.toString();
-				var new_league : League = {id : id_,
+				var id_ : number = leagues.length;
+				var new_league : League = {Lid : id_,
 									  name : this.formGroup.controls['firstFormGroup'].value.nameCtrl,
 									  city : this.formGroup.controls['firstFormGroup'].value.locationCtrl,
 									  sport: this.formGroup.controls['firstFormGroup'].value.locationCtrl,

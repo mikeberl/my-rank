@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { User } from './models/user.model';
-import { UserService } from './services/user.service';
+/* import { User } from './models/user.model';
+import { UserService } from './services/user.service'; */
 
 @Component({
   selector: 'app-root',
@@ -10,16 +10,15 @@ import { UserService } from './services/user.service';
 
 export class AppComponent {
 
-  @Input()
-  owner : User | undefined;
+  /* @Input()
+  owner : User | undefined; */
 
-  constructor(private userService : UserService) {
-    this.owner = userService.getOwner();
-    console.log(this.owner);
-    
+  constructor(/* private userService : UserService */) {
+    /* this.owner = userService.getOwner();
+
     userService.ownerEmitter.subscribe(o => {
       this.owner = o;
-    })
+    }) */
 
     /* userService.ownerDestroyer.subscribe(o => {
       this.owner = undefined;

@@ -5,11 +5,11 @@ import { User } from '../models/user.model';
 import { PlayerService } from './player.service';
 
 const LEAGUEITEMS = [
-  {id : 'l1', name: 'Roundnet BZ', city: 'Bolzano', sport: 'Roundnet', admin_id : 1, img: '/assets/images/users/1.jpg', active: true},
-  {id : 'l2', name: 'Roundnet Padova', city: 'Padova', sport: 'Roundnet', admin_id : 2, img: '/assets/images/users/2.jpg', active: true},
-  {id : 'l3', name: 'Roundnet Graz', city: 'Graz', sport: 'Roundnet', admin_id : 1, img: '/assets/images/users/3.jpg', active: true},
-  {id : 'l4', name: 'Roundnet Monaco', city: 'Monaco', sport: 'Roundnet', admin_id : 3, img: '/assets/images/users/4.jpg', active: true},
-  {id : 'l5', name: 'Roundnet Milano', city: 'Milano', sport: 'Roundnet', admin_id : 4, img: '/assets/images/users/5.jpg', active: false},  
+  {Lid : 1, name: 'Roundnet BZ', city: 'Bolzano', sport: 'Roundnet', admin_id : 1, img: '/assets/images/users/1.jpg', active: true},
+  {Lid : 2, name: 'Roundnet Padova', city: 'Padova', sport: 'Roundnet', admin_id : 2, img: '/assets/images/users/2.jpg', active: true},
+  {Lid : 3, name: 'Roundnet Graz', city: 'Graz', sport: 'Roundnet', admin_id : 1, img: '/assets/images/users/3.jpg', active: true},
+  {Lid : 4, name: 'Roundnet Monaco', city: 'Monaco', sport: 'Roundnet', admin_id : 3, img: '/assets/images/users/4.jpg', active: true},
+  {Lid : 5, name: 'Roundnet Milano', city: 'Milano', sport: 'Roundnet', admin_id : 4, img: '/assets/images/users/5.jpg', active: false},  
 ]
 
 const USER = [

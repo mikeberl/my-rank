@@ -1,5 +1,15 @@
-export interface League {
+/* export interface League {
     id: string;
+    name: string;
+    city: string;
+    sport: string;
+    admin_id : number;
+    img: string;
+    active: boolean;
+} */
+
+export interface League {
+    Lid: number;
     name: string;
     city: string;
     sport: string;

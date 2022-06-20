@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { League } from '../models/league.model';
 import { User } from '../models/user.model';
+import { HttpServiceService } from './http-service.service';
 
 const USER = [
   {Uid: 1, name: "Michele Berlanda", username: "Smikeball", img: "", leagues: ['l1', 'l2']}
@@ -27,7 +29,6 @@ export class UserService {
     if (this.owner === undefined) {
       var tmp = localStorage.getItem("OWNER");
       if (tmp != null) {
-        console.log(tmp);
         var owner : User = JSON.parse(tmp);
         this.owner = owner;
         this.ownerEmitter.emit(owner);
