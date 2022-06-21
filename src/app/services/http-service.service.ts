@@ -176,11 +176,8 @@ export class HttpServiceService {
     if (owner === undefined ) {
       this.userService.logout();
     }
-    else {
-
-    }
-      var httpParams = new HttpParams().set('Uid', Uid);
-      httpParams.set('Lid', Lid);
+      var httpParams = new HttpParams().set('Uid', Uid).set('Lid', Lid);
+      // httpParams
       var httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + owner?.access_token }),
@@ -189,8 +186,7 @@ export class HttpServiceService {
   
       return this.httpClient.delete<any>(this.prefix + 'leagues/leave', httpOptions).pipe(
         map((response) => {
-          console.log(response);
-          return;
+          return response;
         })
       );
 

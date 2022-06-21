@@ -38,9 +38,11 @@ export class RankingListComponent implements OnInit {
 
   leaveLeague(Lid : number)  {
     if (Lid != undefined && this.owner?.Uid != undefined) {
+      console.log("User " + this.owner?.Uid +" leaving league " + Lid);
       this.httpService.leaveLeague(this.owner?.Uid, Lid).subscribe((l) => {
+        console.log(l);
         var i = this.owner_leagues.findIndex((league) => {
-          if (league.Lid = Lid) {
+          if (league.Lid == Lid) {           
             return;
           }
         })

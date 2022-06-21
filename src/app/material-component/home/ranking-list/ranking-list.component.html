@@ -6,19 +6,19 @@
     <div class="message-widget contact-widget">
         <!-- Message -->
         <mat-list>
-            <a routerLink="/league/{{league.Lid}}" *ngFor='let league of owner_leagues'>
+            <a *ngFor='let league of owner_leagues'>
                 <mat-list-item >
                 
-                    <div class="user-img" mat-list-avatar>
+                    <div class="user-img" mat-list-avatar routerLink="/league/{{league.Lid}}">
                         <img [src]='league.img' alt="user" class="img-circle">
                         
                     </div>
                     
-                    <div class="mail-content">
+                    <div class="mail-content" routerLink="/league/{{league.Lid}}">
                         <h5 mat-line>{{league.name}} </h5>
                         <span mat-line class="mail-desc">{{league.city}}</span>
                     </div>
-                        <button mat-raised-button color="accent" routerLink="/all-leagues"> View </button>
+                        <button mat-raised-button color="accent" routerLink="/league/{{league.Lid}}"> View </button>
                         <button mat-button color="warn" (click)="leaveLeague(league.Lid)">
                             <mat-icon>logout</mat-icon>
                         </button>     
