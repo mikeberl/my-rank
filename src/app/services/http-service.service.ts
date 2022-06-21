@@ -189,7 +189,24 @@ export class HttpServiceService {
           return response;
         })
       );
+  }
 
-    
+
+  createLeague(name : string, city : string, sport : string) {
+    const owner = this.userService.getOwner();
+    if (owner === undefined ) {
+      this.userService.logout();
+    }
+      var httpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + owner?.access_token }),
+      };
+  
+      return this.httpClient.post<any>(this.prefix + 'leagues/create', { name : name, city : city, sport : sport, admin_id : owner?.Uid }, httpOptions).pipe(
+        map((response) => {
+          console.log(response);
+          return response;
+        })
+      );
   }
 }

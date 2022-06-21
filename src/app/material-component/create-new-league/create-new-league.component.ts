@@ -5,6 +5,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { League } from 'src/app/models/league.model';
 import { StorageService } from 'src/app/services/storage.service';
 import { UserService } from 'src/app/services/user.service';
+import { HttpServiceService } from 'src/app/services/http-service.service';
 
 
 @Component({
@@ -22,8 +23,9 @@ export class CreateNewLeagueComponent implements OnInit {
 	formGroup : FormGroup=Object.create(null);
 
 	constructor(private _formBuilder: FormBuilder,
-				private storage: StorageService,
-				private userService: UserService) {}
+				private httpService : HttpServiceService
+				/* private storage: StorageService, */
+				/* private userService: UserService */) {}
 
 	ngOnInit() {
 		this.formGroup = this._formBuilder.group({
@@ -96,17 +98,15 @@ export class CreateNewLeagueComponent implements OnInit {
 		}
 		else {
 			// TODO this should be a method of league service
-			var leagues = this.storage.getLeagues();
-			if (leagues === undefined) {
-				console.log("something went wrong, no league was saved on localstorage");
-				return;
-			}
-			else {
-				var id_ : number = leagues.length;
-				var new_league : League = {Lid : id_,
+			this.httpService.createLeague(this.formGroup.controls['firstFormGroup'].value.nameCtrl,
+											this.formGroup.controls['firstFormGroup'].value.locationCtrl,
+											this.formGroup.controls['firstFormGroup'].value.sportCtrl).subscribe((l) => {
+												console.log(l);
+											});
+				/* var new_league : League = {Lid : id_,
 									  name : this.formGroup.controls['firstFormGroup'].value.nameCtrl,
 									  city : this.formGroup.controls['firstFormGroup'].value.locationCtrl,
-									  sport: this.formGroup.controls['firstFormGroup'].value.locationCtrl,
+									  sport: this.formGroup.controls['firstFormGroup'].value.sportCtrl,
 									  //max_players: this.formGroup.controls['firstFormGroup'].value.sportCtrl,
 									  admin_id: this.storage.getSelectedUser().Uid,
 									  img: '/assets/images/users/1.jpg',
@@ -115,12 +115,10 @@ export class CreateNewLeagueComponent implements OnInit {
 									}
 				console.log("a new league has been created");
 				leagues.push(new_league);
-				this.storage.saveLeague(leagues);
+				this.storage.saveLeague(leagues); */
 
 			}
 			
 		}
 
-
-	}
 }
